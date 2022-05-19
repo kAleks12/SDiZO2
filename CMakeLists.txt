@@ -10,5 +10,13 @@ add_executable(
         main.cpp
         containers/NeighbourhoodList/NeighbourhoodList.h
         containers/NeighbourhoodList/NeighbourhoodList.cpp
+        containers/AdjacencyMatrix/AdjacencyMatrix.cpp
+        containers/AdjacencyMatrix/AdjacencyMatrix.h
+        containers/EdgeHeap/EdgeHeap.cpp
+        containers/EdgeHeap/EdgeHeap.hpp
+        containers/EdgeHeap/DynamicArray.hpp
+        containers/EdgeHeap/DynamicArray.tpp
         utilities/Edge.h
-        containers/AdjacencyMatrix/AdjacencyMatrix.cpp containers/AdjacencyMatrix/AdjacencyMatrix.h utilities/NListElement.h utilities/MatrixCell.h utilities/Enums.h)
+        utilities/NListElement.h
+        utilities/MatrixCell.h
+        utilities/Enums.h algorithms/Algorithms.cpp algorithms/Algorithms.h)

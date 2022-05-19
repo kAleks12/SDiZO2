@@ -91,3 +91,15 @@ void NeighbourhoodList::print() {
         std::cout << "\n";
     }
 }
+
+size_t NeighbourhoodList::getVerticesNumber() {
+    return this->verticesNumber;
+}
+
+size_t NeighbourhoodList::getEdgesNumber() {
+    return this->edgesNumber;
+}
+
+NListElement **NeighbourhoodList::getList() {
+    return this->verNeighbours;
+}
