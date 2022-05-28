@@ -8,15 +8,15 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -Wl,-B
 add_executable(
         SDiZO_2
         main.cpp
-        containers/NeighbourhoodList/NeighbourhoodList.h
-        containers/NeighbourhoodList/NeighbourhoodList.cpp
-        containers/AdjacencyMatrix/AdjacencyMatrix.cpp
-        containers/AdjacencyMatrix/AdjacencyMatrix.h
+        containers/AdjacencyList/AdjacencyList.h
+        containers/AdjacencyList/AdjacencyList.cpp
+        containers/IncidencyMatrix/IncidencyMatrix.cpp
+        containers/IncidencyMatrix/IncidencyMatrix.h
         containers/EdgeHeap/EdgeHeap.cpp
         containers/EdgeHeap/EdgeHeap.hpp
         containers/EdgeHeap/DynamicArray.hpp
         containers/EdgeHeap/DynamicArray.tpp
         utilities/Edge.h
-        utilities/NListElement.h
+        utilities/ALElement.h
         utilities/MatrixCell.h
         utilities/Enums.h algorithms/Algorithms.cpp algorithms/Algorithms.h)

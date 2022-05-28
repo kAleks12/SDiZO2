@@ -5,7 +5,7 @@
 #include "Algorithms.h"
 #include "../containers/EdgeHeap/EdgeHeap.hpp"
 
-AdjacencyMatrix *Algorithms::primMST(AdjacencyMatrix *graph) {
+IncidencyMatrix *Algorithms::primMST(IncidencyMatrix *graph) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
     MatrixCell** matrix = graph->getMatrix();
@@ -67,17 +67,17 @@ AdjacencyMatrix *Algorithms::primMST(AdjacencyMatrix *graph) {
         }
     }
 
-    auto aMatrix = new AdjacencyMatrix(vertices - 1, vertices, resultBuff);
+    auto aMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
     delete [] resultBuff;
     delete eHeap;
 
     return aMatrix;
 }
 
-NeighbourhoodList *Algorithms::primMST(NeighbourhoodList *graph) {
+AdjacencyList *Algorithms::primMST(AdjacencyList *graph) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    NListElement** lists = graph->getList();
+    ALElement** lists = graph->getList();
 
     size_t buffSize = edges*3;
     auto * resultBuff = new size_t [buffSize];
@@ -93,7 +93,7 @@ NeighbourhoodList *Algorithms::primMST(NeighbourhoodList *graph) {
     auto addVertexEdges = [&](size_t vertexIndex)
     {
         for (size_t i = 0; i < vertices; i++){
-            NListElement* list = lists[i];
+            ALElement* list = lists[i];
 
             if (list == nullptr)
             {
@@ -161,7 +161,7 @@ NeighbourhoodList *Algorithms::primMST(NeighbourhoodList *graph) {
         }
     }
 
-    auto nList = new NeighbourhoodList(vertices - 1, vertices, resultBuff);
+    auto nList = new AdjacencyList(vertices - 1, vertices, resultBuff);
     delete [] resultBuff;
     delete eHeap;
 

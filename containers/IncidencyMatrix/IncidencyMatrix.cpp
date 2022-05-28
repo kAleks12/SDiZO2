@@ -3,9 +3,9 @@
 //
 
 #include <iostream>
-#include "AdjacencyMatrix.h"
+#include "IncidencyMatrix.h"
 
-AdjacencyMatrix::AdjacencyMatrix(const size_t & edgesNumber,const size_t & verticesNumber, const size_t* edgeData) {
+IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & verticesNumber, const size_t* edgeData) {
     this->verticesNumber = verticesNumber;
     this->edgesNumber = edgesNumber;
 
@@ -49,7 +49,7 @@ AdjacencyMatrix::AdjacencyMatrix(const size_t & edgesNumber,const size_t & verti
 
 }
 
-AdjacencyMatrix::~AdjacencyMatrix() {
+IncidencyMatrix::~IncidencyMatrix() {
     if(cells != nullptr) {
         for (size_t i = 0; i < verticesNumber; i++) {
             delete[] this->cells[i];
@@ -58,7 +58,7 @@ AdjacencyMatrix::~AdjacencyMatrix() {
     }
 }
 
-void AdjacencyMatrix::prettyPrint(){
+void IncidencyMatrix::prettyPrint(){
     for(size_t i = 0; i < this->verticesNumber; i++) {
         std::cout << "Vertex [" << i << "]:\n";
         MatrixCell* currVertex = this->cells[i];
@@ -74,7 +74,7 @@ void AdjacencyMatrix::prettyPrint(){
     }
 }
 
-void AdjacencyMatrix::print() {
+void IncidencyMatrix::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)
     {
         MatrixCell* currVertex = this->cells[i];
@@ -100,14 +100,14 @@ void AdjacencyMatrix::print() {
     }
 }
 
-size_t AdjacencyMatrix::getVerticesNumber() {
+size_t IncidencyMatrix::getVerticesNumber() {
     return this->verticesNumber;
 }
 
-size_t AdjacencyMatrix::getEdgesNumber() {
+size_t IncidencyMatrix::getEdgesNumber() {
     return this->edgesNumber;
 }
 
-MatrixCell **AdjacencyMatrix::getMatrix() {
+MatrixCell **IncidencyMatrix::getMatrix() {
     return this->cells;
 }

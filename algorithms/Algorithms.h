@@ -5,12 +5,12 @@
 #pragma once
 
 
-#include "../containers/AdjacencyMatrix/AdjacencyMatrix.h"
-#include "../containers/NeighbourhoodList/NeighbourhoodList.h"
+#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
+#include "../containers/AdjacencyList/AdjacencyList.h"
 
 class Algorithms {
 public:
-    static AdjacencyMatrix* primMST(AdjacencyMatrix* graph);
-    static NeighbourhoodList* primMST(NeighbourhoodList* graph);
+    static IncidencyMatrix* primMST(IncidencyMatrix* graph);
+    static AdjacencyList* primMST(AdjacencyList* graph);
 };
 

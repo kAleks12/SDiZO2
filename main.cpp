@@ -4,8 +4,8 @@
 
 
 #include <iostream>
-#include "containers/NeighbourhoodList/NeighbourhoodList.h"
-#include "containers/AdjacencyMatrix/AdjacencyMatrix.h"
+#include "containers/AdjacencyList/AdjacencyList.h"
+#include "containers/IncidencyMatrix/IncidencyMatrix.h"
 #include "algorithms/Algorithms.h"
 
 int main(){
@@ -19,8 +19,8 @@ int main(){
                         5, 3, 4};
 
 
-    auto nList = new NeighbourhoodList(8, 6, edges);
-    auto aMatrix = new AdjacencyMatrix(8,6, edges);
+    auto nList = new AdjacencyList(8, 6, edges);
+    auto aMatrix = new IncidencyMatrix(8,6, edges);
 
 
     auto listMST = Algorithms::primMST(nList);

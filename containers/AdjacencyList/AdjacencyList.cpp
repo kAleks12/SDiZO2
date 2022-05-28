@@ -4,13 +4,13 @@
 
 #include <algorithm>
 #include <iostream>
-#include "NeighbourhoodList.h"
+#include "AdjacencyList.h"
 
 
-NeighbourhoodList::NeighbourhoodList(const size_t &edgesNumber, const size_t &verticesNumber, const size_t *edgesData) {
+AdjacencyList::AdjacencyList(const size_t &edgesNumber, const size_t &verticesNumber, const size_t *edgesData) {
     this->edgesNumber = edgesNumber;
     this->verticesNumber = verticesNumber;
-    this->verNeighbours = new NListElement* [verticesNumber];
+    this->verNeighbours = new ALElement* [verticesNumber];
 
     //Initializing edges list
     for(size_t i = 0; i < verticesNumber; i++){
@@ -18,7 +18,7 @@ NeighbourhoodList::NeighbourhoodList(const size_t &edgesNumber, const size_t &ve
     }
 
     //Setting up provisional variables
-    NListElement* currVertex;
+    ALElement* currVertex;
     size_t currNeighbour;
     size_t currWeight;
 
@@ -30,7 +30,7 @@ NeighbourhoodList::NeighbourhoodList(const size_t &edgesNumber, const size_t &ve
 
         //Checking whether it is the first neighbour
         if(currVertex == nullptr){
-            this->verNeighbours[edgesData[i]] = new NListElement(currNeighbour, currWeight);
+            this->verNeighbours[edgesData[i]] = new ALElement(currNeighbour, currWeight);
             continue;
         }
 
@@ -40,16 +40,16 @@ NeighbourhoodList::NeighbourhoodList(const size_t &edgesNumber, const size_t &ve
         }
 
         //Creating new vertex's neighbour
-        currVertex->nextElement = new NListElement(currNeighbour, currWeight);
+        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
     }
 }
 
-NeighbourhoodList::~NeighbourhoodList() {
+AdjacencyList::~AdjacencyList() {
     if (this->verNeighbours != nullptr)
     {
         for (size_t i = 0; i < verticesNumber; i++)
         {
-            NListElement* elementToDelete = this->verNeighbours[i];
+            ALElement* elementToDelete = this->verNeighbours[i];
 
             if(elementToDelete == nullptr)
             {
@@ -62,7 +62,7 @@ NeighbourhoodList::~NeighbourhoodList() {
                 continue;
             }
 
-            NListElement* nextElement = elementToDelete->nextElement;
+            ALElement* nextElement = elementToDelete->nextElement;
 
             while(nextElement->nextElement != nullptr) {
                 delete elementToDelete;
@@ -76,7 +76,7 @@ NeighbourhoodList::~NeighbourhoodList() {
     }
 }
 
-void NeighbourhoodList::print() {
+void AdjacencyList::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)
     {
         std::cout << "Vertex [" << i << "]:\n";
@@ -92,14 +92,14 @@ void NeighbourhoodList::print() {
     }
 }
 
-size_t NeighbourhoodList::getVerticesNumber() {
+size_t AdjacencyList::getVerticesNumber() {
     return this->verticesNumber;
 }
 
-size_t NeighbourhoodList::getEdgesNumber() {
+size_t AdjacencyList::getEdgesNumber() {
     return this->edgesNumber;
 }
 
-NListElement **NeighbourhoodList::getList() {
+ALElement **AdjacencyList::getList() {
     return this->verNeighbours;
 }

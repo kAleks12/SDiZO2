@@ -7,11 +7,11 @@
 #include <cstdlib>
 #include "../../utilities/MatrixCell.h"
 
-class AdjacencyMatrix {
+class IncidencyMatrix {
 
 public:
-    AdjacencyMatrix(const size_t &edgesNumber, const size_t &verticesNumber, const size_t* edgeData);
-    ~AdjacencyMatrix();
+    IncidencyMatrix(const size_t &edgesNumber, const size_t &verticesNumber, const size_t* edgeData);
+    ~IncidencyMatrix();
     void print();
     void prettyPrint();
     size_t getVerticesNumber();
