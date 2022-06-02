@@ -14,9 +14,9 @@ add_executable(
         containers/IncidencyMatrix/IncidencyMatrix.h
         containers/EdgeHeap/EdgeHeap.cpp
         containers/EdgeHeap/EdgeHeap.hpp
-        containers/EdgeHeap/DynamicArray.hpp
-        containers/EdgeHeap/DynamicArray.tpp
-        utilities/Edge.h
-        utilities/ALElement.h
-        utilities/MatrixCell.h
-        utilities/Enums.h algorithms/Algorithms.cpp algorithms/Algorithms.h)
+        containers/DynamicArray/DynamicArray.hpp
+        containers/DynamicArray/DynamicArray.tpp
+        containers/EdgeHeap/Edge.h
+        containers/AdjacencyList/ALElement.h
+        containers/IncidencyMatrix/MatrixCell.h
+        utilities/Enums.h algorithms/Algorithms.cpp algorithms/Algorithms.h algorithms/PathElement.h algorithms/Results.h)

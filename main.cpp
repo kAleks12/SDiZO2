@@ -8,25 +8,27 @@
 #include "containers/IncidencyMatrix/IncidencyMatrix.h"
 #include "algorithms/Algorithms.h"
 
-int main(){
-    size_t edges[24] = {2, 0, 3,
-                        0, 5, 4,
-                        1, 0, 7,
-                        2, 1, 1,
-                        2, 4, 3,
-                        3, 2, 6,
-                        4, 3, 9,
-                        5, 3, 4};
+int main() {
+    size_t edges[44] = {0, 1, 8,
+                        0, 4, 1,
+                        4, 1, 6,
+                        1, 3, 1,
+                        1, 2, 1,
+                        4, 2, 1,
+                        4, 5, 3,
+                        2, 5, 1,
+                        3, 6, 0,
+                        6, 1, 1,
+                        7, 2, 0,
+                        5, 7, 1,
+                        7, 6, 1,
+                        2, 6, 4};
 
 
-    auto nList = new AdjacencyList(8, 6, edges);
-    auto aMatrix = new IncidencyMatrix(8,6, edges);
+    auto aList = new AdjacencyList(14, 8, edges);
+    auto iMatrix = new IncidencyMatrix(14, 8, edges);
 
+    auto result = Algorithms::dijkstraPath(aList, 0, 7);
+    result.display();
 
-    auto listMST = Algorithms::primMST(nList);
-    auto matrixMST = Algorithms::primMST(aMatrix);
-
-    delete aMatrix;
-    delete nList;
-    listMST->print();
 }

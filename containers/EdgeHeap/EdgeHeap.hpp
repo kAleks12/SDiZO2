@@ -5,8 +5,8 @@
 #pragma once
 
 #include <cmath>
-#include "DynamicArray.hpp"
-#include "../../utilities/Edge.h"
+#include "../DynamicArray/DynamicArray.hpp"
+#include "Edge.h"
 
 class EdgeHeap {
 public:

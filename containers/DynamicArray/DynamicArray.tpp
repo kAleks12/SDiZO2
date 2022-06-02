@@ -218,7 +218,7 @@ bool DynamicArray<T>::find(const T &val) {
 }
 
 template<typename T>
-void DynamicArray<T>::print() {
+void DynamicArray<T>::print() const {
     std::cout << "Contents of Array: \n\n(";
 
     for (int i = 0; i < this->size; i++) {

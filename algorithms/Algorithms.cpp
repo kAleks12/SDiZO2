@@ -5,44 +5,50 @@
 #include "Algorithms.h"
 #include "../containers/EdgeHeap/EdgeHeap.hpp"
 
-IncidencyMatrix *Algorithms::primMST(IncidencyMatrix *graph) {
+MatrixMSTResult Algorithms::primMST(IncidencyMatrix *graph) {
+    //Setting up operational variables
+    size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    MatrixCell** matrix = graph->getMatrix();
+    MatrixCell **matrix = graph->getMatrix();
 
-    size_t buffSize = edges*3;
-    auto * resultBuff = new size_t[buffSize];
+    size_t buffSize = edges * 3;
+    auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
-    auto* eHeap = new EdgeHeap();
+    auto *eHeap = new EdgeHeap();
 
-    int* visitedVertices = new int[vertices];
-    for(size_t i = 0; i < vertices; i++){
+    int *visitedVertices = new int[vertices];
+    for (size_t i = 0; i < vertices; i++) {
         visitedVertices[i] = 0;
     }
 
-    auto addVertexEdges = [&](size_t vertexIndex)
-    {
-        for (size_t i = 0; i < edges; i++)
-        {
-            if (matrix[vertexIndex][i].type == CellType::empty)
-            {
+    //Creating 'macro' for adding specific vertex's edges to queue heap
+    auto addVertexEdges = [&](size_t vertexIndex) {
+        for (size_t i = 0; i < edges; i++) {
+            if (matrix[vertexIndex][i].type == CellType::empty) {
                 continue;
             }
 
-            for (size_t j = 0; j < vertices; j++)
-            {
-                if (matrix[j][i].type == CellType::empty || j == vertexIndex)
-                {
+            for (size_t j = 0; j < vertices; j++) {
+                if (matrix[j][i].type == CellType::empty) {
                     continue;
                 }
 
-                if (visitedVertices[j] != 0)
-                {
+                if (visitedVertices[j] != 0) {
                     continue;
                 }
-                auto edge = new Edge(vertexIndex, j, matrix[j][i].weight);
-                eHeap->add(*edge);
+
+
+                if (matrix[vertexIndex][i].type == CellType::origin) {
+                    auto edge = new Edge(vertexIndex, j, matrix[j][i].weight);
+                    eHeap->add(*edge);
+                    break;
+                } else {
+                    auto edge = new Edge(j, vertexIndex, matrix[j][i].weight);
+                    eHeap->add(*edge);
+                    break;
+                }
             }
         }
     };
@@ -51,60 +57,76 @@ IncidencyMatrix *Algorithms::primMST(IncidencyMatrix *graph) {
     visitedVertices[currVertexIndex] = 1;
     addVertexEdges(currVertexIndex);
 
-    for(size_t i= 0; i < vertices - 1; ){
+    //Creating mst with right edges (to vertices that have not been visited yet)
+    for (size_t i = 0; i < edges; i++) {
         Edge currEdge = eHeap->extractRoot();
 
-        if(visitedVertices[currEdge.destination] == 0 ){
-            currVertexIndex = currEdge.destination;
-            resultBuff[3 * buffIndex] = currEdge.origin;
-            resultBuff[3 * buffIndex + 1] = currEdge.destination;
-            resultBuff[3 * buffIndex + 2] = currEdge.weight;
 
-            visitedVertices[currVertexIndex] = 1;
-            addVertexEdges(currVertexIndex);
-            buffIndex++;
-            i++;
+        if (visitedVertices[currEdge.destination] != 0 && visitedVertices[currEdge.origin] != 0) {
+            continue;
         }
+
+        if (visitedVertices[currEdge.destination] == 0) {
+            currVertexIndex = currEdge.destination;
+        } else {
+            currVertexIndex = currEdge.origin;
+        }
+
+        resultBuff[3 * buffIndex] = currEdge.origin;
+        resultBuff[3 * buffIndex + 1] = currEdge.destination;
+        resultBuff[3 * buffIndex + 2] = currEdge.weight;
+        totalCost += currEdge.weight;
+
+
+        visitedVertices[currVertexIndex] = 1;
+        addVertexEdges(currVertexIndex);
+        buffIndex++;
+
+        if (buffIndex == vertices - 1) {
+            break;
+        }
+
     }
 
-    auto aMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
-    delete [] resultBuff;
+    //Creating output matrix and cleaning
+    auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
+    delete[] resultBuff;
     delete eHeap;
 
-    return aMatrix;
+
+    return *new MatrixMSTResult(oMatrix, totalCost);
 }
 
-AdjacencyList *Algorithms::primMST(AdjacencyList *graph) {
+ListMSTResult Algorithms::primMST(AdjacencyList *graph) {
+    //Setting up operational variables
+    size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    ALElement** lists = graph->getList();
+    ALElement **lists = graph->getList();
 
-    size_t buffSize = edges*3;
-    auto * resultBuff = new size_t [buffSize];
+    size_t buffSize = edges * 3;
+    auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
     auto eHeap = new EdgeHeap();
 
-    int* visitedVertices = new int[vertices];
-    for(size_t i = 0; i < vertices; i++){
+    int *visitedVertices = new int[vertices];
+    for (size_t i = 0; i < vertices; i++) {
         visitedVertices[i] = 0;
     }
 
-    auto addVertexEdges = [&](size_t vertexIndex)
-    {
-        for (size_t i = 0; i < vertices; i++){
-            ALElement* list = lists[i];
+    //Creating 'macro' for adding certain vertex's edges to queue heap
+    auto addVertexEdges = [&](size_t vertexIndex) {
+        for (size_t i = 0; i < vertices; i++) {
+            ALElement *list = lists[i];
 
-            if (list == nullptr)
-            {
+            if (list == nullptr) {
                 continue;
             }
 
-            if(i == vertexIndex){
-                while (list != nullptr)
-                {
-                    if (visitedVertices[list->vertex] == 0)
-                    {
+            if (i == vertexIndex) {
+                while (list != nullptr) {
+                    if (visitedVertices[list->vertex] == 0) {
                         auto currEdge = new Edge(vertexIndex, list->vertex, list->weight);
                         eHeap->add(*currEdge);
                     }
@@ -114,10 +136,8 @@ AdjacencyList *Algorithms::primMST(AdjacencyList *graph) {
             }
 
 
-            while (list != nullptr)
-            {
-                if (list->vertex == vertexIndex && visitedVertices[i] == 0)
-                {
+            while (list != nullptr) {
+                if (list->vertex == vertexIndex && visitedVertices[i] == 0) {
                     auto currEdge = new Edge(i, list->vertex, list->weight);
                     eHeap->add(*currEdge);
                 }
@@ -130,30 +150,35 @@ AdjacencyList *Algorithms::primMST(AdjacencyList *graph) {
     size_t currVertexIndex = 0;
     visitedVertices[currVertexIndex] = 1;
     addVertexEdges(currVertexIndex);
-    eHeap->print();
 
-    for(size_t i= 0; i < vertices - 1; ){
+    //Creating mst with prim algorithm
+    for (size_t i = 0; i < vertices - 1;) {
         Edge currEdge = eHeap->extractRoot();
 
-        if (visitedVertices[currEdge.destination] == 0)
-        {
+        if (visitedVertices[currEdge.destination] == 0) {
             currVertexIndex = currEdge.destination;
+
             resultBuff[3 * buffIndex] = currEdge.origin;
             resultBuff[3 * buffIndex + 1] = currEdge.destination;
             resultBuff[3 * buffIndex + 2] = currEdge.weight;
+
+            totalCost += currEdge.weight;
             visitedVertices[currVertexIndex] = 1;
+
             addVertexEdges(currVertexIndex);
 
             buffIndex++;
             i++;
-        }
-        else if(visitedVertices[currEdge.origin] == 0)
-        {
+        } else if (visitedVertices[currEdge.origin] == 0) {
             currVertexIndex = currEdge.origin;
+
             resultBuff[3 * buffIndex] = currEdge.origin;
             resultBuff[3 * buffIndex + 1] = currEdge.destination;
             resultBuff[3 * buffIndex + 2] = currEdge.weight;
+
+            totalCost += currEdge.weight;
             visitedVertices[currVertexIndex] = 1;
+
             addVertexEdges(currVertexIndex);
 
             buffIndex++;
@@ -161,9 +186,338 @@ AdjacencyList *Algorithms::primMST(AdjacencyList *graph) {
         }
     }
 
-    auto nList = new AdjacencyList(vertices - 1, vertices, resultBuff);
-    delete [] resultBuff;
+    //Creating output list and cleaning
+    auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
+    delete[] resultBuff;
     delete eHeap;
 
-    return nList;
+    return *new ListMSTResult(oList, totalCost);
+}
+
+MatrixMSTResult Algorithms::kruskalMST(IncidencyMatrix *graph) {
+    //Setting operational variables
+    size_t totalCost = 0;
+    size_t vertices = graph->getVerticesNumber();
+    size_t edges = graph->getEdgesNumber();
+    MatrixCell **matrix = graph->getMatrix();
+
+    size_t buffSize = edges * 3;
+    auto *resultBuff = new size_t[buffSize];
+    size_t buffIndex = 0;
+
+    auto *eHeap = new EdgeHeap();
+
+    //Creating queue heap with all edges
+    for (size_t column = 0; column < edges; column++) {
+        int originV = -1;
+        int destV = -1;
+        int edgeWeight = -1;
+
+        for (size_t row = 0; row < vertices; row++) {
+            if (matrix[row][column].type == CellType::empty) {
+                continue;
+            }
+
+            if (matrix[row][column].type == CellType::origin) {
+                originV = row;
+                edgeWeight = matrix[row][column].weight;
+                continue;
+            }
+
+            if (matrix[row][column].type == CellType::destination) {
+                destV = row;
+                continue;
+            }
+        }
+
+        if (destV > -1 && originV > -1 && edgeWeight > -1) {
+            auto edge = new Edge(originV, destV, edgeWeight);
+            eHeap->add(*edge);
+        }
+    }
+
+    //Creating variables for determining if adding edge creates cycle
+    size_t vertex_id[vertices];
+
+    for (size_t i = 0; i < vertices; i++) {
+        vertex_id[i] = i;
+    }
+
+    //Searching for right edges
+    for (size_t j = 0; j < edges; j++) {
+        auto currEdge = eHeap->extractRoot();
+
+        if (vertex_id[currEdge.origin] != vertex_id[currEdge.destination]) {
+            resultBuff[3 * buffIndex] = currEdge.origin;
+            resultBuff[3 * buffIndex + 1] = currEdge.destination;
+            resultBuff[3 * buffIndex + 2] = currEdge.weight;
+            totalCost += currEdge.weight;
+
+            for (size_t i = 0; i < vertices; i++) {
+                if (vertex_id[i] == vertex_id[currEdge.destination]) {
+                    vertex_id[i] = vertex_id[currEdge.origin];
+                }
+            }
+
+            buffIndex++;
+
+            if (buffIndex == vertices - 1) {
+                break;
+            }
+        }
+    }
+
+    auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
+    delete[] resultBuff;
+    delete eHeap;
+
+
+    return *new MatrixMSTResult(oMatrix, totalCost);
+}
+
+ListMSTResult Algorithms::kruskalMST(AdjacencyList *graph) {
+    //Setting up operational variables
+    size_t totalCost = 0;
+    size_t vertices = graph->getVerticesNumber();
+    size_t edges = graph->getEdgesNumber();
+    ALElement **lists = graph->getList();
+
+    size_t buffSize = edges * 3;
+    auto *resultBuff = new size_t[buffSize];
+    size_t buffIndex = 0;
+
+    auto eHeap = new EdgeHeap();
+
+    //Creating queue heap with all edges
+    for (size_t i = 0; i < vertices; i++) {
+        ALElement *list = lists[i];
+
+        while (list != nullptr) {
+            auto currEdge = new Edge(i, list->vertex, list->weight);
+            eHeap->add(*currEdge);
+
+            list = list->nextElement;
+        }
+    }
+
+
+    //Creating variables for determining if adding edge creates cycle
+    size_t vertex_id[vertices];
+
+    for (size_t i = 0; i < vertices; i++) {
+        vertex_id[i] = i;
+    }
+
+    //Searching for right edges
+    for (size_t j = 0; j < edges; j++) {
+        auto currEdge = eHeap->extractRoot();
+
+        if (vertex_id[currEdge.origin] != vertex_id[currEdge.destination]) {
+            resultBuff[3 * buffIndex] = currEdge.origin;
+            resultBuff[3 * buffIndex + 1] = currEdge.destination;
+            resultBuff[3 * buffIndex + 2] = currEdge.weight;
+            totalCost += currEdge.weight;
+
+            for (size_t i = 0; i < vertices; i++) {
+                if (vertex_id[i] == vertex_id[currEdge.destination]) {
+                    vertex_id[i] = vertex_id[currEdge.origin];
+                }
+            }
+
+            buffIndex++;
+
+            if (buffIndex == vertices - 1) {
+                break;
+            }
+        }
+    }
+
+    //Creating output list and cleaning
+    auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
+    delete[] resultBuff;
+    delete eHeap;
+
+    return *new ListMSTResult(oList, totalCost);
+
+}
+
+SPResult Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+    size_t vertices = graph->getVerticesNumber();
+    size_t edges = graph->getEdgesNumber();
+    MatrixCell **matrix = graph->getMatrix();
+
+    //Creating operational variables
+    DynamicArray<size_t> edgesCosts;
+    DynamicArray<int> visitedV;
+    DynamicArray<int> previousV;
+    DynamicArray<int> reachCosts;
+    DynamicArray<int> cost;
+    DynamicArray<PElement> pathArray;
+    size_t totalCost = 0;
+
+    //Filing array of edges' costs
+    for (size_t column = 0; column < edges; column++) {
+        for (size_t row = 0; row < vertices; row++) {
+            if (matrix[row][column].type == CellType::empty) {
+                continue;
+            }
+
+            if (matrix[row][column].type == CellType::origin || matrix[row][column].type == CellType::destination) {
+                edgesCosts.addBack(matrix[row][column].weight);
+                break;
+            }
+        }
+    }
+
+    //Filling other tmp arrays
+    for (int i = 0; i < vertices; i++) {
+        visitedV.addBack(-1);
+        previousV.addBack(-1);
+        cost.addBack(-1);
+        reachCosts.addBack(INT_MAX);
+    }
+
+    reachCosts[start] = 0;
+    size_t currentVertex = start;
+    size_t verticesToCheck = vertices;
+
+    //Creating macro which marks visited vertex in table and chooses next vertex
+    auto moveToNextVertex = [&]() {
+        visitedV[currentVertex] = 0;
+        verticesToCheck--;
+        size_t shortestPath = INT_MAX;
+        for (size_t i = 0; i < vertices; i++) {
+            if (visitedV[i] == -1 && reachCosts[i] < shortestPath) {
+                shortestPath = reachCosts[i];
+                currentVertex = i;
+            }
+        }
+    };
+
+    //Checking all vertices
+    while (verticesToCheck > 0) {
+        //Checking whether any edge comes from current vertex
+        for (size_t edge = 0; edge < edges; edge++) {
+            if (matrix[currentVertex][edge].type != CellType::origin) {
+                continue;
+            }
+
+            for (size_t vertex = 0; vertex < vertices; vertex++) {
+                if (matrix[vertex][edge].type != CellType::destination) {
+                    continue;
+                }
+
+                //After founding edge checking whether it is optimal at the moment
+                if (reachCosts[currentVertex] + edgesCosts[edge] < reachCosts[vertex]) {
+                    //Updating minimal reach cost to destination vertex
+                    reachCosts[vertex] = reachCosts[currentVertex] + edgesCosts[edge];
+                    previousV[vertex] = currentVertex;
+                    cost[vertex] = edgesCosts[edge];
+                }
+
+                break;
+            }
+        }
+
+        moveToNextVertex();
+    }
+
+    currentVertex = finish;
+
+    //Creating result path from by jumping end vertex to start one with minimal reach costs
+    while (currentVertex != start) {
+        totalCost += cost[currentVertex];
+        pathArray.addFront(PElement(cost[currentVertex], previousV[currentVertex], currentVertex));
+        currentVertex = previousV[currentVertex];
+
+        if (currentVertex == -1) {
+            return *new SPResult("", totalCost);
+        }
+    }
+
+    std::string path;
+    for (int i = 0; i < pathArray.getSize(); i++) {
+        path.append(pathArray[i].toString());
+    }
+    return *new SPResult(path, totalCost);
+}
+
+SPResult Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+    size_t vertices = graph->getVerticesNumber();
+    size_t edges = graph->getEdgesNumber();
+    ALElement **list = graph->getList();
+
+    //Creating operational variables
+    DynamicArray<int> visitedV;
+    DynamicArray<int> previousV;
+    DynamicArray<int> reachCosts;
+    DynamicArray<int> cost;
+    DynamicArray<PElement> pathArray;
+    size_t totalCost = 0;
+
+    //Filling other tmp arrays
+    for (int i = 0; i < vertices; i++) {
+        visitedV.addBack(-1);
+        previousV.addBack(-1);
+        cost.addBack(-1);
+        reachCosts.addBack(INT_MAX);
+    }
+
+    reachCosts[start] = 0;
+    size_t currentVertex = start;
+    size_t verticesToCheck = vertices;
+
+    //Creating macro which marks visited vertex in table and chooses next vertex
+    auto moveToNextVertex = [&]() {
+        visitedV[currentVertex] = 0;
+        verticesToCheck--;
+        size_t shortestPath = INT_MAX;
+        for (size_t i = 0; i < vertices; i++) {
+            if (visitedV[i] == -1 && reachCosts[i] < shortestPath) {
+                shortestPath = reachCosts[i];
+                currentVertex = i;
+            }
+        }
+    };
+
+    //Checking all vertices
+    while (verticesToCheck > 0) {
+        //Checking whether any edge comes from current vertex
+        ALElement *currElement = list[currentVertex];
+        while (currElement != nullptr) {
+
+            //After founding edge checking whether it is optimal at the moment
+            if (reachCosts[currentVertex] + currElement->weight < reachCosts[currElement->vertex]) {
+
+                //Updating minimal reach cost to destination vertex
+                reachCosts[currElement->vertex] = reachCosts[currentVertex] + currElement->weight;
+                previousV[currElement->vertex] = currentVertex;
+                cost[currElement->vertex] = currElement->weight;
+            }
+
+            currElement = currElement->nextElement;
+        }
+
+        moveToNextVertex();
+    }
+
+    currentVertex = finish;
+
+    //Creating result path from by jumping end vertex to start one with minimal reach costs
+    while (currentVertex != start) {
+        totalCost += cost[currentVertex];
+        pathArray.addFront(PElement(cost[currentVertex], previousV[currentVertex], currentVertex));
+        currentVertex = previousV[currentVertex];
+
+        if (currentVertex == -1) {
+            return *new SPResult("", totalCost);
+        }
+    }
+
+    std::string path;
+    for (int i = 0; i < pathArray.getSize(); i++) {
+        path.append(pathArray[i].toString());
+    }
+    return *new SPResult(path, totalCost);
+
 }

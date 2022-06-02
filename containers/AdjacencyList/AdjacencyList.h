@@ -6,12 +6,13 @@
 
 
 #include <cstdlib>
-#include "../../utilities/ALElement.h"
+#include "ALElement.h"
 
 class AdjacencyList {
 public :
     AdjacencyList(const size_t &edgesNumber, const size_t &verticesNumber, const size_t edgesData []);
     ~AdjacencyList();
+    void prettyPrint();
     void print();
     size_t getVerticesNumber();
     size_t getEdgesNumber();

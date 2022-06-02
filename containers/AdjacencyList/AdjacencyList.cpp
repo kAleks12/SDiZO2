@@ -76,7 +76,7 @@ AdjacencyList::~AdjacencyList() {
     }
 }
 
-void AdjacencyList::print() {
+void AdjacencyList::prettyPrint() {
     for(size_t i = 0; i < this->verticesNumber; i++)
     {
         std::cout << "Vertex [" << i << "]:\n";
@@ -89,6 +89,22 @@ void AdjacencyList::print() {
         }
 
         std::cout << "\n";
+    }
+}
+
+void AdjacencyList::print() {
+    for(size_t i = 0; i < this->verticesNumber; i++)
+    {
+        std::cout << "Vertex [" << i << "] : ";
+        auto currEdge = this->verNeighbours[i];
+
+        while(currEdge != nullptr)
+        {
+            std::cout <<  currEdge->vertex << "(" << currEdge->weight << ") - ";
+            currEdge = currEdge->nextElement;
+        }
+
+        std::cout << "nullptr\n";
     }
 }
 

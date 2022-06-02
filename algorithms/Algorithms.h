@@ -7,10 +7,22 @@
 
 #include "../containers/IncidencyMatrix/IncidencyMatrix.h"
 #include "../containers/AdjacencyList/AdjacencyList.h"
+#include "../containers/DynamicArray/DynamicArray.hpp"
+#include "PathElement.h"
+#include "Results.h"
 
 class Algorithms {
 public:
-    static IncidencyMatrix* primMST(IncidencyMatrix* graph);
-    static AdjacencyList* primMST(AdjacencyList* graph);
+    //MST ALGORITHMS
+    static MatrixMSTResult primMST(IncidencyMatrix* graph);
+    static ListMSTResult primMST(AdjacencyList* graph);
+
+    static MatrixMSTResult kruskalMST(IncidencyMatrix* graph);
+    static ListMSTResult kruskalMST(AdjacencyList* graph);
+
+    //SHORTEST PATH
+    static SPResult dijkstraPath(IncidencyMatrix* graph, const size_t &start, const size_t &finish);
+    static SPResult dijkstraPath(AdjacencyList* graph, const size_t &start, const size_t &finish);
+
 };
 

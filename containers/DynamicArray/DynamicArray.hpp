@@ -36,7 +36,11 @@ public:
 
     bool find(const T &val);
 
-    void print();
+    void print() const;
+
+    int getSize(){
+        return  this->size;
+    }
 
 private:
     T *head = nullptr;
