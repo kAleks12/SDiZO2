@@ -1,11 +1,15 @@
 //
-// Created by kacpe on 19.05.2022.
+// Created by kacper on 19.05.2022.
 //
 
 #include "Algorithms.h"
 #include "../containers/EdgeHeap/EdgeHeap.hpp"
 
-MatrixMSTResult Algorithms::primMST(IncidencyMatrix *graph) {
+///////////////////////////////
+//    PRIM IMPLEMENTATIONS   //
+///////////////////////////////
+//MATRIX
+MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
@@ -18,7 +22,7 @@ MatrixMSTResult Algorithms::primMST(IncidencyMatrix *graph) {
 
     auto *eHeap = new EdgeHeap();
 
-    int *visitedVertices = new int[vertices];
+    auto visitedVertices = new int[vertices];
     for (size_t i = 0; i < vertices; i++) {
         visitedVertices[i] = 0;
     }
@@ -90,14 +94,17 @@ MatrixMSTResult Algorithms::primMST(IncidencyMatrix *graph) {
 
     //Creating output matrix and cleaning
     auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
+
     delete[] resultBuff;
+    delete[] visitedVertices;
     delete eHeap;
 
 
-    return *new MatrixMSTResult(oMatrix, totalCost);
+    return new MatrixMSTResult(oMatrix, totalCost);
 }
 
-ListMSTResult Algorithms::primMST(AdjacencyList *graph) {
+//LIST
+ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
@@ -191,10 +198,15 @@ ListMSTResult Algorithms::primMST(AdjacencyList *graph) {
     delete[] resultBuff;
     delete eHeap;
 
-    return *new ListMSTResult(oList, totalCost);
+    return new ListMSTResult(oList, totalCost);
 }
 
-MatrixMSTResult Algorithms::kruskalMST(IncidencyMatrix *graph) {
+
+///////////////////////////////
+//  KRUSKAL IMPLEMENTATIONS  //
+///////////////////////////////
+//MATRIX
+MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
     //Setting operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
@@ -253,9 +265,12 @@ MatrixMSTResult Algorithms::kruskalMST(IncidencyMatrix *graph) {
             resultBuff[3 * buffIndex + 2] = currEdge.weight;
             totalCost += currEdge.weight;
 
+            int checkId = vertex_id[currEdge.destination];
+            int newId = vertex_id[currEdge.origin];
+
             for (size_t i = 0; i < vertices; i++) {
-                if (vertex_id[i] == vertex_id[currEdge.destination]) {
-                    vertex_id[i] = vertex_id[currEdge.origin];
+                if (vertex_id[i] == checkId) {
+                    vertex_id[i] = newId;
                 }
             }
 
@@ -272,10 +287,11 @@ MatrixMSTResult Algorithms::kruskalMST(IncidencyMatrix *graph) {
     delete eHeap;
 
 
-    return *new MatrixMSTResult(oMatrix, totalCost);
+    return new MatrixMSTResult(oMatrix, totalCost);
 }
 
-ListMSTResult Algorithms::kruskalMST(AdjacencyList *graph) {
+//LIST
+ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
@@ -318,9 +334,12 @@ ListMSTResult Algorithms::kruskalMST(AdjacencyList *graph) {
             resultBuff[3 * buffIndex + 2] = currEdge.weight;
             totalCost += currEdge.weight;
 
+            int checkId = vertex_id[currEdge.destination];
+            int newId = vertex_id[currEdge.origin];
+
             for (size_t i = 0; i < vertices; i++) {
-                if (vertex_id[i] == vertex_id[currEdge.destination]) {
-                    vertex_id[i] = vertex_id[currEdge.origin];
+                if (vertex_id[i] == checkId) {
+                    vertex_id[i] = newId;
                 }
             }
 
@@ -337,11 +356,17 @@ ListMSTResult Algorithms::kruskalMST(AdjacencyList *graph) {
     delete[] resultBuff;
     delete eHeap;
 
-    return *new ListMSTResult(oList, totalCost);
+    return new ListMSTResult(oList, totalCost);
 
 }
 
-SPResult Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+
+
+/////////////////////////////////
+//  DIJSKTRA IMPLEMENTATIONS  //
+////////////////////////////////
+//MATRIX
+SPResult* Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
     MatrixCell **matrix = graph->getMatrix();
@@ -431,7 +456,7 @@ SPResult Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, c
         currentVertex = previousV[currentVertex];
 
         if (currentVertex == -1) {
-            return *new SPResult("", totalCost);
+            return new SPResult("", totalCost);
         }
     }
 
@@ -439,12 +464,12 @@ SPResult Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, c
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
-    return *new SPResult(path, totalCost);
+    return new SPResult(path, totalCost);
 }
 
-SPResult Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+//LIST
+SPResult* Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
-    size_t edges = graph->getEdgesNumber();
     ALElement **list = graph->getList();
 
     //Creating operational variables
@@ -510,7 +535,7 @@ SPResult Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, con
         currentVertex = previousV[currentVertex];
 
         if (currentVertex == -1) {
-            return *new SPResult("", totalCost);
+            return new SPResult("", totalCost);
         }
     }
 
@@ -518,6 +543,178 @@ SPResult Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, con
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
-    return *new SPResult(path, totalCost);
+    return new SPResult(path, totalCost);
+
+}
+
+
+
+/////////////////////////////////////
+//  BELLMAN-FORD IMPLEMENTATIONS  //
+////////////////////////////////////
+//MATRIX
+SPResult* Algorithms::BFPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+    size_t vertices = graph->getVerticesNumber();
+    size_t edges = graph->getEdgesNumber();
+    MatrixCell **matrix = graph->getMatrix();
+
+    //Creating operational variables
+    DynamicArray<size_t> edgesCosts;
+    DynamicArray<int> previousV;
+    DynamicArray<int> reachCosts;
+    DynamicArray<int> cost;
+    DynamicArray<PElement> pathArray;
+    size_t totalCost = 0;
+
+    //Filing array of edges' costs
+    for (size_t column = 0; column < edges; column++) {
+        for (size_t row = 0; row < vertices; row++) {
+            if (matrix[row][column].type == CellType::empty) {
+                continue;
+            }
+
+            if (matrix[row][column].type == CellType::origin || matrix[row][column].type == CellType::destination) {
+                edgesCosts.addBack(matrix[row][column].weight);
+                break;
+            }
+        }
+    }
+
+    //Filling other tmp arrays
+    for (int i = 0; i < vertices; i++) {
+        previousV.addBack(-1);
+        cost.addBack(-1);
+        reachCosts.addBack(INT_MAX);
+    }
+
+    reachCosts[start] = 0;
+    bool costChange;
+
+
+    //Checking all vertices
+    for(int i = 0; i < vertices -1; i++){
+        costChange = false;
+
+        for(int currentVertex = 0; currentVertex < vertices; currentVertex++) {
+            //Checking whether any edge comes from current vertex
+            for (size_t edge = 0; edge < edges; edge++) {
+                if (matrix[currentVertex][edge].type != CellType::origin) {
+                    continue;
+                }
+
+                for (size_t vertex = 0; vertex < vertices; vertex++) {
+                    if (matrix[vertex][edge].type != CellType::destination) {
+                        continue;
+                    }
+
+                    //After founding edge checking whether it is optimal at the moment
+                    if (reachCosts[currentVertex] + edgesCosts[edge] < reachCosts[vertex]) {
+                        //Updating minimal reach cost to destination vertex
+                        reachCosts[vertex] = reachCosts[currentVertex] + edgesCosts[edge];
+                        previousV[vertex] = currentVertex;
+                        cost[vertex] = edgesCosts[edge];
+                        costChange = true;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if(!costChange){
+            break;
+        }
+    }
+
+    size_t currV = finish;
+
+    //Creating result path from by jumping end vertex to start one with minimal reach costs
+    while (currV != start) {
+        totalCost += cost[currV];
+        pathArray.addFront(PElement(cost[currV], previousV[currV], currV));
+        currV = previousV[currV];
+
+        if (currV == -1) {
+            return new SPResult("", totalCost);
+        }
+    }
+
+    std::string path;
+    for (int i = 0; i < pathArray.getSize(); i++) {
+        path.append(pathArray[i].toString());
+    }
+    return new SPResult(path, totalCost);
+}
+
+//LIST
+SPResult* Algorithms::BFPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+    size_t vertices = graph->getVerticesNumber();
+    ALElement **list = graph->getList();
+
+    //Creating operational variables
+    DynamicArray<int> previousV;
+    DynamicArray<int> reachCosts;
+    DynamicArray<int> cost;
+    DynamicArray<PElement> pathArray;
+    size_t totalCost = 0;
+
+    //Filling other tmp arrays
+    for (int i = 0; i < vertices; i++) {
+        previousV.addBack(-1);
+        cost.addBack(-1);
+        reachCosts.addBack(INT_MAX);
+    }
+
+    reachCosts[start] = 0;
+    bool costChange;
+
+    //Checking all vertices
+    for(int i = 0; i < vertices -1; i++){
+        costChange = false;
+
+        for(int currentVertex = 0; currentVertex < vertices; currentVertex++) {
+            //Checking whether any edge comes from current vertex
+            ALElement *currElement = list[currentVertex];
+
+            while (currElement != nullptr) {
+
+                //After founding edge checking whether it is optimal at the moment
+                if (reachCosts[currentVertex] + currElement->weight < reachCosts[currElement->vertex]) {
+
+                    //Updating minimal reach cost to destination vertex
+                    reachCosts[currElement->vertex] = reachCosts[currentVertex] + currElement->weight;
+                    previousV[currElement->vertex] = currentVertex;
+                    cost[currElement->vertex] = currElement->weight;
+                    costChange = true;
+                }
+
+                currElement = currElement->nextElement;
+            }
+        }
+
+        if(!costChange){
+            break;
+        }
+
+    }
+
+    size_t currentVertex = finish;
+
+    //Creating result path from by jumping end vertex to start one with minimal reach costs
+    while (currentVertex != start) {
+        totalCost += cost[currentVertex];
+        pathArray.addFront(PElement(cost[currentVertex], previousV[currentVertex], currentVertex));
+        currentVertex = previousV[currentVertex];
+
+        if (currentVertex == -1) {
+            return new SPResult("", totalCost);
+        }
+    }
+
+    std::string path;
+    for (int i = 0; i < pathArray.getSize(); i++) {
+        path.append(pathArray[i].toString());
+    }
+    return new SPResult(path, totalCost);
 
 }

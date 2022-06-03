@@ -29,7 +29,6 @@ DynamicArray<T>::~DynamicArray() {
     //Deleting head if it exists
     if (this->head != nullptr) {
         delete[] this->head;
-
     }
 }
 

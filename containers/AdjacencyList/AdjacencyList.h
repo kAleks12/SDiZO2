@@ -8,17 +8,22 @@
 #include <cstdlib>
 #include "ALElement.h"
 
+
 class AdjacencyList {
+
+    friend class Algorithms;
+
 public :
-    AdjacencyList(const size_t &edgesNumber, const size_t &verticesNumber, const size_t edgesData []);
+    AdjacencyList();
+    AdjacencyList(size_t edgesNumber, size_t verticesNumber, const size_t edgesData []);
     ~AdjacencyList();
     void prettyPrint();
     void print();
-    size_t getVerticesNumber();
-    size_t getEdgesNumber();
+
+protected:
+    size_t getVerticesNumber() const;
+    size_t getEdgesNumber() const;
     ALElement ** getList();
-
-
 
 
 private:

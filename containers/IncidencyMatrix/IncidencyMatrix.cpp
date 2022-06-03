@@ -4,10 +4,12 @@
 
 #include <iostream>
 #include "IncidencyMatrix.h"
+#include "../../utilities/FileOps.h"
 
-IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & verticesNumber, const size_t* edgeData) {
-    this->verticesNumber = verticesNumber;
-    this->edgesNumber = edgesNumber;
+IncidencyMatrix::IncidencyMatrix()
+{
+    this->verticesNumber = FileOps::verticesNum;
+    this->edgesNumber = FileOps::edgesNum;
 
     //Creating 2d table of matrix cells
     this->cells = new MatrixCell* [verticesNumber] ;
@@ -25,10 +27,55 @@ IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & vert
     for(size_t i = 0; i < edgesNumber*3; i+=3)
     {
         currColumn ++;
-        currWeight = edgeData[i+2];
+        currWeight = FileOps::edges[i+2];
 
         //Checking whether edge is a loop to the same vertex
-        if(edgeData[i+1] == edgeData[i]){
+        if(FileOps::edges[i+1] == FileOps::edges[i]){
+            currVertex = this->cells[FileOps::edges[i]];
+            currVertex[currColumn].type = CellType::loop;
+            currVertex[currColumn].weight = currWeight;
+
+            continue;
+        }
+
+        //Modifying origin cell
+        currVertex = this->cells[FileOps::edges[i]];
+        currVertex[currColumn].type = CellType::origin;
+        currVertex[currColumn].weight = currWeight;
+
+        //Modifying destination cell
+        currVertex = (this->cells[FileOps::edges[i+1]]);
+        currVertex[currColumn].type = CellType::destination;
+        currVertex[currColumn].weight = currWeight;
+    }
+
+}
+
+IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & verticesNumber, const size_t* edgeData)
+{
+    this->verticesNumber = FileOps::verticesNum;
+    this->edgesNumber = FileOps::edgesNum;
+
+    //Creating 2d table of matrix cells
+    this->cells = new MatrixCell* [verticesNumber] ;
+
+    for(size_t i = 0; i < verticesNumber; i++){
+        this->cells[i] = new MatrixCell [edgesNumber];
+    }
+
+    //Setting operational variables
+    size_t currWeight;
+    size_t currColumn = -1;
+    MatrixCell* currVertex;
+
+    //Modifying matrix using edge data
+    for(size_t i = 0; i < edgesNumber*3; i+=3)
+    {
+        currColumn ++;
+        currWeight = FileOps::edges[i+2];
+
+        //Checking whether edge is a loop to the same vertex
+        if(FileOps::edges[i+1] == FileOps::edges[i]){
             currVertex = this->cells[edgeData[i]];
             currVertex[currColumn].type = CellType::loop;
             currVertex[currColumn].weight = currWeight;
@@ -48,6 +95,7 @@ IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & vert
     }
 
 }
+
 
 IncidencyMatrix::~IncidencyMatrix() {
     if(cells != nullptr) {

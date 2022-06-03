@@ -9,11 +9,16 @@
 
 class IncidencyMatrix {
 
+friend class Algorithms;
+
 public:
+    IncidencyMatrix();
     IncidencyMatrix(const size_t &edgesNumber, const size_t &verticesNumber, const size_t* edgeData);
     ~IncidencyMatrix();
     void print();
     void prettyPrint();
+
+protected:
     size_t getVerticesNumber();
     size_t getEdgesNumber();
     MatrixCell ** getMatrix();

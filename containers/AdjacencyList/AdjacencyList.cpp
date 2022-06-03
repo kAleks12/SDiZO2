@@ -5,9 +5,48 @@
 #include <algorithm>
 #include <iostream>
 #include "AdjacencyList.h"
+#include "../../utilities/FileOps.h"
 
+AdjacencyList::AdjacencyList()
+{
+    this->edgesNumber = FileOps::edgesNum;
+    this->verticesNumber = FileOps::verticesNum;
+    this->verNeighbours = new ALElement* [verticesNumber];
 
-AdjacencyList::AdjacencyList(const size_t &edgesNumber, const size_t &verticesNumber, const size_t *edgesData) {
+    //Initializing edges list
+    for(size_t i = 0; i < verticesNumber; i++){
+        verNeighbours[i] = nullptr;
+    }
+
+    //Setting up provisional variables
+    ALElement* currVertex;
+    size_t currNeighbour;
+    size_t currWeight;
+
+    for(size_t i = 0; i < edgesNumber*3; i+= 3){
+        //Reading current edge info
+        currVertex = this->verNeighbours[FileOps::edges[i]];
+        currNeighbour =  FileOps::edges[i + 1];
+        currWeight =  FileOps::edges[i + 2];
+
+        //Checking whether it is the first neighbour
+        if(currVertex == nullptr){
+            this->verNeighbours[FileOps::edges[i]] = new ALElement(currNeighbour, currWeight);
+            continue;
+        }
+
+        //Iterating through existing neighbours
+        while(currVertex->nextElement != nullptr){
+            currVertex = currVertex->nextElement;
+        }
+
+        //Creating new vertex's neighbour
+        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+    }
+}
+
+AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, const size_t *edgesData)
+{
     this->edgesNumber = edgesNumber;
     this->verticesNumber = verticesNumber;
     this->verNeighbours = new ALElement* [verticesNumber];
@@ -43,6 +82,7 @@ AdjacencyList::AdjacencyList(const size_t &edgesNumber, const size_t &verticesNu
         currVertex->nextElement = new ALElement(currNeighbour, currWeight);
     }
 }
+
 
 AdjacencyList::~AdjacencyList() {
     if (this->verNeighbours != nullptr)
@@ -108,11 +148,11 @@ void AdjacencyList::print() {
     }
 }
 
-size_t AdjacencyList::getVerticesNumber() {
+size_t AdjacencyList::getVerticesNumber() const {
     return this->verticesNumber;
 }
 
-size_t AdjacencyList::getEdgesNumber() {
+size_t AdjacencyList::getEdgesNumber() const {
     return this->edgesNumber;
 }
 

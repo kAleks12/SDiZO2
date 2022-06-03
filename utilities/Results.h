@@ -5,6 +5,7 @@
 #pragma once
 
 #include <iostream>
+#include <utility>
 #include "../containers/IncidencyMatrix/IncidencyMatrix.h"
 #include "../containers/AdjacencyList/AdjacencyList.h"
 
@@ -15,11 +16,16 @@ struct MatrixMSTResult{
     MatrixMSTResult(IncidencyMatrix* matrix, size_t cost): output(matrix), cost(cost)
     {}
 
+    ~MatrixMSTResult(){
+        delete output;
+    }
+
     void display() const
     {
         output->print();
         std::cout << "Total MST cost: " << this->cost << "\n";;
     }
+
 };
 
 struct ListMSTResult{
@@ -28,6 +34,10 @@ struct ListMSTResult{
 
     ListMSTResult(AdjacencyList* list, size_t cost): output(list), cost(cost)
     {}
+
+    ~ListMSTResult(){
+        delete output;
+    }
 
     void display() const
     {
@@ -40,10 +50,7 @@ struct SPResult{
     std::string  path;
     size_t cost;
 
-    SPResult( std::string path, size_t cost): path(path), cost(cost)
-    {}
-
-    SPResult(std::string path, size_t cost, std::string note): path(path), cost(cost)
+    SPResult( std::string path, size_t cost): path(std::move(path)), cost(cost)
     {}
 
     void display() const
