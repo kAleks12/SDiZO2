@@ -15,13 +15,13 @@ class AdjacencyList {
 
 public :
     AdjacencyList();
-    AdjacencyList(size_t edgesNumber, size_t verticesNumber, const size_t edgesData []);
+    AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t* edgesData);
     ~AdjacencyList();
     void prettyPrint();
     void print();
+    size_t getVerticesNumber() const;
 
 protected:
-    size_t getVerticesNumber() const;
     size_t getEdgesNumber() const;
     ALElement ** getList();
 

@@ -23,7 +23,7 @@ struct MatrixMSTResult{
     void display() const
     {
         output->print();
-        std::cout << "Total MST cost: " << this->cost << "\n";;
+        std::cout << "\nTotal MST cost: " << this->cost << "\n";;
     }
 
 };
@@ -42,7 +42,7 @@ struct ListMSTResult{
     void display() const
     {
         this->output->print();
-        std::cout << "Total MST cost: " << this->cost << "\n";
+        std::cout << "\nTotal MST cost: " << this->cost << "\n";
     }
 };
 
@@ -58,10 +58,10 @@ struct SPResult{
         if(this->path != "")
         {
             std::cout << this->path << std::endl;
-            std::cout << "Total path cost: " << this->cost << "\n";
+            std::cout << "Total path cost: " << this->cost << "\n\n";
         }
         else
-            std::cout << "Path does not exist";
+            std::cout << "Path does not exist\n";
     }
 };
 

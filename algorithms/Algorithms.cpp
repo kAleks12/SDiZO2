@@ -16,7 +16,7 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
     size_t edges = graph->getEdgesNumber();
     MatrixCell **matrix = graph->getMatrix();
 
-    size_t buffSize = edges * 3;
+    size_t buffSize = (vertices - 1) * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
@@ -553,7 +553,7 @@ SPResult* Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, co
 //  BELLMAN-FORD IMPLEMENTATIONS  //
 ////////////////////////////////////
 //MATRIX
-SPResult* Algorithms::BFPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::bfPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
     MatrixCell **matrix = graph->getMatrix();
@@ -647,7 +647,7 @@ SPResult* Algorithms::BFPath(IncidencyMatrix *graph, const size_t &start, const 
 }
 
 //LIST
-SPResult* Algorithms::BFPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::bfPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
     ALElement **list = graph->getList();
 

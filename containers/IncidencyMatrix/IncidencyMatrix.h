@@ -17,9 +17,9 @@ public:
     ~IncidencyMatrix();
     void print();
     void prettyPrint();
+    size_t getVerticesNumber();
 
 protected:
-    size_t getVerticesNumber();
     size_t getEdgesNumber();
     MatrixCell ** getMatrix();
 

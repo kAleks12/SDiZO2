@@ -11,7 +11,7 @@
 #include "../utilities/PathElement.h"
 #include "../utilities/Results.h"
 
-class Algorithms {
+class Algorithms{
 public:
     //MST ALGORITHMS
     static MatrixMSTResult* primMST(IncidencyMatrix* graph);
@@ -24,7 +24,7 @@ public:
     static SPResult* dijkstraPath(IncidencyMatrix* graph, const size_t &start, const size_t &finish);
     static SPResult* dijkstraPath(AdjacencyList* graph, const size_t &start, const size_t &finish);
 
-    static SPResult* BFPath(IncidencyMatrix* graph, const size_t &start, const size_t &finish);
-    static SPResult* BFPath(AdjacencyList* graph, const size_t &start, const size_t &finish);
+    static SPResult* bfPath(IncidencyMatrix* graph, const size_t &start, const size_t &finish);
+    static SPResult* bfPath(AdjacencyList* graph, const size_t &start, const size_t &finish);
 };
 

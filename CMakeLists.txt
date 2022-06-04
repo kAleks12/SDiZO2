@@ -29,7 +29,13 @@ add_executable(
         utilities/Results.h
 
         utilities/Enums.h
-        utilities/FileOps.h
-        utilities/FileOps.cpp
-        utilities/fileGraph.h
-        SDiZO_2.h)
+        utilities/FileOps/FileOps.h
+        utilities/FileOps/FileOps.cpp
+        utilities/GraphGenerator/GraphGenerator.cpp
+        utilities/GraphGenerator/GraphGenerator.h
+        utilities/Testing/TimeMeasurement.hpp
+
+        UI/UI.cpp
+        UI/UI.h
+        SDiZO_2.h
+        utilities/Testing/Testing.cpp utilities/Testing/Testing.h)

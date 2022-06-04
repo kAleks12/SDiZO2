@@ -10,3 +10,10 @@ enum class CellType{
     destination = -1,
     empty = 0
 };
+
+enum class AlgorithmType{
+    prim = 0,
+    kruskal = 1,
+    dijkstra = 2,
+    bf = 3
+};

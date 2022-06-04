@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include "AdjacencyList.h"
-#include "../../utilities/FileOps.h"
+#include "../../utilities/FileOps/FileOps.h"
 
 AdjacencyList::AdjacencyList()
 {
@@ -45,7 +45,7 @@ AdjacencyList::AdjacencyList()
     }
 }
 
-AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, const size_t *edgesData)
+AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *edgesData)
 {
     this->edgesNumber = edgesNumber;
     this->verticesNumber = verticesNumber;

@@ -6,7 +6,6 @@
 #include <fstream>
 #include "EdgeHeap.hpp"
 
-
 Edge EdgeHeap::extractRoot() {
     //Inserting root to variable
     Edge root = body[0];

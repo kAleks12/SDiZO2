@@ -10,6 +10,6 @@
 #include  "algorithms/Algorithms.cpp"
 #include  "algorithms/Algorithms.h"
 
-#include  "utilities/FileOps.h "
-#include  "utilities/FileOps.cpp"
+#include  "utilities/FileOps/FileOps.h"
+#include  "utilities/FileOps/FileOps.cpp"
 #include  "utilities/fileGraph.h"
