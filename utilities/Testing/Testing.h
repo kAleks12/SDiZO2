@@ -23,16 +23,19 @@ class Testing {
         size_t sampleSize = 20;
         int maxElement = 100;
         TimeMeasurement watch;
-        std::list<OpResult> results;
+        std::list<OpResult> primResults;
+        std::list<OpResult> kruskalResults;
+        std::list<OpResult> dijResults;
+        std::list<OpResult> bfResults;
 
         static double calcAvg(const std::list<double> &);
 
-        void addSeriesAvg(double avg, size_t density);
+        void addSeriesAvg(double avg, size_t density, AlgorithmType alg);
 
-        void calculateAlgorithmMatrix(AlgorithmType algorithm);
+        void calculateAlgorithmsMatrix();
 
-        void calculateAlgorithmList(AlgorithmType algorithm);
+        void calculateAlgorithmsList();
 
-        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation);
+        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmType alg);
 };
 

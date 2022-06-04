@@ -11,7 +11,7 @@
 
 int main() {
 
-    /*Testing tests;
+    Testing tests;
 
     mkdir("Prim");
     mkdir("Prim//matrix");
@@ -29,19 +29,10 @@ int main() {
     mkdir("Bellman-Ford//matrix");
     mkdir("Bellman-Ford//list");
 
-    tests.calculateAlgorithmMatrix(AlgorithmType::prim);
-    tests.calculateAlgorithmList(AlgorithmType::prim);
+    tests.calculateAlgorithmsMatrix();
+    tests.calculateAlgorithmsList();
 
-    tests.calculateAlgorithmMatrix(AlgorithmType::kruskal);
-    tests.calculateAlgorithmList(AlgorithmType::kruskal);
-
-    tests.calculateAlgorithmMatrix(AlgorithmType::dijkstra);
-    tests.calculateAlgorithmList(AlgorithmType::dijkstra);
-
-    tests.calculateAlgorithmMatrix(AlgorithmType::bf);
-    tests.calculateAlgorithmList(AlgorithmType::bf);
-*/
-    UI::startMenu();
+    //UI::startMenu();
 
 
 

@@ -24,7 +24,7 @@ double Testing::calcAvg(const std::list<double> &dataStr) {
     return avg;
 }
 
-void Testing::addSeriesAvg(double avg, size_t density) {
+void Testing::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
     OpResult result;
 
     //Creating result object for specific structure and operation
@@ -32,19 +32,39 @@ void Testing::addSeriesAvg(double avg, size_t density) {
     result.density = density;
 
     //Adding created object to vector with all operations' results
-    results.push_back(result);
+    switch (alg) {
+        case AlgorithmType::prim:
+            primResults.push_back(result);
+            break;
+
+        case AlgorithmType::kruskal:
+            kruskalResults.push_back(result);
+            break;
+
+        case AlgorithmType::dijkstra:
+            dijResults.push_back(result);
+            break;
+
+        case AlgorithmType::bf:
+            bfResults.push_back(result);
+            break;
+    }
 }
 
-void Testing::calculateAlgorithmMatrix(AlgorithmType algorithm)
-{
-    std::list <double> intervals;
+void Testing::calculateAlgorithmsMatrix() {
+    std::list<double> pIntervals;
+    std::list<double> kIntervals;
+    std::list<double> dIntervals;
+    std::list<double> bIntervals;
     size_t start;
     size_t finish;
 
-    for(int verticesConf = 30; verticesConf <= 270; verticesConf += 60) {
+    for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60)
+    {
         for (int density = 25; density <= 100; density += 25)
         {
-            for (int i = 0; i < sampleSize; ++i) {
+            for (int i = 0; i < sampleSize; ++i)
+            {
                 delete mGraph;
 
                 if (density == 100) {
@@ -63,87 +83,80 @@ void Testing::calculateAlgorithmMatrix(AlgorithmType algorithm)
                     }
                 }
 
+                watch.startCounting();
 
-                if (algorithm == AlgorithmType::prim) {
-                    watch.startCounting();
+                auto result = Algorithms::primMST(mGraph);
 
-                    auto result = Algorithms::primMST(mGraph);
+                pIntervals.push_back(watch.getTime());
 
-                    intervals.push_back(watch.getTime());
-
-                    delete result;
-                }
-
-                if (algorithm == AlgorithmType::kruskal) {
-                    watch.startCounting();
-
-                    auto result = Algorithms::kruskalMST(mGraph);
-
-                    intervals.push_back(watch.getTime());
-
-                    delete result;
-                }
-
-                if (algorithm == AlgorithmType::dijkstra) {
-                    watch.startCounting();
+                delete result;
 
 
-                    auto result = Algorithms::dijkstraPath(mGraph, start, finish);
+                watch.startCounting();
 
-                    intervals.push_back(watch.getTime());
+                result = Algorithms::kruskalMST(mGraph);
 
-                    delete result;
-                }
+                kIntervals.push_back(watch.getTime());
 
-                if (algorithm == AlgorithmType::bf) {
-                    watch.startCounting();
+                delete result;
 
-                    auto result = Algorithms::bfPath(mGraph, start, finish);
 
-                    intervals.push_back(watch.getTime());
+                watch.startCounting();
 
-                    delete result;
-                }
+                auto result2 = Algorithms::dijkstraPath(mGraph, start, finish);
 
+                dIntervals.push_back(watch.getTime());
+
+                delete result2;
+
+
+                watch.startCounting();
+
+                result2 = Algorithms::bfPath(mGraph, start, finish);
+
+                bIntervals.push_back(watch.getTime());
+
+                delete result2;
             }
             std::cout << "Done density -  " << density << "\n";
-            addSeriesAvg(calcAvg(intervals), density);
-            intervals.clear();
+
+            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmType::prim);
+            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmType::kruskal);
+            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmType::dijkstra);
+            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmType::bf);
+
+            pIntervals.clear();
+            kIntervals.clear();
+            dIntervals.clear();
+            bIntervals.clear();
         }
 
-        switch (algorithm) {
-            case AlgorithmType::prim:
-                saveResult("Prim", verticesConf, "matrix");
-                break;
 
-            case AlgorithmType::kruskal:
-                saveResult("Kruskal", verticesConf, "matrix");
-                break;
-
-            case AlgorithmType::dijkstra:
-                saveResult("Dijkstra", verticesConf, "matrix");
-                break;
-
-            case AlgorithmType::bf:
-                saveResult("Bellman-Ford", verticesConf, "matrix");
-                break;
-        }
+        saveResult("Prim", verticesConf, "matrix", AlgorithmType::prim);
+        saveResult("Kruskal", verticesConf, "matrix", AlgorithmType::kruskal);
+        saveResult("Dijkstra", verticesConf, "matrix", AlgorithmType::dijkstra);
+        saveResult("Bellman-Ford", verticesConf, "matrix", AlgorithmType::bf);
 
         std::cout << "Done vertices config -  " << verticesConf << "\n\n";
-        results.clear();
+
+        primResults.clear();
+        kruskalResults.clear();
+        dijResults.clear();
+        bfResults.clear();
     }
 
 }
 
-void Testing::calculateAlgorithmList(AlgorithmType algorithm)
-{
-    std::list <double> intervals;
+void Testing::calculateAlgorithmsList() {
+    std::list<double> pIntervals;
+    std::list<double> kIntervals;
+    std::list<double> dIntervals;
+    std::list<double> bIntervals;
     size_t start;
     size_t finish;
 
-    for(int verticesConf = 30; verticesConf <= 270; verticesConf += 60) {
-        for (int density = 25; density <= 100; density += 25)
-        {
+    for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60) {
+        for (int density = 25; density <= 100; density += 25) {
             for (int i = 0; i < sampleSize; ++i) {
                 delete lGraph;
 
@@ -163,81 +176,93 @@ void Testing::calculateAlgorithmList(AlgorithmType algorithm)
                     }
                 }
 
+                watch.startCounting();
 
-                if (algorithm == AlgorithmType::prim) {
-                    watch.startCounting();
+                auto result = Algorithms::primMST(lGraph);
 
-                    auto result = Algorithms::primMST(lGraph);
+                pIntervals.push_back(watch.getTime());
 
-                    intervals.push_back(watch.getTime());
-
-                    delete result;
-                }
-
-                if (algorithm == AlgorithmType::kruskal) {
-                    watch.startCounting();
-
-                    auto result = Algorithms::kruskalMST(lGraph);
-
-                    intervals.push_back(watch.getTime());
-
-                    delete result;
-                }
-
-                if (algorithm == AlgorithmType::dijkstra) {
-                    watch.startCounting();
+                delete result;
 
 
-                    auto result = Algorithms::dijkstraPath(lGraph, start, finish);
+                watch.startCounting();
 
-                    intervals.push_back(watch.getTime());
+                result = Algorithms::kruskalMST(lGraph);
 
-                    delete result;
-                }
+                kIntervals.push_back(watch.getTime());
 
-                if (algorithm == AlgorithmType::bf) {
-                    watch.startCounting();
+                delete result;
 
-                    auto result = Algorithms::bfPath(lGraph, start, finish);
 
-                    intervals.push_back(watch.getTime());
+                watch.startCounting();
 
-                    delete result;
-                }
+                auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
 
+                dIntervals.push_back(watch.getTime());
+
+                delete result2;
+
+
+                watch.startCounting();
+
+                result2 = Algorithms::bfPath(lGraph, start, finish);
+
+                bIntervals.push_back(watch.getTime());
+
+                delete result2;
             }
             std::cout << "Done density -  " << density << "\n";
-            addSeriesAvg(calcAvg(intervals), density);
-            intervals.clear();
+
+            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmType::prim);
+            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmType::kruskal);
+            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmType::dijkstra);
+            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmType::bf);
+
+            pIntervals.clear();
+            kIntervals.clear();
+            dIntervals.clear();
+            bIntervals.clear();
         }
 
-        switch (algorithm) {
-            case AlgorithmType::prim:
-                saveResult("Prim", verticesConf, "list");
-                break;
 
-            case AlgorithmType::kruskal:
-                saveResult("Kruskal", verticesConf, "list");
-                break;
-
-            case AlgorithmType::dijkstra:
-                saveResult("Dijkstra", verticesConf, "list");
-                break;
-
-            case AlgorithmType::bf:
-                saveResult("Bellman-Ford", verticesConf, "list");
-                break;
-        }
+        saveResult("Prim", verticesConf, "list", AlgorithmType::prim);
+        saveResult("Kruskal", verticesConf, "list", AlgorithmType::kruskal);
+        saveResult("Dijkstra", verticesConf, "list", AlgorithmType::dijkstra);
+        saveResult("Bellman-Ford", verticesConf, "list", AlgorithmType::bf);
 
         std::cout << "Done vertices config -  " << verticesConf << "\n\n";
-        results.clear();
+
+        primResults.clear();
+        kruskalResults.clear();
+        dijResults.clear();
+        bfResults.clear();
     }
 
 }
 
-void Testing::saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation) {
+void Testing::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmType alg) {
     //Creating write file
     std::ofstream saveFile(algorithm + "//" + representation + "//test - " + std::to_string(verticesNum) + ".txt");
+
+    auto results = primResults;
+
+    switch (alg) {
+        case AlgorithmType::prim:
+            results = primResults;
+            break;
+
+        case AlgorithmType::kruskal:
+            results = kruskalResults;
+            break;
+
+        case AlgorithmType::dijkstra:
+            results = dijResults;
+            break;
+
+        case AlgorithmType::bf:
+            results = bfResults;
+            break;
+    }
 
     //Printing opResult objects for each tested operation to the file
     for (const OpResult &result: results) {
