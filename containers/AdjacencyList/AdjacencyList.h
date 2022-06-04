@@ -10,14 +10,15 @@
 
 
 class AdjacencyList {
-
-    friend class Algorithms;
+    size_t edgesNumber;
+    size_t verticesNumber;
+    ALElement ** verNeighbours;
 
 public :
     AdjacencyList();
     AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t* edgesData);
     ~AdjacencyList();
-    void prettyPrint();
+
     void print();
     size_t getVerticesNumber() const;
 
@@ -26,9 +27,6 @@ protected:
     ALElement ** getList();
 
 
-private:
-    size_t edgesNumber;
-    size_t verticesNumber;
-    ALElement ** verNeighbours;
+    friend class Algorithms;
 };
 

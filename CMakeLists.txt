@@ -21,7 +21,7 @@ add_executable(
         containers/IncidencyMatrix/IncidencyMatrix.cpp
         containers/IncidencyMatrix/IncidencyMatrix.h
         containers/EdgeHeap/EdgeHeap.cpp
-        containers/EdgeHeap/EdgeHeap.hpp
+        containers/EdgeHeap/EdgeHeap.h
 
         algorithms/Algorithms.cpp
         algorithms/Algorithms.h
@@ -33,9 +33,11 @@ add_executable(
         utilities/FileOps/FileOps.cpp
         utilities/GraphGenerator/GraphGenerator.cpp
         utilities/GraphGenerator/GraphGenerator.h
-        utilities/Testing/TimeMeasurement.hpp
+        utilities/TimeMeasurement.hpp
+
+        utilities/Testing/Testing.cpp
+        utilities/Testing/Testing.h
 
         UI/UI.cpp
         UI/UI.h
-        SDiZO_2.h
-        utilities/Testing/Testing.cpp utilities/Testing/Testing.h)
+)

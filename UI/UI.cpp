@@ -1,5 +1,5 @@
 //
-// Created by kacpe on 03.06.2022.
+// Created by kacper on 03.06.2022.
 //
 
 #include <string>
@@ -13,8 +13,10 @@
 IncidencyMatrix *UI::mGraph = nullptr;
 AdjacencyList *UI::lGraph = nullptr;
 
+//Initial interface menu
 void UI::startMenu() {
     std::string choice;
+
     while (true) {
         system("cls");
         std::cout << "[0] MST\n";
@@ -45,6 +47,7 @@ void UI::startMenu() {
     }
 }
 
+//Interface submenu for MST problem
 void UI::MSTSubMenu() {
     std::string choice;
     while (true) {
@@ -99,6 +102,7 @@ void UI::MSTSubMenu() {
     }
 }
 
+//Interface submenu for SP problem
 void UI::SPSubMenu() {
     std::string choice;
     while (true) {
@@ -159,6 +163,8 @@ void UI::SPSubMenu() {
     }
 }
 
+
+//Interface menu for creating a graph from file data
 void UI::fileGraph() {
 
     delete UI::mGraph;
@@ -183,6 +189,7 @@ void UI::fileGraph() {
     Sleep(2000);
 }
 
+//Interface menu for creating random graph with GraphGenerator
 void UI::randomGraph() {
     delete UI::mGraph;
     delete UI::lGraph;
@@ -234,6 +241,7 @@ void UI::randomGraph() {
     Sleep(2000);
 }
 
+//Display both representations of currently loaded graph
 void UI::displayGraphs() {
     std::cout << " Matrix representation:\n";
     UI::mGraph->print();
@@ -245,6 +253,8 @@ void UI::displayGraphs() {
     system("Pause");
 }
 
+
+//Execute prim algorithm for current graph and display results
 void UI::performPrim() {
     Algorithms::primMST(mGraph);
     auto result2 = Algorithms::primMST(lGraph);
@@ -262,6 +272,7 @@ void UI::performPrim() {
     system("Pause");
 }
 
+//Execute kruskal algorithm for current graph and display results
 void UI::performKruskal() {
     auto result = Algorithms::kruskalMST(mGraph);
     auto result2 = Algorithms::kruskalMST(lGraph);
@@ -277,6 +288,8 @@ void UI::performKruskal() {
     system("Pause");
 }
 
+
+//Execute dijkstra algorithm for current graph and display results
 void UI::performDijkstra(size_t start, size_t finish) {
     try {
         auto result = Algorithms::dijkstraPath(mGraph, start, finish);
@@ -300,6 +313,7 @@ void UI::performDijkstra(size_t start, size_t finish) {
     }
 }
 
+//Execute bellman-ford algorithm for current graph and display results
 void UI::performBF(size_t start, size_t finish) {
     try {
         auto result = Algorithms::bfPath(mGraph, start, finish);
@@ -322,6 +336,8 @@ void UI::performBF(size_t start, size_t finish) {
     }
 }
 
+
+//Interface menu for selecting start and finish vertices for SP algorithms
 std::vector<size_t> UI::getSPMode() {
     srand(time(nullptr));
     std::string input;

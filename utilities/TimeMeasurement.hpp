@@ -12,10 +12,21 @@
 #include <windows.h>
 #include <iostream>
 
-
+//Class for getting accurate time diffs with QueryPerformanceCounter
 class TimeMeasurement {
+    double PCFreq = 0.0;
+    __int64 CounterStart = 0;
+    LARGE_INTEGER li{};
+
+    void reset() {
+        PCFreq = 0.0;
+        CounterStart = 0;
+    }
+
 public:
-    void startCounting() {
+    //Function that starts measuring time after restarting the clock
+    void startCounting()
+    {
         reset();
         if (!QueryPerformanceFrequency(&li)) {
             std::cout << "QueryPerformanceFrequency failed!\n";
@@ -27,18 +38,11 @@ public:
         CounterStart = li.QuadPart;
     }
 
-    double getTime() {
+    //Function for getting elapsed time diff
+    double getTime()
+    {
         QueryPerformanceCounter(&li);
         return double(li.QuadPart - CounterStart) / PCFreq;
     }
 
-private:
-    double PCFreq = 0.0;
-    __int64 CounterStart = 0;
-    LARGE_INTEGER li{};
-
-    void reset() {
-        PCFreq = 0.0;
-        CounterStart = 0;
-    }
 };

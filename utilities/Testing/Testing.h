@@ -6,7 +6,7 @@
 
 #include <cstdlib>
 #include <list>
-#include "TimeMeasurement.hpp"
+#include "../TimeMeasurement.hpp"
 #include "../../algorithms/Algorithms.h"
 
 struct OpResult {
@@ -29,11 +29,9 @@ class Testing {
         std::list<OpResult> bfResults;
 
         static double calcAvg(const std::list<double> &);
-
         void addSeriesAvg(double avg, size_t density, AlgorithmType alg);
 
         void calculateAlgorithmsMatrix();
-
         void calculateAlgorithmsList();
 
         void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmType alg);

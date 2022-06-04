@@ -9,6 +9,7 @@
 
 AdjacencyList::AdjacencyList()
 {
+    //Initializing with values read from file
     this->edgesNumber = FileOps::edgesNum;
     this->verticesNumber = FileOps::verticesNum;
     this->verNeighbours = new ALElement* [verticesNumber];
@@ -83,7 +84,6 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
     }
 }
 
-
 AdjacencyList::~AdjacencyList() {
     if (this->verNeighbours != nullptr)
     {
@@ -104,6 +104,7 @@ AdjacencyList::~AdjacencyList() {
 
             ALElement* nextElement = elementToDelete->nextElement;
 
+            //Deleting each vertex's list
             while(nextElement->nextElement != nullptr) {
                 delete elementToDelete;
                 elementToDelete = nextElement;
@@ -112,25 +113,11 @@ AdjacencyList::~AdjacencyList() {
             delete elementToDelete;
             delete nextElement;
         }
+
         delete[] this->verNeighbours;
     }
 }
 
-void AdjacencyList::prettyPrint() {
-    for(size_t i = 0; i < this->verticesNumber; i++)
-    {
-        std::cout << "Vertex [" << i << "]:\n";
-        auto currEdge = this->verNeighbours[i];
-
-        while(currEdge != nullptr)
-        {
-            std::cout << "edge to vertex [" << currEdge->vertex << "] weight -> " << currEdge->weight << "\n";
-            currEdge = currEdge->nextElement;
-        }
-
-        std::cout << "\n";
-    }
-}
 
 void AdjacencyList::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)

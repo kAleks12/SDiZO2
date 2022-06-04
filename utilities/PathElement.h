@@ -1,10 +1,11 @@
 //
-// Created by kacpe on 01.06.2022.
+// Created by kacper on 01.06.2022.
 //
 #pragma once
 
 #include <iostream>
 
+//Structure used to make output path in SP algorithms
 struct PElement {
     size_t cost;
     size_t previousV;

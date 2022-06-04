@@ -8,6 +8,7 @@
 
 IncidencyMatrix::IncidencyMatrix()
 {
+    //Assigning with values read from file
     this->verticesNumber = FileOps::verticesNum;
     this->edgesNumber = FileOps::edgesNum;
 
@@ -98,31 +99,19 @@ IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & vert
 
 }
 
-
 IncidencyMatrix::~IncidencyMatrix() {
+    //Deleting each vertex's MatrixCells array
     if(cells != nullptr) {
         for (size_t i = 0; i < verticesNumber; i++) {
             delete[] this->cells[i];
         }
+
+        //Deleting whole matrix array
         delete[] this->cells;
     }
 }
 
-void IncidencyMatrix::prettyPrint(){
-    for(size_t i = 0; i < this->verticesNumber; i++) {
-        std::cout << "Vertex [" << i << "]:\n";
-        MatrixCell* currVertex = this->cells[i];
 
-
-        for (size_t j = 0; j < this->edgesNumber; j++) {
-            if (currVertex[j].type == CellType::origin || currVertex[j].type == CellType::loop) {
-                std::cout << "edge to vertex [" << j << "] weight -> " << currVertex[j].weight << "\n";
-            }
-        }
-
-        std::cout << "\n";
-    }
-}
 
 void IncidencyMatrix::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)
@@ -150,11 +139,11 @@ void IncidencyMatrix::print() {
     }
 }
 
-size_t IncidencyMatrix::getVerticesNumber() {
+size_t IncidencyMatrix::getVerticesNumber() const {
     return this->verticesNumber;
 }
 
-size_t IncidencyMatrix::getEdgesNumber() {
+size_t IncidencyMatrix::getEdgesNumber() const {
     return this->edgesNumber;
 }
 

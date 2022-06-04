@@ -10,7 +10,7 @@
 #include "utilities/Testing/Testing.h"
 
 int main() {
-
+/*
     Testing tests;
 
     mkdir("Prim");
@@ -31,8 +31,8 @@ int main() {
 
     tests.calculateAlgorithmsMatrix();
     tests.calculateAlgorithmsList();
-
-    //UI::startMenu();
+*/
+    UI::startMenu();
 
 
 

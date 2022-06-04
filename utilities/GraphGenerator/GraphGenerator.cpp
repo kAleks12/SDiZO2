@@ -12,11 +12,15 @@ size_t GraphGenerator::edges = 0;
 
 
 void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxValue) {
+    //Deleting old graph
     delete [] data;
 
     size_t minEdgeNum = vertexNumber;
     size_t edgeNumber = (density * vertexNumber * (vertexNumber - 1)) / 200;
 
+    //Checking whether number of edges calculated for entered
+    // density and vertices number is not lesser than a minimal
+    // number of edges for a connected graph
     if(edgeNumber < minEdgeNum){
         edgeNumber = minEdgeNum;
     }
@@ -24,11 +28,13 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
     size_t dataSize = 3 * edgeNumber;
     data = new size_t[dataSize];
 
+    //Setting up random library to generate edges and weights
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<size_t> costs(1, maxValue);
     std::uniform_int_distribution<size_t> vertices(0, vertexNumber - 1);
 
+    //Creating 2d table to store information about created edges
     bool **isConnected = new bool *[edgeNumber];
     for (size_t i = 0; i < edgeNumber; i++) {
 
@@ -38,6 +44,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
         }
     }
 
+    //Creating initial ring
     for (size_t i = 0; i < minEdgeNum; i++) {
         if(i == minEdgeNum-1)
         {
@@ -59,6 +66,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
     size_t originV;
     size_t destinationV;
 
+    //Creating additional random edges
     for (size_t i = minEdgeNum; i < edgeNumber; i++) {
         originV= vertices(gen);
         destinationV = vertices(gen);
@@ -76,6 +84,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
         isConnected[destinationV][originV] = true;
     }
 
+    //Freeing allocated memory
     for (size_t i = 0; i < edgeNumber; i++) {
         delete[] isConnected[i];
     }

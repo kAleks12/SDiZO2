@@ -19,11 +19,11 @@ private:
     size_t size = 0;
     DynamicArray<Edge> body;
 
-    inline int getParent(int index) { return (index - 1) / 2; }
+    static inline int getParent(int index) { return (index - 1) / 2; }
 
-    inline int getLeft(int index) { return (2 * index + 1); }
+    static inline int getLeft(int index) { return (2 * index + 1); }
 
-    inline int getRight(int index) { return (2 * index + 2); }
+    static inline int getRight(int index) { return (2 * index + 2); }
 
     void minHeapify(int index);
 

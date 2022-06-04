@@ -9,6 +9,14 @@
 #include "../containers/IncidencyMatrix/IncidencyMatrix.h"
 #include "../containers/AdjacencyList/AdjacencyList.h"
 
+///////////////////////////////
+//    FILE STORES VARIOUS    //
+//    STRUCTURES  FOR        //
+//    ALGORITHMS' RESULTS    //
+///////////////////////////////
+
+
+//Structure for results of MST algorithms which use matrix representation
 struct MatrixMSTResult{
     IncidencyMatrix* output;
     size_t cost;
@@ -28,6 +36,7 @@ struct MatrixMSTResult{
 
 };
 
+//Structure for results of MST algorithms which use list representation
 struct ListMSTResult{
     AdjacencyList* output;
     size_t cost;
@@ -46,6 +55,8 @@ struct ListMSTResult{
     }
 };
 
+
+//Structure for results of SP algorithms
 struct SPResult{
     std::string  path;
     size_t cost;
@@ -64,5 +75,3 @@ struct SPResult{
             std::cout << "Path does not exist\n";
     }
 };
-
-

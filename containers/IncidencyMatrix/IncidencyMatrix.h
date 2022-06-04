@@ -8,25 +8,21 @@
 #include "MatrixCell.h"
 
 class IncidencyMatrix {
-
-friend class Algorithms;
+    size_t verticesNumber;
+    size_t edgesNumber;
+    MatrixCell ** cells;
 
 public:
     IncidencyMatrix();
     IncidencyMatrix(const size_t &edgesNumber, const size_t &verticesNumber, const size_t* edgeData);
     ~IncidencyMatrix();
+
     void print();
-    void prettyPrint();
-    size_t getVerticesNumber();
+    size_t getVerticesNumber() const;
 
 protected:
-    size_t getEdgesNumber();
+    size_t getEdgesNumber() const;
     MatrixCell ** getMatrix();
 
-
-private:
-    size_t verticesNumber;
-    size_t edgesNumber;
-    MatrixCell ** cells;
-
+friend class Algorithms;
 };

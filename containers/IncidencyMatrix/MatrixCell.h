@@ -13,6 +13,7 @@ struct MatrixCell{
 
     MatrixCell(): type{CellType::empty}, weight{0}
     {}
+
     MatrixCell(CellType type, const size_t &weight): type{type}, weight{weight}
-    {};
+    {}
 };

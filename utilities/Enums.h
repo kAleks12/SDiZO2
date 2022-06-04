@@ -4,6 +4,7 @@
 
 #pragma once
 
+//Types of matrix cells for Incidency Matrix
 enum class CellType{
     loop = 2,
     origin = 1,
@@ -11,6 +12,7 @@ enum class CellType{
     empty = 0
 };
 
+//Types of algorithms
 enum class AlgorithmType{
     prim = 0,
     kruskal = 1,

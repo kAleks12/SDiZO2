@@ -3,7 +3,7 @@
 //
 
 #include "Algorithms.h"
-#include "../containers/EdgeHeap/EdgeHeap.hpp"
+#include "../containers/EdgeHeap/EdgeHeap.h"
 
 ///////////////////////////////
 //    PRIM IMPLEMENTATIONS   //
@@ -92,7 +92,7 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
 
     }
 
-    //Creating output matrix and cleaning
+    //Creating output matrix and cleaning allocated variables
     auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
 
     delete[] resultBuff;
@@ -193,7 +193,7 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
         }
     }
 
-    //Creating output list and cleaning
+    //Creating output list and cleaning allocated variables
     auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
@@ -282,6 +282,7 @@ MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
         }
     }
 
+    //Creating output matrix and deleting allocated variables
     auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
@@ -351,7 +352,7 @@ ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
         }
     }
 
-    //Creating output list and cleaning
+    //Creating output list and cleaning variables
     auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
@@ -464,6 +465,7 @@ SPResult* Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, 
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
+
     return new SPResult(path, totalCost);
 }
 
