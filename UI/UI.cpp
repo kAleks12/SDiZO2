@@ -285,6 +285,7 @@ void UI::performKruskal() {
     delete result;
     delete result2;
 
+    std::cout << "\n\n";
     system("Pause");
 }
 
@@ -303,6 +304,7 @@ void UI::performDijkstra(size_t start, size_t finish) {
         delete result;
         delete result2;
 
+        std::cout << "\n\n";
         system("Pause");
 
     }catch(std::out_of_range& e){
@@ -327,6 +329,7 @@ void UI::performBF(size_t start, size_t finish) {
         delete result;
         delete result2;
 
+        std::cout << "\n\n";
         system("Pause");
 
     }catch(std::out_of_range& e){
