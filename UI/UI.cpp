@@ -237,7 +237,7 @@ void UI::randomGraph() {
     UI::mGraph = new IncidencyMatrix(GraphGenerator::edges, verNum, GraphGenerator::data);
     UI::lGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data);
 
-    std::cout << "\n\nGraph created from file\n";
+    std::cout << "\n\nCreated random graph\n";
     Sleep(2000);
 }
 
@@ -260,15 +260,15 @@ void UI::performPrim() {
     auto result2 = Algorithms::primMST(lGraph);
     auto result = Algorithms::primMST(mGraph);
 
-    std::cout << "Prim for matrix:\n\n";
+    std::cout << "Prim [matrix]:\n\n";
     result->display();
 
-    std::cout << "\n\nPrim for list:\n\n";
+    std::cout << "\n\n\nPrim [list]:\n\n";
     result2->display();
 
     delete result2;
 
-    std::cout << "\n";
+    std::cout << "\n\n";
     system("Pause");
 }
 
@@ -279,7 +279,7 @@ void UI::performKruskal() {
 
     std::cout << "Kruskal [matrix]:\n\n";
     result->display();
-    std::cout << "\n\nKruskal [list]:\n\n";
+    std::cout << "\n\n\nKruskal [list]:\n\n";
     result2->display();
 
     delete result;
@@ -295,9 +295,9 @@ void UI::performDijkstra(size_t start, size_t finish) {
         auto result = Algorithms::dijkstraPath(mGraph, start, finish);
         auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
 
-        std::cout << "Dijkstra [list] path - (" << start << "," << finish << "):\n\n";
+        std::cout << "Dijkstra [matrix] path - (" << start << "," << finish << "):\n\n";
         result->display();
-        std::cout << "Dijkstra [list] path - (" << start << "," << finish << "):\n\n";
+        std::cout << "\n\n\nDijkstra [list] path - (" << start << "," << finish << "):\n\n";
         result2->display();
 
         delete result;
@@ -319,9 +319,9 @@ void UI::performBF(size_t start, size_t finish) {
         auto result = Algorithms::bfPath(mGraph, start, finish);
         auto result2 = Algorithms::bfPath(lGraph, start, finish);
 
-        std::cout << "Bellman-Ford [list] path - (" << start << "," << finish << "):\n\n";
+        std::cout << "Bellman-Ford [matrix] path - (" << start << "," << finish << "):\n\n";
         result->display();
-        std::cout << "Bellman-Ford [list] path - (" << start << "," << finish << "):\n\n";
+        std::cout << "\n\n\nBellman-Ford [list] path - (" << start << "," << finish << "):\n\n";
         result2->display();
 
         delete result;
