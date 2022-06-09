@@ -8,12 +8,14 @@
 #include "../../utilities/Enums.h"
 
 struct MatrixCell{
+    //Struct variables
     CellType type;
     size_t weight;
 
+    //Class methods
     MatrixCell(): type{CellType::empty}, weight{0}
-    {}
+    {} //Default constructor
 
     MatrixCell(CellType type, const size_t &weight): type{type}, weight{weight}
-    {}
+    {} //Normal constructor
 };

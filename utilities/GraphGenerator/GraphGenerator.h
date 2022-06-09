@@ -7,8 +7,10 @@
 class GraphGenerator {
 
 public:
+    //Class variables
     static size_t* data;
     static size_t edges;
 
-    static void generate(size_t density, size_t vertexNumber, size_t maxValue);
+    //Class methods
+    static void generate(size_t density, size_t vertexNumber, size_t maxValue); //Generate random graph
 };

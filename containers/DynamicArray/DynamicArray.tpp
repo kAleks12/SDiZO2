@@ -12,18 +12,6 @@ DynamicArray<T>::DynamicArray() {
     this->size = 0;
 }
 
-
-template <typename T>
-DynamicArray<T>::DynamicArray(const std::list<int> &dataSet) {
-    //Initializing head
-    this->head = new T[0];
-
-    //Filling the array with data from list
-    for(T element: dataSet){
-        this->addBack(element);
-    }
-}
-
 template<typename T>
 DynamicArray<T>::~DynamicArray() {
     //Deleting head if it exists

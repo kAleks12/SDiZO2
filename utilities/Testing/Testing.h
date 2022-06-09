@@ -9,6 +9,7 @@
 #include "../TimeMeasurement.hpp"
 #include "../../algorithms/Algorithms.h"
 
+//Helping structure for individual results
 struct OpResult {
     double time;
     size_t density;
@@ -17,6 +18,7 @@ struct OpResult {
 
 class Testing {
     public:
+        //Class variables
         static IncidencyMatrix* mGraph;
         static AdjacencyList* lGraph;
 
@@ -28,12 +30,13 @@ class Testing {
         std::list<OpResult> dijResults;
         std::list<OpResult> bfResults;
 
-        static double calcAvg(const std::list<double> &);
-        void addSeriesAvg(double avg, size_t density, AlgorithmType alg);
+        //Class methods
+        static double calcAvg(const std::list<double> &); //Calculate average time from list elements
+        void addSeriesAvg(double avg, size_t density, AlgorithmType alg); //Add avg time to adequate result list
 
-        void calculateAlgorithmsMatrix();
-        void calculateAlgorithmsList();
+        void calculateAlgorithmsMatrix(); //Perform testing for all algorithms in matrix representation
+        void calculateAlgorithmsList(); //Perform testing for all algorithms in list representation
 
-        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmType alg);
+        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmType alg); //Save results an algorithm to file
 };
 

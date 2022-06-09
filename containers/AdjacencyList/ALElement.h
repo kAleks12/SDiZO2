@@ -7,10 +7,12 @@
 #include <cstdlib>
 
 struct ALElement{
+    //Struct variables
     size_t vertex;
     size_t weight;
     ALElement* nextElement;
 
+    //Struct methods
     ALElement(){
         this->vertex = SIZE_MAX;
         this->weight = SIZE_MAX;

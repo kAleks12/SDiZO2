@@ -9,14 +9,18 @@
 #include "../containers/IncidencyMatrix/IncidencyMatrix.h"
 
 class UI {
+    //Class variables
     static IncidencyMatrix* mGraph;
     static AdjacencyList* lGraph;
 
+    //Class methods
     static void MSTSubMenu();
     static void SPSubMenu();
 
-    static void fileGraph();
-    static void randomGraph();
+    static void fileGraph(); //Wizard for creating graph from file
+    static void randomGraph(); //Wizard for creating random graph
+    static std::vector<size_t> getSPMode(); //Wizard for selecting vertices pair for SP algorithms
+
     static void displayGraphs();
 
     static void performPrim();
@@ -25,11 +29,9 @@ class UI {
     static void performDijkstra(size_t start, size_t finish);
     static void performBF(size_t start, size_t finish);
 
-    static std::vector<size_t> getSPMode();
 
 public:
     static void startMenu();
-
 };
 
 

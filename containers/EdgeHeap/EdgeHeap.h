@@ -9,23 +9,21 @@
 #include "Edge.h"
 
 class EdgeHeap {
-public:
-    Edge extractRoot();
-    void add(const Edge& val);
-    void print();
-
-
-private:
+    //Class variables
     size_t size = 0;
     DynamicArray<Edge> body;
 
-    static inline int getParent(int index) { return (index - 1) / 2; }
+public:
+    //Class methods
+    Edge extractRoot(); //Delete root from heap and return it
+    void add(const Edge& val); //Add edge to heap
 
-    static inline int getLeft(int index) { return (2 * index + 1); }
+private:
+    static inline int getParent(int index) { return (index - 1) / 2; } //Calculate parent index of provided index
 
-    static inline int getRight(int index) { return (2 * index + 2); }
+    static inline int getLeft(int index) { return (2 * index + 1); } //Calculate left child index of provided index
 
-    void minHeapify(int index);
+    static inline int getRight(int index) { return (2 * index + 2); } //Calculate right child index of provided index
 
-    int getDepth();
+    void minHeapify(int index); //Function used to add value to heap
 };

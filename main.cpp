@@ -33,7 +33,4 @@ int main() {
     tests.calculateAlgorithmsList();
 */
     UI::startMenu();
-
-
-
 }
