@@ -13,9 +13,9 @@ struct Edge{
         this->weight = -1;
     }
 
-    Edge(const size_t &originVertex, const size_t &destVertex, const size_t &weight){
-        this->origin = originVertex;
-        this->destination = destVertex;
+    Edge(const size_t &originNode, const size_t &destNode, const size_t &weight){
+        this->origin = originNode;
+        this->destination = destNode;
         this->weight = weight;
     }
 

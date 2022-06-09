@@ -15,13 +15,13 @@ class Interface {
     static void randomGraph();
     static void displayGraphs();
 
-    static void performPrim();
-    static void performKruskal();
+    static void doPrim();
+    static void doKruskal();
 
-    static void performDijkstra(size_t start, size_t finish);
-    static void performBF(size_t start, size_t finish);
+    static void doDijkstra(size_t start, size_t finish);
+    static void doBelmanFord(size_t start, size_t finish);
 
-    static std::vector<size_t> getSPMode();
+    static std::vector<size_t> getShortestPathMode();
 
 public:
     static void startMenu();

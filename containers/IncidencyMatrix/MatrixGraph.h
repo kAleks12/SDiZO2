@@ -4,17 +4,17 @@
 #include "MatrixElement.h"
 
 class MatrixGraph {
-    size_t verticesNumber;
+    size_t nodesNumber;
     size_t edgesNumber;
     MatrixElement ** cells;
 
 public:
     MatrixGraph();
-    MatrixGraph(const size_t &edgesNumber, const size_t &verticesNumber, const size_t* edgeData);
+    MatrixGraph(const size_t &edgesNumber, const size_t &nodesNumber, const size_t* edgeData);
     ~MatrixGraph();
 
     void print();
-    size_t getVerticesNumber() const;
+    size_t getNodesNumber() const;
 
 protected:
     size_t getEdgesNumber() const;

@@ -19,7 +19,7 @@ void Interface::startMenu() {
         std::cout << "[0] MST\n";
         std::cout << "[1] Shortest path\n";
         std::cout << "[Q] Quit\n";
-        std::cout << "Hello, choose problem: ";
+        std::cout << "Input choice: ";
         std::cin >> choice;
 
         if (choice == "0") {
@@ -50,13 +50,13 @@ void Interface::MSTSubMenu() {
     while (true) {
         system("cls");
 
-        std::cout << "[0] Create graph from file\n";
-        std::cout << "[1] Generate random graph\n";
-        std::cout << "[2] Display current graph\n";
+        std::cout << "[0] File input\n";
+        std::cout << "[1] Random graph\n";
+        std::cout << "[2] Show\n";
         std::cout << "[3] Prim\n";
         std::cout << "[4] Kruskal\n";
         std::cout << "[Q] Quit\n";
-        std::cout << "\nHello, choose algorithm: ";
+        std::cout << "\nInput choice: ";
         std::cin >> choice;
 
         if (choice == "0") {
@@ -79,13 +79,13 @@ void Interface::MSTSubMenu() {
 
         if (choice == "3") {
             system("cls");
-            performPrim();
+            doPrim();
             continue;
         }
 
         if (choice == "4") {
             system("cls");
-            performKruskal();
+            doKruskal();
             continue;
         }
 
@@ -134,19 +134,19 @@ void Interface::SPSubMenu() {
 
         if (choice == "3") {
             system("cls");
-            auto spPair = getSPMode();
+            auto spPair = getShortestPathMode();
 
             system("cls");
-            performDijkstra(spPair[0], spPair[1]);
+            doDijkstra(spPair[0], spPair[1]);
             continue;
         }
 
         if (choice == "4") {
             system("cls");
-            auto spPair = getSPMode();
+            auto spPair = getShortestPathMode();
 
             system("cls");
-            performBF(spPair[0], spPair[1]);
+            doBelmanFord(spPair[0], spPair[1]);
             continue;
         }
 
@@ -191,18 +191,18 @@ void Interface::randomGraph() {
     delete Interface::mGraph;
     delete Interface::lGraph;
 
-    size_t verNum;
+    size_t nodesNumber;
     size_t density;
 
     std::string input;
 
     while (true) {
         system("cls");
-        std::cout << "Enter number of vertices: ";
+        std::cout << "Enter number of nodes: ";
         std::cin >> input;
 
         try {
-            verNum = std::stoi(input);
+            nodesNumber = std::stoi(input);
             break;
         }
         catch (std::exception& e) {
@@ -229,10 +229,10 @@ void Interface::randomGraph() {
         }
     }
 
-    GraphGenerator::generate(density, verNum, 15);
+    GraphGenerator::generate(density, nodesNumber, 15);
 
-    Interface::mGraph = new MatrixGraph(GraphGenerator::edges, verNum, GraphGenerator::data);
-    Interface::lGraph = new ListGraph(GraphGenerator::edges, verNum, GraphGenerator::data);
+    Interface::mGraph = new MatrixGraph(GraphGenerator::edges, nodesNumber, GraphGenerator::data);
+    Interface::lGraph = new ListGraph(GraphGenerator::edges, nodesNumber, GraphGenerator::data);
 
     std::cout << "\n\nCreated random graph\n";
     Sleep(2000);
@@ -252,7 +252,7 @@ void Interface::displayGraphs() {
 
 
 //Execute prim algorithm for current graph and display results
-void Interface::performPrim() {
+void Interface::doPrim() {
     Algorithms::primMST(mGraph);
     auto result2 = Algorithms::primMST(lGraph);
     auto result = Algorithms::primMST(mGraph);
@@ -270,7 +270,7 @@ void Interface::performPrim() {
 }
 
 //Execute kruskal algorithm for current graph and display results
-void Interface::performKruskal() {
+void Interface::doKruskal() {
     auto result = Algorithms::kruskalMST(mGraph);
     auto result2 = Algorithms::kruskalMST(lGraph);
 
@@ -288,7 +288,7 @@ void Interface::performKruskal() {
 
 
 //Execute dijkstra algorithm for current graph and display results
-void Interface::performDijkstra(size_t start, size_t finish) {
+void Interface::doDijkstra(size_t start, size_t finish) {
     try {
         auto result = Algorithms::dijkstraPath(mGraph, start, finish);
         auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
@@ -306,14 +306,14 @@ void Interface::performDijkstra(size_t start, size_t finish) {
 
     }catch(std::out_of_range& e){
 
-        std::cout << "At least one of vertices was out ouf bound!";
+        std::cout << "At least one of nodes was out ouf bound!";
         Sleep(3000);
         return;
     }
 }
 
 //Execute bellman-ford algorithm for current graph and display results
-void Interface::performBF(size_t start, size_t finish) {
+void Interface::doBelmanFord(size_t start, size_t finish) {
     try {
         auto result = Algorithms::bfPath(mGraph, start, finish);
         auto result2 = Algorithms::bfPath(lGraph, start, finish);
@@ -330,24 +330,24 @@ void Interface::performBF(size_t start, size_t finish) {
         system("Pause");
 
     }catch(std::out_of_range& e){
-        std::cout << "At least one of vertices was out ouf bound!";
+        std::cout << "One of nodes is out ouf bound!";
         Sleep(3000);
         return;
     }
 }
 
 
-//Interface menu for selecting start and finish vertices for SP algorithms
-std::vector<size_t> Interface::getSPMode() {
+//Interface menu for selecting start and finish nodes for SP algorithms
+std::vector<size_t> Interface::getShortestPathMode() {
     srand(time(nullptr));
     std::string input;
-    std::vector<size_t> vertices;
+    std::vector<size_t> nodes;
 
     while (true) {
         system("cls");
 
-        std::cout << "[0] Choose vertices pair randomly\n";
-        std::cout << "[1] Choose vertices pair manually\n";
+        std::cout << "[0] Choose nodes pair randomly\n";
+        std::cout << "[1] Choose nodes pair manually\n";
         std::cout << "\nInput: ";
 
         std::cin >> input;
@@ -359,45 +359,45 @@ std::vector<size_t> Interface::getSPMode() {
 
     if (input == "0") {
         while (true) {
-            vertices.push_back(rand() % (Interface::mGraph->getVerticesNumber()));
-            vertices.push_back(rand() % (Interface::mGraph->getVerticesNumber()));
+            nodes.push_back(rand() % (Interface::mGraph->getNodesNumber()));
+            nodes.push_back(rand() % (Interface::mGraph->getNodesNumber()));
 
-            if (vertices[0] != vertices[1]) {
+            if (nodes[0] != nodes[1]) {
                 break;
             }
 
-            vertices.clear();
+            nodes.clear();
         }
     } else {
         while (true) {
             system("cls");
 
-            std::cout << "Enter start vertex: ";
+            std::cout << "Enter start node: ";
             std::cin >> input;
 
-            if (std::stoi(input) < 0 && std::stoi(input) > mGraph->getVerticesNumber()) {
+            if (std::stoi(input) < 0 && std::stoi(input) > mGraph->getNodesNumber()) {
                 continue;
             }
 
-            vertices.push_back(std::stoi(input));
+            nodes.push_back(std::stoi(input));
             break;
         }
 
         while (true) {
             system("cls");
 
-            std::cout << "Enter finish vertex: ";
+            std::cout << "Enter finish node: ";
             std::cin >> input;
 
-            if (std::stoi(input) < 0 && std::stoi(input) > mGraph->getVerticesNumber()) {
-                vertices.clear();
+            if (std::stoi(input) < 0 && std::stoi(input) > mGraph->getNodesNumber()) {
+                nodes.clear();
                 continue;
             }
 
-            vertices.push_back(std::stoi(input));
+            nodes.push_back(std::stoi(input));
             break;
         }
     }
 
-    return vertices;
+    return nodes;
 }

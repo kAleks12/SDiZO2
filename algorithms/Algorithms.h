@@ -10,8 +10,8 @@
 class Algorithms{
 public:
     //MST ALGORITHMS
-    static MatrixMSTResult* primMST(MatrixGraph* graph);
-    static ListMSTResult* primMST(ListGraph* graph);
+    static MatrixMSTResult* primMST(MatrixGraph* nodeIndex);
+    static ListMSTResult* primMST(ListGraph* nodesIndex);
 
     static MatrixMSTResult* kruskalMST(MatrixGraph* graph);
     static ListMSTResult* kruskalMST(ListGraph* graph);

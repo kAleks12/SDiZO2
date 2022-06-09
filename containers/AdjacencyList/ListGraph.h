@@ -7,16 +7,16 @@
 
 class ListGraph {
     size_t edgesNumber;
-    size_t verticesNumber;
-    ListGraphElement ** verNeighbours;
+    size_t nodeNumber;
+    ListGraphElement ** nodeNeighbours;
 
 public :
     ListGraph();
-    ListGraph(size_t edgesNumber, size_t verticesNumber, size_t* edgesData);
+    ListGraph(size_t edgesNumber, size_t nodeNumber, size_t* edgesData);
     ~ListGraph();
 
     void print();
-    size_t getVerticesNumber() const;
+    size_t getNodesNumber() const;
 
 protected:
     size_t getEdgesNumber() const;

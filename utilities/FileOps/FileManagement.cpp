@@ -4,7 +4,7 @@
 #include <vector>
 
 int* FileManagement::edges = nullptr;
-size_t FileManagement::verticesNum = -1;
+size_t FileManagement::nodesNum = -1;
 size_t FileManagement::edgesNum = -1;
 
 void FileManagement::readData(const std::string &fileName) {
@@ -19,7 +19,7 @@ void FileManagement::readData(const std::string &fileName) {
     }
 
     srcFile >> FileManagement::edgesNum;
-    srcFile >> FileManagement::verticesNum;
+    srcFile >> FileManagement::nodesNum;
 
     FileManagement::edges = new int[edgesNum * 3];
     std::string tmp;

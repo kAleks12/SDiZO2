@@ -7,85 +7,85 @@ ListGraph::ListGraph()
 {
     //Initializing with values read from file
     this->edgesNumber = FileManagement::edgesNum;
-    this->verticesNumber = FileManagement::verticesNum;
-    this->verNeighbours = new ListGraphElement* [verticesNumber];
+    this->nodeNumber = FileManagement::nodesNum;
+    this->nodeNeighbours = new ListGraphElement* [nodeNumber];
 
     //Initializing edges list
-    for(size_t i = 0; i < verticesNumber; i++){
-        verNeighbours[i] = nullptr;
+    for(size_t i = 0; i < nodeNumber; i++){
+        nodeNeighbours[i] = nullptr;
     }
 
     //Setting up provisional variables
-    ListGraphElement* currVertex;
+    ListGraphElement* currNode;
     size_t currNeighbour;
     size_t currWeight;
 
     for(size_t i = 0; i < edgesNumber*3; i+= 3){
         //Reading current edge info
-        currVertex = this->verNeighbours[FileManagement::edges[i]];
+        currNode = this->nodeNeighbours[FileManagement::edges[i]];
         currNeighbour =  FileManagement::edges[i + 1];
         currWeight =  FileManagement::edges[i + 2];
 
         //Checking whether it is the first neighbour
-        if(currVertex == nullptr){
-            this->verNeighbours[FileManagement::edges[i]] = new ListGraphElement(currNeighbour, currWeight);
+        if(currNode == nullptr){
+            this->nodeNeighbours[FileManagement::edges[i]] = new ListGraphElement(currNeighbour, currWeight);
             continue;
         }
 
         //Iterating through existing neighbours
-        while(currVertex->nextElement != nullptr){
-            currVertex = currVertex->nextElement;
+        while(currNode->nextElement != nullptr){
+            currNode = currNode->nextElement;
         }
 
-        //Creating new vertex's neighbour
-        currVertex->nextElement = new ListGraphElement(currNeighbour, currWeight);
+        //Creating new node's neighbour
+        currNode->nextElement = new ListGraphElement(currNeighbour, currWeight);
     }
 }
 
-ListGraph::ListGraph(size_t edgesNumber, size_t verticesNumber, size_t *edgesData)
+ListGraph::ListGraph(size_t edgesNumber, size_t nodeNumber, size_t *edgesData)
 {
     this->edgesNumber = edgesNumber;
-    this->verticesNumber = verticesNumber;
-    this->verNeighbours = new ListGraphElement* [verticesNumber];
+    this->nodeNumber = nodeNumber;
+    this->nodeNeighbours = new ListGraphElement* [nodeNumber];
 
     //Initializing edges list
-    for(size_t i = 0; i < verticesNumber; i++){
-        verNeighbours[i] = nullptr;
+    for(size_t i = 0; i < nodeNumber; i++){
+        nodeNeighbours[i] = nullptr;
     }
 
     //Setting up provisional variables
-    ListGraphElement* currVertex;
+    ListGraphElement* currNode;
     size_t currNeighbour;
     size_t currWeight;
 
     for(size_t i = 0; i < edgesNumber*3; i+= 3){
         //Reading current edge info
-        currVertex = this->verNeighbours[edgesData[i]];
+        currNode = this->nodeNeighbours[edgesData[i]];
         currNeighbour =  edgesData[i + 1];
         currWeight =  edgesData[i + 2];
 
         //Checking whether it is the first neighbour
-        if(currVertex == nullptr){
-            this->verNeighbours[edgesData[i]] = new ListGraphElement(currNeighbour, currWeight);
+        if(currNode == nullptr){
+            this->nodeNeighbours[edgesData[i]] = new ListGraphElement(currNeighbour, currWeight);
             continue;
         }
 
         //Iterating through existing neighbours
-        while(currVertex->nextElement != nullptr){
-            currVertex = currVertex->nextElement;
+        while(currNode->nextElement != nullptr){
+            currNode = currNode->nextElement;
         }
 
-        //Creating new vertex's neighbour
-        currVertex->nextElement = new ListGraphElement(currNeighbour, currWeight);
+        //Creating new node's neighbour
+        currNode->nextElement = new ListGraphElement(currNeighbour, currWeight);
     }
 }
 
 ListGraph::~ListGraph() {
-    if (this->verNeighbours != nullptr)
+    if (this->nodeNeighbours != nullptr)
     {
-        for (size_t i = 0; i < verticesNumber; i++)
+        for (size_t i = 0; i < nodeNumber; i++)
         {
-            ListGraphElement* elementToDelete = this->verNeighbours[i];
+            ListGraphElement* elementToDelete = this->nodeNeighbours[i];
 
             if(elementToDelete == nullptr)
             {
@@ -100,7 +100,7 @@ ListGraph::~ListGraph() {
 
             ListGraphElement* nextElement = elementToDelete->nextElement;
 
-            //Deleting each vertex's list
+            //Deleting each node's list
             while(nextElement->nextElement != nullptr) {
                 delete elementToDelete;
                 elementToDelete = nextElement;
@@ -110,20 +110,20 @@ ListGraph::~ListGraph() {
             delete nextElement;
         }
 
-        delete[] this->verNeighbours;
+        delete[] this->nodeNeighbours;
     }
 }
 
 
 void ListGraph::print() {
-    for(size_t i = 0; i < this->verticesNumber; i++)
+    for(size_t i = 0; i < this->nodeNumber; i++)
     {
-        std::cout << "Vertex [" << i << "] : ";
-        auto currEdge = this->verNeighbours[i];
+        std::cout << "Node [" << i << "] : ";
+        auto currEdge = this->nodeNeighbours[i];
 
         while(currEdge != nullptr)
         {
-            std::cout <<  currEdge->vertex << "(" << currEdge->weight << ") - ";
+            std::cout << currEdge->node << "(" << currEdge->weight << ") - ";
             currEdge = currEdge->nextElement;
         }
 
@@ -131,8 +131,8 @@ void ListGraph::print() {
     }
 }
 
-size_t ListGraph::getVerticesNumber() const {
-    return this->verticesNumber;
+size_t ListGraph::getNodesNumber() const {
+    return this->nodeNumber;
 }
 
 size_t ListGraph::getEdgesNumber() const {
@@ -140,5 +140,5 @@ size_t ListGraph::getEdgesNumber() const {
 }
 
 ListGraphElement **ListGraph::getList() {
-    return this->verNeighbours;
+    return this->nodeNeighbours;
 }
