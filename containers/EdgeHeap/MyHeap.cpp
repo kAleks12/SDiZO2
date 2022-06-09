@@ -1,12 +1,7 @@
-//
-// Created by kacper on 18.03.2022.
-//
-
-
 #include <fstream>
-#include "EdgeHeap.h"
+#include "MyHeap.h"
 
-Edge EdgeHeap::extractRoot() {
+Edge MyHeap::extractRoot() {
     //Inserting root to variable
     Edge root = body[0];
 
@@ -29,7 +24,7 @@ Edge EdgeHeap::extractRoot() {
     return root;
 }
 
-void EdgeHeap::add(const Edge &val) {
+void MyHeap::add(const Edge &val) {
     //Inserting new val at last index of the body
     size++;
     body.addBack(val);
@@ -46,7 +41,7 @@ void EdgeHeap::add(const Edge &val) {
     }
 }
 
-void EdgeHeap::minHeapify(int index) {
+void MyHeap::minHeapify(int index) {
     //Creating operational variables
     size_t leftSon = getLeft(index);
     size_t rightSon = getRight(index);
@@ -76,10 +71,10 @@ void EdgeHeap::minHeapify(int index) {
     }
 }
 
-void EdgeHeap::print() {
+void MyHeap::print() {
     //Checking whether heap's body is empty
     if (this->size == 0) {
-        std::cout << "Heap is empty\n\n";
+        std::cout << "MyHeap is empty\n\n";
         return;
     }
     std::cout << "Contents of heap:\n\n";
@@ -128,7 +123,7 @@ void EdgeHeap::print() {
 
 }
 
-int EdgeHeap::getDepth() {
+int MyHeap::getDepth() {
     //Creating operational variables
     size_t last = 1;
     size_t level = 0;

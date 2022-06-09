@@ -1,26 +1,19 @@
-//
-// Created by kacper on 19.05.2022.
-//
-
 #include "Algorithms.h"
-#include "../containers/EdgeHeap/EdgeHeap.h"
+#include "../containers/EdgeHeap/MyHeap.h"
 
-///////////////////////////////
-//    PRIM IMPLEMENTATIONS   //
-///////////////////////////////
 //MATRIX
-MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
+MatrixMSTResult* Algorithms::primMST(MatrixGraph *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    MatrixCell **matrix = graph->getMatrix();
+    MatrixElement **matrix = graph->getMatrix();
 
     size_t buffSize = (vertices - 1) * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
-    auto *eHeap = new EdgeHeap();
+    auto *eHeap = new MyHeap();
 
     auto visitedVertices = new int[vertices];
     for (size_t i = 0; i < vertices; i++) {
@@ -93,7 +86,7 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
     }
 
     //Creating output matrix and cleaning allocated variables
-    auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
+    auto oMatrix = new MatrixGraph(vertices - 1, vertices, resultBuff);
 
     delete[] resultBuff;
     delete[] visitedVertices;
@@ -104,18 +97,18 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
 }
 
 //LIST
-ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
+ListMSTResult* Algorithms::primMST(ListGraph *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    ALElement **lists = graph->getList();
+    ListGraphElement **lists = graph->getList();
 
     size_t buffSize = edges * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
-    auto eHeap = new EdgeHeap();
+    auto eHeap = new MyHeap();
 
     int *visitedVertices = new int[vertices];
     for (size_t i = 0; i < vertices; i++) {
@@ -125,7 +118,7 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
     //Creating 'macro' for adding certain vertex's edges to queue heap
     auto addVertexEdges = [&](size_t vertexIndex) {
         for (size_t i = 0; i < vertices; i++) {
-            ALElement *list = lists[i];
+            ListGraphElement *list = lists[i];
 
             if (list == nullptr) {
                 continue;
@@ -194,7 +187,7 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
     }
 
     //Creating output list and cleaning allocated variables
-    auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
+    auto oList = new ListGraph(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
 
@@ -206,18 +199,18 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
 //  KRUSKAL IMPLEMENTATIONS  //
 ///////////////////////////////
 //MATRIX
-MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
+MatrixMSTResult* Algorithms::kruskalMST(MatrixGraph *graph) {
     //Setting operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    MatrixCell **matrix = graph->getMatrix();
+    MatrixElement **matrix = graph->getMatrix();
 
     size_t buffSize = edges * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
-    auto *eHeap = new EdgeHeap();
+    auto *eHeap = new MyHeap();
 
     //Creating queue heap with all edges
     for (size_t column = 0; column < edges; column++) {
@@ -283,7 +276,7 @@ MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
     }
 
     //Creating output matrix and deleting allocated variables
-    auto oMatrix = new IncidencyMatrix(vertices - 1, vertices, resultBuff);
+    auto oMatrix = new MatrixGraph(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
 
@@ -292,22 +285,22 @@ MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
 }
 
 //LIST
-ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
+ListMSTResult* Algorithms::kruskalMST(ListGraph *graph) {
     //Setting up operational variables
     size_t totalCost = 0;
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    ALElement **lists = graph->getList();
+    ListGraphElement **lists = graph->getList();
 
     size_t buffSize = edges * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
-    auto eHeap = new EdgeHeap();
+    auto eHeap = new MyHeap();
 
     //Creating queue heap with all edges
     for (size_t i = 0; i < vertices; i++) {
-        ALElement *list = lists[i];
+        ListGraphElement *list = lists[i];
 
         while (list != nullptr) {
             auto currEdge = new Edge(i, list->vertex, list->weight);
@@ -353,7 +346,7 @@ ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
     }
 
     //Creating output list and cleaning variables
-    auto oList = new AdjacencyList(vertices - 1, vertices, resultBuff);
+    auto oList = new ListGraph(vertices - 1, vertices, resultBuff);
     delete[] resultBuff;
     delete eHeap;
 
@@ -367,18 +360,18 @@ ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
 //  DIJSKTRA IMPLEMENTATIONS  //
 ////////////////////////////////
 //MATRIX
-SPResult* Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::dijkstraPath(MatrixGraph *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    MatrixCell **matrix = graph->getMatrix();
+    MatrixElement **matrix = graph->getMatrix();
 
     //Creating operational variables
-    DynamicArray<size_t> edgesCosts;
-    DynamicArray<int> visitedV;
-    DynamicArray<int> previousV;
-    DynamicArray<int> reachCosts;
-    DynamicArray<int> cost;
-    DynamicArray<PElement> pathArray;
+    MyArray<size_t> edgesCosts;
+    MyArray<int> visitedV;
+    MyArray<int> previousV;
+    MyArray<int> reachCosts;
+    MyArray<int> cost;
+    MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
     //Filing array of edges' costs
@@ -470,16 +463,16 @@ SPResult* Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, 
 }
 
 //LIST
-SPResult* Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::dijkstraPath(ListGraph *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
-    ALElement **list = graph->getList();
+    ListGraphElement **list = graph->getList();
 
     //Creating operational variables
-    DynamicArray<int> visitedV;
-    DynamicArray<int> previousV;
-    DynamicArray<int> reachCosts;
-    DynamicArray<int> cost;
-    DynamicArray<PElement> pathArray;
+    MyArray<int> visitedV;
+    MyArray<int> previousV;
+    MyArray<int> reachCosts;
+    MyArray<int> cost;
+    MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
     //Filling other tmp arrays
@@ -510,7 +503,7 @@ SPResult* Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, co
     //Checking all vertices
     while (verticesToCheck > 0) {
         //Checking whether any edge comes from current vertex
-        ALElement *currElement = list[currentVertex];
+        ListGraphElement *currElement = list[currentVertex];
         while (currElement != nullptr) {
 
             //After founding edge checking whether it is optimal at the moment
@@ -555,17 +548,17 @@ SPResult* Algorithms::dijkstraPath(AdjacencyList *graph, const size_t &start, co
 //  BELLMAN-FORD IMPLEMENTATIONS  //
 ////////////////////////////////////
 //MATRIX
-SPResult* Algorithms::bfPath(IncidencyMatrix *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
     size_t edges = graph->getEdgesNumber();
-    MatrixCell **matrix = graph->getMatrix();
+    MatrixElement **matrix = graph->getMatrix();
 
     //Creating operational variables
-    DynamicArray<size_t> edgesCosts;
-    DynamicArray<int> previousV;
-    DynamicArray<int> reachCosts;
-    DynamicArray<int> cost;
-    DynamicArray<PElement> pathArray;
+    MyArray<size_t> edgesCosts;
+    MyArray<int> previousV;
+    MyArray<int> reachCosts;
+    MyArray<int> cost;
+    MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
     //Filing array of edges' costs
@@ -649,15 +642,15 @@ SPResult* Algorithms::bfPath(IncidencyMatrix *graph, const size_t &start, const 
 }
 
 //LIST
-SPResult* Algorithms::bfPath(AdjacencyList *graph, const size_t &start, const size_t &finish) {
+SPResult* Algorithms::bfPath(ListGraph *graph, const size_t &start, const size_t &finish) {
     size_t vertices = graph->getVerticesNumber();
-    ALElement **list = graph->getList();
+    ListGraphElement **list = graph->getList();
 
     //Creating operational variables
-    DynamicArray<int> previousV;
-    DynamicArray<int> reachCosts;
-    DynamicArray<int> cost;
-    DynamicArray<PElement> pathArray;
+    MyArray<int> previousV;
+    MyArray<int> reachCosts;
+    MyArray<int> cost;
+    MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
     //Filling other tmp arrays
@@ -676,7 +669,7 @@ SPResult* Algorithms::bfPath(AdjacencyList *graph, const size_t &start, const si
 
         for(int currentVertex = 0; currentVertex < vertices; currentVertex++) {
             //Checking whether any edge comes from current vertex
-            ALElement *currElement = list[currentVertex];
+            ListGraphElement *currElement = list[currentVertex];
 
             while (currElement != nullptr) {
 

@@ -1,15 +1,8 @@
-//
-// Created by kacpe on 04.06.2022.
-//
-
-
-
-
 #include "Testing.h"
 #include "../GraphGenerator/GraphGenerator.h"
 
-IncidencyMatrix *Testing::mGraph = nullptr;
-AdjacencyList *Testing::lGraph = nullptr;
+MatrixGraph *Testing::mGraph = nullptr;
+ListGraph *Testing::lGraph = nullptr;
 
 //Function that calculates average time for provided list with intervals
 double Testing::calcAvg(const std::list<double> &dataStr) {
@@ -82,7 +75,7 @@ void Testing::calculateAlgorithmsMatrix() {
 
                 //Generating new graph represented by matrix
                 GraphGenerator::generate(density, verticesConf, this->maxElement);
-                mGraph = new IncidencyMatrix(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                mGraph = new MatrixGraph(GraphGenerator::edges, verticesConf, GraphGenerator::data);
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
@@ -186,7 +179,7 @@ void Testing::calculateAlgorithmsList() {
 
                 //Generating new graph represented by list
                 GraphGenerator::generate(density, verticesConf, this->maxElement);
-                lGraph = new AdjacencyList(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                lGraph = new ListGraph(GraphGenerator::edges, verticesConf, GraphGenerator::data);
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {

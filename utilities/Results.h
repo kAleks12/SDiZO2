@@ -1,27 +1,16 @@
-//
-// Created by kacpe on 01.06.2022.
-//
-
 #pragma once
 
 #include <iostream>
 #include <utility>
-#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
-#include "../containers/AdjacencyList/AdjacencyList.h"
-
-///////////////////////////////
-//    FILE STORES VARIOUS    //
-//    STRUCTURES  FOR        //
-//    ALGORITHMS' RESULTS    //
-///////////////////////////////
-
+#include "../containers/IncidencyMatrix/MatrixGraph.h"
+#include "../containers/AdjacencyList/ListGraph.h"
 
 //Structure for results of MST algorithms which use matrix representation
 struct MatrixMSTResult{
-    IncidencyMatrix* output;
+    MatrixGraph* output;
     size_t cost;
 
-    MatrixMSTResult(IncidencyMatrix* matrix, size_t cost): output(matrix), cost(cost)
+    MatrixMSTResult(MatrixGraph* matrix, size_t cost): output(matrix), cost(cost)
     {}
 
     ~MatrixMSTResult(){
@@ -38,10 +27,10 @@ struct MatrixMSTResult{
 
 //Structure for results of MST algorithms which use list representation
 struct ListMSTResult{
-    AdjacencyList* output;
+    ListGraph* output;
     size_t cost;
 
-    ListMSTResult(AdjacencyList* list, size_t cost): output(list), cost(cost)
+    ListMSTResult(ListGraph* list, size_t cost): output(list), cost(cost)
     {}
 
     ~ListMSTResult(){

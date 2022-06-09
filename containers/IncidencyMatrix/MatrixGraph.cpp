@@ -1,38 +1,34 @@
-//
-// Created by kacpe on 14.05.2022.
-//
-
 #include <iostream>
-#include "IncidencyMatrix.h"
-#include "../../utilities/FileOps/FileOps.h"
+#include "MatrixGraph.h"
+#include "../../utilities/FileOps/FileManagement.h"
 
-IncidencyMatrix::IncidencyMatrix()
+MatrixGraph::MatrixGraph()
 {
     //Assigning with values read from file
-    this->verticesNumber = FileOps::verticesNum;
-    this->edgesNumber = FileOps::edgesNum;
+    this->verticesNumber = FileManagement::verticesNum;
+    this->edgesNumber = FileManagement::edgesNum;
 
     //Creating 2d table of matrix cells
-    this->cells = new MatrixCell* [verticesNumber] ;
+    this->cells = new MatrixElement* [verticesNumber] ;
 
     for(size_t i = 0; i < verticesNumber; i++){
-        this->cells[i] = new MatrixCell [edgesNumber];
+        this->cells[i] = new MatrixElement [edgesNumber];
     }
 
     //Setting operational variables
     size_t currWeight;
     size_t currColumn = -1;
-    MatrixCell* currVertex;
+    MatrixElement* currVertex;
 
     //Modifying matrix using edge data
     for(size_t i = 0; i < edgesNumber*3; i+=3)
     {
         currColumn ++;
-        currWeight = FileOps::edges[i+2];
+        currWeight = FileManagement::edges[i + 2];
 
         //Checking whether edge is a loop to the same vertex
-        if(FileOps::edges[i+1] == FileOps::edges[i]){
-            currVertex = this->cells[FileOps::edges[i]];
+        if(FileManagement::edges[i + 1] == FileManagement::edges[i]){
+            currVertex = this->cells[FileManagement::edges[i]];
             currVertex[currColumn].type = CellType::loop;
             currVertex[currColumn].weight = currWeight;
 
@@ -40,34 +36,34 @@ IncidencyMatrix::IncidencyMatrix()
         }
 
         //Modifying origin cell
-        currVertex = this->cells[FileOps::edges[i]];
+        currVertex = this->cells[FileManagement::edges[i]];
         currVertex[currColumn].type = CellType::origin;
         currVertex[currColumn].weight = currWeight;
 
         //Modifying destination cell
-        currVertex = (this->cells[FileOps::edges[i+1]]);
+        currVertex = (this->cells[FileManagement::edges[i + 1]]);
         currVertex[currColumn].type = CellType::destination;
         currVertex[currColumn].weight = currWeight;
     }
 
 }
 
-IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & verticesNumber, const size_t* edgeData)
+MatrixGraph::MatrixGraph(const size_t & edgesNumber, const size_t & verticesNumber, const size_t* edgeData)
 {
     this->verticesNumber = verticesNumber;
     this->edgesNumber = edgesNumber;
 
     //Creating 2d table of matrix cells
-    this->cells = new MatrixCell* [verticesNumber] ;
+    this->cells = new MatrixElement* [verticesNumber] ;
 
     for(size_t i = 0; i < verticesNumber; i++){
-        this->cells[i] = new MatrixCell [edgesNumber];
+        this->cells[i] = new MatrixElement [edgesNumber];
     }
 
     //Setting operational variables
     size_t currWeight;
     size_t currColumn = -1;
-    MatrixCell* currVertex;
+    MatrixElement* currVertex;
 
     //Modifying matrix using edge data
     for(size_t i = 0; i < edgesNumber*3; i+=3)
@@ -99,7 +95,7 @@ IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & vert
 
 }
 
-IncidencyMatrix::~IncidencyMatrix() {
+MatrixGraph::~MatrixGraph() {
     //Deleting each vertex's MatrixCells array
     if(cells != nullptr) {
         for (size_t i = 0; i < verticesNumber; i++) {
@@ -113,10 +109,10 @@ IncidencyMatrix::~IncidencyMatrix() {
 
 
 
-void IncidencyMatrix::print() {
+void MatrixGraph::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)
     {
-        MatrixCell* currVertex = this->cells[i];
+        MatrixElement* currVertex = this->cells[i];
 
         for(size_t j = 0; j < this->edgesNumber; j++)
         {
@@ -139,14 +135,14 @@ void IncidencyMatrix::print() {
     }
 }
 
-size_t IncidencyMatrix::getVerticesNumber() const {
+size_t MatrixGraph::getVerticesNumber() const {
     return this->verticesNumber;
 }
 
-size_t IncidencyMatrix::getEdgesNumber() const {
+size_t MatrixGraph::getEdgesNumber() const {
     return this->edgesNumber;
 }
 
-MatrixCell **IncidencyMatrix::getMatrix() {
+MatrixElement **MatrixGraph::getMatrix() {
     return this->cells;
 }

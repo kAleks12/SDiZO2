@@ -1,23 +1,18 @@
-//
-// Created by kacperA on 14.03.2022.
-//
-
-#ifndef SDIZO_PROJECT_1_DYNAMIC_ARRAY_HPP
-#define SDIZO_PROJECT_1_DYNAMIC_ARRAY_HPP
+#pragma once
 
 #include <iostream>
 #include <list>
 #include <vector>
 
 template<typename T>
-class DynamicArray {
+class MyArray {
 public:
 
-    DynamicArray();
+    MyArray();
 
-    explicit DynamicArray(const std::list <int> &dataSet);
+    explicit MyArray(const std::list <int> &dataSet);
 
-    ~DynamicArray();
+    ~MyArray();
 
     T &operator[](const size_t &index);
 
@@ -48,6 +43,4 @@ private:
 
 };
 
-#include "DynamicArray.tpp"
-
-#endif //SDIZO_PROJECT_1_DYNAMIC_ARRAY_HPP
+#include "MyArray.tpp"

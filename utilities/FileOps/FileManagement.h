@@ -1,7 +1,3 @@
-//
-// Created by kacper on 12.05.2022.
-//
-
 #pragma once
 
 
@@ -9,7 +5,7 @@
 #include <vector>
 
 
-class FileOps {
+class FileManagement {
 public:
     static int* edges;
     static size_t verticesNum;

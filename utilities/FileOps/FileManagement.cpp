@@ -1,17 +1,13 @@
-//
-// Created by kacper on 12.05.2022.
-//
-
 #include <fstream>
 #include <iostream>
-#include "FileOps.h"
+#include "FileManagement.h"
 #include <vector>
 
-int* FileOps::edges = nullptr;
-size_t FileOps::verticesNum = -1;
-size_t FileOps::edgesNum = -1;
+int* FileManagement::edges = nullptr;
+size_t FileManagement::verticesNum = -1;
+size_t FileManagement::edgesNum = -1;
 
-void FileOps::readData(const std::string &fileName) {
+void FileManagement::readData(const std::string &fileName) {
     delete [] edges;
     //Opening source file
     std::ifstream srcFile(fileName);
@@ -22,14 +18,14 @@ void FileOps::readData(const std::string &fileName) {
         return ;
     }
 
-    srcFile >> FileOps::edgesNum;
-    srcFile >> FileOps::verticesNum;
+    srcFile >> FileManagement::edgesNum;
+    srcFile >> FileManagement::verticesNum;
 
-    FileOps::edges = new int[edgesNum*3];
+    FileManagement::edges = new int[edgesNum * 3];
     std::string tmp;
 
     //Filling the array with data from source file
-    for (int i = 0; i < FileOps::edgesNum * 3; i++) {
+    for (int i = 0; i < FileManagement::edgesNum * 3; i++) {
         srcFile >> tmp;
         edges[i] = std::stoi(tmp);
     }

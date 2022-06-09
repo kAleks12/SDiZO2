@@ -1,7 +1,3 @@
-//
-// Created by kacper on 03.06.2022.
-//
-
 #pragma once
 
 class GraphGenerator {

@@ -1,18 +1,14 @@
-//
-// Created by kacper on 14.05.2022.
-//
-
 #include <algorithm>
 #include <iostream>
-#include "AdjacencyList.h"
-#include "../../utilities/FileOps/FileOps.h"
+#include "ListGraph.h"
+#include "../../utilities/FileOps/FileManagement.h"
 
-AdjacencyList::AdjacencyList()
+ListGraph::ListGraph()
 {
     //Initializing with values read from file
-    this->edgesNumber = FileOps::edgesNum;
-    this->verticesNumber = FileOps::verticesNum;
-    this->verNeighbours = new ALElement* [verticesNumber];
+    this->edgesNumber = FileManagement::edgesNum;
+    this->verticesNumber = FileManagement::verticesNum;
+    this->verNeighbours = new ListGraphElement* [verticesNumber];
 
     //Initializing edges list
     for(size_t i = 0; i < verticesNumber; i++){
@@ -20,19 +16,19 @@ AdjacencyList::AdjacencyList()
     }
 
     //Setting up provisional variables
-    ALElement* currVertex;
+    ListGraphElement* currVertex;
     size_t currNeighbour;
     size_t currWeight;
 
     for(size_t i = 0; i < edgesNumber*3; i+= 3){
         //Reading current edge info
-        currVertex = this->verNeighbours[FileOps::edges[i]];
-        currNeighbour =  FileOps::edges[i + 1];
-        currWeight =  FileOps::edges[i + 2];
+        currVertex = this->verNeighbours[FileManagement::edges[i]];
+        currNeighbour =  FileManagement::edges[i + 1];
+        currWeight =  FileManagement::edges[i + 2];
 
         //Checking whether it is the first neighbour
         if(currVertex == nullptr){
-            this->verNeighbours[FileOps::edges[i]] = new ALElement(currNeighbour, currWeight);
+            this->verNeighbours[FileManagement::edges[i]] = new ListGraphElement(currNeighbour, currWeight);
             continue;
         }
 
@@ -42,15 +38,15 @@ AdjacencyList::AdjacencyList()
         }
 
         //Creating new vertex's neighbour
-        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+        currVertex->nextElement = new ListGraphElement(currNeighbour, currWeight);
     }
 }
 
-AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *edgesData)
+ListGraph::ListGraph(size_t edgesNumber, size_t verticesNumber, size_t *edgesData)
 {
     this->edgesNumber = edgesNumber;
     this->verticesNumber = verticesNumber;
-    this->verNeighbours = new ALElement* [verticesNumber];
+    this->verNeighbours = new ListGraphElement* [verticesNumber];
 
     //Initializing edges list
     for(size_t i = 0; i < verticesNumber; i++){
@@ -58,7 +54,7 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
     }
 
     //Setting up provisional variables
-    ALElement* currVertex;
+    ListGraphElement* currVertex;
     size_t currNeighbour;
     size_t currWeight;
 
@@ -70,7 +66,7 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
 
         //Checking whether it is the first neighbour
         if(currVertex == nullptr){
-            this->verNeighbours[edgesData[i]] = new ALElement(currNeighbour, currWeight);
+            this->verNeighbours[edgesData[i]] = new ListGraphElement(currNeighbour, currWeight);
             continue;
         }
 
@@ -80,16 +76,16 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
         }
 
         //Creating new vertex's neighbour
-        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+        currVertex->nextElement = new ListGraphElement(currNeighbour, currWeight);
     }
 }
 
-AdjacencyList::~AdjacencyList() {
+ListGraph::~ListGraph() {
     if (this->verNeighbours != nullptr)
     {
         for (size_t i = 0; i < verticesNumber; i++)
         {
-            ALElement* elementToDelete = this->verNeighbours[i];
+            ListGraphElement* elementToDelete = this->verNeighbours[i];
 
             if(elementToDelete == nullptr)
             {
@@ -102,7 +98,7 @@ AdjacencyList::~AdjacencyList() {
                 continue;
             }
 
-            ALElement* nextElement = elementToDelete->nextElement;
+            ListGraphElement* nextElement = elementToDelete->nextElement;
 
             //Deleting each vertex's list
             while(nextElement->nextElement != nullptr) {
@@ -119,7 +115,7 @@ AdjacencyList::~AdjacencyList() {
 }
 
 
-void AdjacencyList::print() {
+void ListGraph::print() {
     for(size_t i = 0; i < this->verticesNumber; i++)
     {
         std::cout << "Vertex [" << i << "] : ";
@@ -135,14 +131,14 @@ void AdjacencyList::print() {
     }
 }
 
-size_t AdjacencyList::getVerticesNumber() const {
+size_t ListGraph::getVerticesNumber() const {
     return this->verticesNumber;
 }
 
-size_t AdjacencyList::getEdgesNumber() const {
+size_t ListGraph::getEdgesNumber() const {
     return this->edgesNumber;
 }
 
-ALElement **AdjacencyList::getList() {
+ListGraphElement **ListGraph::getList() {
     return this->verNeighbours;
 }

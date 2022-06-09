@@ -1,7 +1,3 @@
-//
-// Created by kacpe on 03.06.2022.
-//
-
 #include <random>
 #include <iostream>
 #include "GraphGenerator.h"

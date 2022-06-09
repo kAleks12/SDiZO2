@@ -1,16 +1,12 @@
-//
-// Created by kacpe on 03.06.2022.
-//
-
 #pragma once
 
 #include <vector>
-#include "../containers/AdjacencyList/AdjacencyList.h"
-#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
+#include "../containers/AdjacencyList/ListGraph.h"
+#include "../containers/IncidencyMatrix/MatrixGraph.h"
 
-class UI {
-    static IncidencyMatrix* mGraph;
-    static AdjacencyList* lGraph;
+class Interface {
+    static MatrixGraph* mGraph;
+    static ListGraph* lGraph;
 
     static void MSTSubMenu();
     static void SPSubMenu();

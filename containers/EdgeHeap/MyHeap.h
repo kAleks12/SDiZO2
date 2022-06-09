@@ -1,14 +1,10 @@
-//
-// Created by kacper on 18.03.2022.
-//
-
 #pragma once
 
 #include <cmath>
-#include "../DynamicArray/DynamicArray.hpp"
+#include "../DynamicArray/MyArray.h"
 #include "Edge.h"
 
-class EdgeHeap {
+class MyHeap {
 public:
     Edge extractRoot();
     void add(const Edge& val);
@@ -17,7 +13,7 @@ public:
 
 private:
     size_t size = 0;
-    DynamicArray<Edge> body;
+    MyArray<Edge> body;
 
     static inline int getParent(int index) { return (index - 1) / 2; }
 

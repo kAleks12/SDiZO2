@@ -1,20 +1,17 @@
-//
-// Created by kacper on 03.06.2022.
-//
-
 #include <string>
 #include <iostream>
 #include <windows.h>
-#include "UI.h"
-#include "../utilities/FileOps/FileOps.h"
+#include <ctime>
+#include "Interface.h"
+#include "../utilities/FileOps/FileManagement.h"
 #include "../algorithms/Algorithms.h"
 #include "../utilities/GraphGenerator/GraphGenerator.h"
 
-IncidencyMatrix *UI::mGraph = nullptr;
-AdjacencyList *UI::lGraph = nullptr;
+MatrixGraph *Interface::mGraph = nullptr;
+ListGraph *Interface::lGraph = nullptr;
 
 //Initial interface menu
-void UI::startMenu() {
+void Interface::startMenu() {
     std::string choice;
 
     while (true) {
@@ -48,7 +45,7 @@ void UI::startMenu() {
 }
 
 //Interface submenu for MST problem
-void UI::MSTSubMenu() {
+void Interface::MSTSubMenu() {
     std::string choice;
     while (true) {
         system("cls");
@@ -103,7 +100,7 @@ void UI::MSTSubMenu() {
 }
 
 //Interface submenu for SP problem
-void UI::SPSubMenu() {
+void Interface::SPSubMenu() {
     std::string choice;
     while (true) {
         system("cls");
@@ -165,34 +162,34 @@ void UI::SPSubMenu() {
 
 
 //Interface menu for creating a graph from file data
-void UI::fileGraph() {
+void Interface::fileGraph() {
 
-    delete UI::mGraph;
-    delete UI::lGraph;
+    delete Interface::mGraph;
+    delete Interface::lGraph;
 
     std::string filename;
     std::cout << "Enter name of the file: ";
     std::cin >> filename;
 
-    FileOps::readData(filename);
+    FileManagement::readData(filename);
 
-    if (FileOps::edges == nullptr) {
+    if (FileManagement::edges == nullptr) {
         std::cout << "There is no such file!";
         Sleep(2000);
         system("cls");
         return;
     }
-    UI::mGraph = new IncidencyMatrix();
-    UI::lGraph = new AdjacencyList();
+    Interface::mGraph = new MatrixGraph();
+    Interface::lGraph = new ListGraph();
 
     std::cout << "\n\nGraph created from file " + filename + "\n";
     Sleep(2000);
 }
 
 //Interface menu for creating random graph with GraphGenerator
-void UI::randomGraph() {
-    delete UI::mGraph;
-    delete UI::lGraph;
+void Interface::randomGraph() {
+    delete Interface::mGraph;
+    delete Interface::lGraph;
 
     size_t verNum;
     size_t density;
@@ -234,20 +231,20 @@ void UI::randomGraph() {
 
     GraphGenerator::generate(density, verNum, 15);
 
-    UI::mGraph = new IncidencyMatrix(GraphGenerator::edges, verNum, GraphGenerator::data);
-    UI::lGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data);
+    Interface::mGraph = new MatrixGraph(GraphGenerator::edges, verNum, GraphGenerator::data);
+    Interface::lGraph = new ListGraph(GraphGenerator::edges, verNum, GraphGenerator::data);
 
     std::cout << "\n\nCreated random graph\n";
     Sleep(2000);
 }
 
 //Display both representations of currently loaded graph
-void UI::displayGraphs() {
+void Interface::displayGraphs() {
     std::cout << " Matrix representation:\n";
-    UI::mGraph->print();
+    Interface::mGraph->print();
 
     std::cout << "\n\nList representation:\n";
-    UI::lGraph->print();
+    Interface::lGraph->print();
 
     std::cout << "\n";
     system("Pause");
@@ -255,7 +252,7 @@ void UI::displayGraphs() {
 
 
 //Execute prim algorithm for current graph and display results
-void UI::performPrim() {
+void Interface::performPrim() {
     Algorithms::primMST(mGraph);
     auto result2 = Algorithms::primMST(lGraph);
     auto result = Algorithms::primMST(mGraph);
@@ -273,7 +270,7 @@ void UI::performPrim() {
 }
 
 //Execute kruskal algorithm for current graph and display results
-void UI::performKruskal() {
+void Interface::performKruskal() {
     auto result = Algorithms::kruskalMST(mGraph);
     auto result2 = Algorithms::kruskalMST(lGraph);
 
@@ -291,7 +288,7 @@ void UI::performKruskal() {
 
 
 //Execute dijkstra algorithm for current graph and display results
-void UI::performDijkstra(size_t start, size_t finish) {
+void Interface::performDijkstra(size_t start, size_t finish) {
     try {
         auto result = Algorithms::dijkstraPath(mGraph, start, finish);
         auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
@@ -316,7 +313,7 @@ void UI::performDijkstra(size_t start, size_t finish) {
 }
 
 //Execute bellman-ford algorithm for current graph and display results
-void UI::performBF(size_t start, size_t finish) {
+void Interface::performBF(size_t start, size_t finish) {
     try {
         auto result = Algorithms::bfPath(mGraph, start, finish);
         auto result2 = Algorithms::bfPath(lGraph, start, finish);
@@ -341,7 +338,7 @@ void UI::performBF(size_t start, size_t finish) {
 
 
 //Interface menu for selecting start and finish vertices for SP algorithms
-std::vector<size_t> UI::getSPMode() {
+std::vector<size_t> Interface::getSPMode() {
     srand(time(nullptr));
     std::string input;
     std::vector<size_t> vertices;
@@ -362,8 +359,8 @@ std::vector<size_t> UI::getSPMode() {
 
     if (input == "0") {
         while (true) {
-            vertices.push_back(rand() % (UI::mGraph->getVerticesNumber()));
-            vertices.push_back(rand() % (UI::mGraph->getVerticesNumber()));
+            vertices.push_back(rand() % (Interface::mGraph->getVerticesNumber()));
+            vertices.push_back(rand() % (Interface::mGraph->getVerticesNumber()));
 
             if (vertices[0] != vertices[1]) {
                 break;

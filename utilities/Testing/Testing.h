@@ -1,12 +1,8 @@
-//
-// Created by kacpe on 04.06.2022.
-//
-
 #pragma once
 
 #include <cstdlib>
 #include <list>
-#include "../TimeMeasurement.hpp"
+#include "../TimeMeasurement.h"
 #include "../../algorithms/Algorithms.h"
 
 struct OpResult {
@@ -17,8 +13,8 @@ struct OpResult {
 
 class Testing {
     public:
-        static IncidencyMatrix* mGraph;
-        static AdjacencyList* lGraph;
+        static MatrixGraph* mGraph;
+        static ListGraph* lGraph;
 
         size_t sampleSize = 20;
         int maxElement = 100;

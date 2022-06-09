@@ -1,11 +1,7 @@
-//
-// Created by kacper on 14.03.2022.
-//
-
 #include <fstream>
 
 template<typename T>
-DynamicArray<T>::DynamicArray() {
+MyArray<T>::MyArray() {
     //Initializing head
     this->head = new T[0];
 
@@ -14,7 +10,7 @@ DynamicArray<T>::DynamicArray() {
 
 
 template <typename T>
-DynamicArray<T>::DynamicArray(const std::list<int> &dataSet) {
+MyArray<T>::MyArray(const std::list<int> &dataSet) {
     //Initializing head
     this->head = new T[0];
 
@@ -25,7 +21,7 @@ DynamicArray<T>::DynamicArray(const std::list<int> &dataSet) {
 }
 
 template<typename T>
-DynamicArray<T>::~DynamicArray() {
+MyArray<T>::~MyArray() {
     //Deleting head if it exists
     if (this->head != nullptr) {
         delete[] this->head;
@@ -33,7 +29,7 @@ DynamicArray<T>::~DynamicArray() {
 }
 
 template<typename T>
-T &DynamicArray<T>::operator[](const size_t &index) {
+T &MyArray<T>::operator[](const size_t &index) {
     //Checking whether index is in bounds of array
     if (index > this->size) {
         throw std::out_of_range("Out of range exception!");
@@ -43,7 +39,7 @@ T &DynamicArray<T>::operator[](const size_t &index) {
 }
 
 template<typename T>
-void DynamicArray<T>::addBack(const T &val) {
+void MyArray<T>::addBack(const T &val) {
     //Creating new head
     T *newHead = new T[this->size + 1];
 
@@ -64,7 +60,7 @@ void DynamicArray<T>::addBack(const T &val) {
 }
 
 template<typename T>
-void DynamicArray<T>::addFront(const T &val) {
+void MyArray<T>::addFront(const T &val) {
     //Creating new head
     T *newHead = new T[this->size + 1];
 
@@ -85,7 +81,7 @@ void DynamicArray<T>::addFront(const T &val) {
 }
 
 template<typename T>
-void DynamicArray<T>::add(const T &val, const size_t &position) {
+void MyArray<T>::add(const T &val, const size_t &position) {
     //Checking position is in bounds of the array
     if (position >= this->size) {
         throw std::out_of_range("Out of range!");
@@ -121,7 +117,7 @@ void DynamicArray<T>::add(const T &val, const size_t &position) {
 }
 
 template<typename T>
-void DynamicArray<T>::removeBack() {
+void MyArray<T>::removeBack() {
     //Checking whether array is empty
     if (this->size == 0) {
         return;
@@ -142,7 +138,7 @@ void DynamicArray<T>::removeBack() {
 }
 
 template<typename T>
-void DynamicArray<T>::removeFront() {
+void MyArray<T>::removeFront() {
     //Checking whether array is empty
     if (this->size == 0) {
         return;
@@ -163,7 +159,7 @@ void DynamicArray<T>::removeFront() {
 }
 
 template<typename T>
-void DynamicArray<T>::remove(const size_t &position) {
+void MyArray<T>::remove(const size_t &position) {
     //Checking whether position is within bounds of the array
     if (position >= this->size) {
         throw std::out_of_range("Out of range!");
@@ -206,7 +202,7 @@ void DynamicArray<T>::remove(const size_t &position) {
 }
 
 template<typename T>
-bool DynamicArray<T>::find(const T &val) {
+bool MyArray<T>::find(const T &val) {
     //Sweeping through whole array for the element
     for (int i = 0; i < this->size; i++) {
         if (this->head[i] == val) {
@@ -217,7 +213,7 @@ bool DynamicArray<T>::find(const T &val) {
 }
 
 template<typename T>
-void DynamicArray<T>::print() const {
+void MyArray<T>::print() const {
     std::cout << "Contents of Array: \n\n(";
 
     for (int i = 0; i < this->size; i++) {

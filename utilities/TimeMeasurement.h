@@ -1,7 +1,3 @@
-//
-// Created by kacper on 14.03.2022.
-//
-
 #pragma once
 
 #define MILLISECONDS 1000.0

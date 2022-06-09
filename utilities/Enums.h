@@ -1,7 +1,3 @@
-//
-// Created by kacpe on 14.05.2022.
-//
-
 #pragma once
 
 //Types of matrix cells for Incidency Matrix
