@@ -4,12 +4,13 @@
 
 
 
-
 #include "Testing.hpp"
 #include "../GraphGenerator/GraphGenerator.hpp"
+#include "../FileOps/FileOps.hpp"
 
 IncidencyMatrix *Testing::mGraph = nullptr;
 AdjacencyList *Testing::lGraph = nullptr;
+AdjacencyList *Testing::lpGraph = nullptr;
 
 //Function that calculates average time for provided list with intervals
 double Testing::calcAvg(const std::list<double> &dataStr) {
@@ -179,6 +180,7 @@ void Testing::calculateAlgorithmsList() {
             {
                 //Deleting old graph
                 delete lGraph;
+                delete lpGraph;
 
                 if (density == 100) {
                     density--;
@@ -187,6 +189,7 @@ void Testing::calculateAlgorithmsList() {
                 //Generating new graph represented by list
                 GraphGenerator::generate(density, verticesConf, this->maxElement);
                 lGraph = new AdjacencyList(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                lpGraph = new AdjacencyList(GraphGenerator::edges, verticesConf, GraphGenerator::data, true);
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
@@ -201,7 +204,7 @@ void Testing::calculateAlgorithmsList() {
                 //Measuring prim algorithm
                 watch.startCounting();
 
-                auto result = Algorithms::primMST(lGraph);
+                auto result = Algorithms::primMST(lpGraph);
                 pIntervals.push_back(watch.getTime());
                 delete result;
 
@@ -263,34 +266,31 @@ void Testing::calculateAlgorithmsList() {
 
 //Functions that saves measurements for a single algorithm to .txt file
 void Testing::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmType alg) {
-    //Creating write file
-    std::ofstream saveFile(algorithm + "//" + representation + "//test - " + std::to_string(verticesNum) + ".txt");
+    //Creating write file path
+    std::string path = algorithm + "//" + representation + "//test - " + std::to_string(verticesNum) + ".txt";
 
     //Choosing right list with results
-    auto results = primResults;
+    auto dataList = primResults;
 
-    switch (alg) {
+    switch (alg)
+    {
         case AlgorithmType::prim:
-            results = primResults;
+            dataList = primResults;
             break;
 
         case AlgorithmType::kruskal:
-            results = kruskalResults;
+            dataList = kruskalResults;
             break;
 
         case AlgorithmType::dijkstra:
-            results = dijResults;
+            dataList = dijResults;
             break;
 
         case AlgorithmType::bf:
-            results = bfResults;
+            dataList = bfResults;
             break;
     }
 
     //Printing opResult objects for each tested operation to the file
-    for (const OpResult &result: results) {
-        saveFile << result.density << ";" << result.time << "\n";
-    }
-
-    saveFile.close();
+    FileOps::saveData(path, dataList);
 }

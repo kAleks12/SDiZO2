@@ -5,7 +5,6 @@
 
 #include <sys/stat.h>
 #include "UI/UI.hpp"
-#include "utilities/FileOps/FileOps.hpp"
 #include "algorithms/Algorithms.hpp"
 #include "utilities/Testing/Testing.hpp"
 
@@ -32,5 +31,6 @@ int main() {
     tests.calculateAlgorithmsMatrix();
     tests.calculateAlgorithmsList();
 */
+
     UI::startMenu();
 }

@@ -17,8 +17,8 @@ class AdjacencyList {
 
     //Class methods
 public:
-    AdjacencyList();
-    AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t* edgesData);
+    AdjacencyList(bool ifMST = false);
+    AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t* edgesData, bool ifMST = false);
     ~AdjacencyList();
 
     void print(); //Print list
@@ -27,7 +27,6 @@ public:
 protected:
     size_t getEdgesNumber() const; //Return number of list's edges
     ALElement ** getList(); //Return 2d table of list elements
-
 
     friend class Algorithms;
 };

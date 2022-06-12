@@ -36,3 +36,15 @@ void FileOps::readData(const std::string &fileName) {
 
     srcFile.close();
 }
+
+void FileOps::saveData(const std::string &path, const std::list<OpResult> &data)
+{
+    std::ofstream saveFile(path);
+
+    for (const OpResult &result: data)
+    {
+        saveFile << result.density << ";" << result.time << "\n";
+    }
+
+    saveFile.close();
+}

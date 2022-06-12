@@ -12,6 +12,7 @@
 
 IncidencyMatrix *UI::mGraph = nullptr;
 AdjacencyList *UI::lGraph = nullptr;
+AdjacencyList *UI::lpGraph = nullptr;
 
 //Initial interface menu
 void UI::startMenu() {
@@ -169,6 +170,7 @@ void UI::fileGraph() {
 
     delete UI::mGraph;
     delete UI::lGraph;
+    delete UI::lpGraph;
 
     std::string filename;
     std::cout << "Enter name of the file: ";
@@ -184,6 +186,7 @@ void UI::fileGraph() {
     }
     UI::mGraph = new IncidencyMatrix();
     UI::lGraph = new AdjacencyList();
+    UI::lpGraph = new AdjacencyList(true);
 
     std::cout << "\n\nGraph created from file " + filename + "\n";
     Sleep(2000);
@@ -193,6 +196,7 @@ void UI::fileGraph() {
 void UI::randomGraph() {
     delete UI::mGraph;
     delete UI::lGraph;
+    delete UI::lpGraph;
 
     size_t verNum;
     size_t density;
@@ -236,6 +240,7 @@ void UI::randomGraph() {
 
     UI::mGraph = new IncidencyMatrix(GraphGenerator::edges, verNum, GraphGenerator::data);
     UI::lGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data);
+    UI::lpGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data, true);
 
     std::cout << "\n\nCreated random graph\n";
     Sleep(2000);
@@ -256,8 +261,8 @@ void UI::displayGraphs() {
 
 //Execute prim algorithm for current graph and display results
 void UI::performPrim() {
-    Algorithms::primMST(mGraph);
-    auto result2 = Algorithms::primMST(lGraph);
+
+    auto result2 = Algorithms::primMST(lpGraph);
     auto result = Algorithms::primMST(mGraph);
 
     std::cout << "Prim [matrix]:\n\n";

@@ -12,6 +12,7 @@ class UI {
     //Class variables
     static IncidencyMatrix* mGraph;
     static AdjacencyList* lGraph;
+    static AdjacencyList* lpGraph;
 
     //Class methods
     static void MSTSubMenu();

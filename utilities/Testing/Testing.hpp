@@ -21,6 +21,7 @@ class Testing {
         //Class variables
         static IncidencyMatrix* mGraph;
         static AdjacencyList* lGraph;
+        static AdjacencyList* lpGraph;
 
         size_t sampleSize = 20;
         int maxElement = 100;

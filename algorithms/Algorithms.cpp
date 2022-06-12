@@ -124,33 +124,19 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
 
     //Creating 'macro' for adding certain vertex's edges to queue heap
     auto addVertexEdges = [&](size_t vertexIndex) {
-        for (size_t i = 0; i < vertices; i++) {
-            ALElement *list = lists[i];
+        ALElement *list = lists[vertexIndex];
 
-            if (list == nullptr) {
-                continue;
+        if (list == nullptr) {
+            return;
+        }
+
+        while (list != nullptr) {
+            if (visitedVertices[list->vertex] == 0) {
+                auto currEdge = new Edge(vertexIndex, list->vertex, list->weight);
+                eHeap->add(*currEdge);
             }
 
-            if (i == vertexIndex) {
-                while (list != nullptr) {
-                    if (visitedVertices[list->vertex] == 0) {
-                        auto currEdge = new Edge(vertexIndex, list->vertex, list->weight);
-                        eHeap->add(*currEdge);
-                    }
-
-                    list = list->nextElement;
-                }
-            }
-
-
-            while (list != nullptr) {
-                if (list->vertex == vertexIndex && visitedVertices[i] == 0) {
-                    auto currEdge = new Edge(i, list->vertex, list->weight);
-                    eHeap->add(*currEdge);
-                }
-
-                list = list->nextElement;
-            }
+            list = list->nextElement;
         }
     };
 

@@ -7,7 +7,7 @@
 #include "AdjacencyList.hpp"
 #include "../../utilities/FileOps/FileOps.hpp"
 
-AdjacencyList::AdjacencyList()
+AdjacencyList::AdjacencyList(bool ifMST)
 {
     //Initializing with values read from file
     this->edgesNumber = FileOps::edgesNum;
@@ -24,7 +24,33 @@ AdjacencyList::AdjacencyList()
     size_t currNeighbour;
     size_t currWeight;
 
-    for(size_t i = 0; i < edgesNumber*3; i+= 3){
+    //Creating 'macro' for adding mirrored edge for mst
+    auto addMSTEdge = [&](size_t index) {
+        //Reading current edge info
+        currVertex = this->verNeighbours[FileOps::edges[index + 1]];
+        currNeighbour =  FileOps::edges[index];
+        currWeight =  FileOps::edges[index + 2];
+
+        //Checking whether it is the first neighbour
+        if(currVertex == nullptr)
+        {
+            this->verNeighbours[FileOps::edges[index + 1]] = new ALElement(currNeighbour, currWeight);
+            return;
+        }
+
+        //Iterating through existing neighbours
+        while(currVertex->nextElement != nullptr)
+        {
+            currVertex = currVertex->nextElement;
+        }
+
+        //Creating new vertex's neighbour
+        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+    };
+
+
+    for(size_t i = 0; i < edgesNumber*3; i+= 3)
+    {
         //Reading current edge info
         currVertex = this->verNeighbours[FileOps::edges[i]];
         currNeighbour =  FileOps::edges[i + 1];
@@ -33,20 +59,31 @@ AdjacencyList::AdjacencyList()
         //Checking whether it is the first neighbour
         if(currVertex == nullptr){
             this->verNeighbours[FileOps::edges[i]] = new ALElement(currNeighbour, currWeight);
+
+            if(ifMST)
+            {
+                addMSTEdge(i);
+            }
             continue;
         }
 
         //Iterating through existing neighbours
-        while(currVertex->nextElement != nullptr){
+        while(currVertex->nextElement != nullptr)
+        {
             currVertex = currVertex->nextElement;
         }
 
         //Creating new vertex's neighbour
         currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+
+        if(ifMST)
+        {
+            addMSTEdge(i);
+        }
     }
 }
 
-AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *edgesData)
+AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *edgesData, bool ifMST)
 {
     this->edgesNumber = edgesNumber;
     this->verticesNumber = verticesNumber;
@@ -62,25 +99,64 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
     size_t currNeighbour;
     size_t currWeight;
 
-    for(size_t i = 0; i < edgesNumber*3; i+= 3){
+    //Creating 'macro' for adding mirrored edge for mst
+    auto addMSTEdge = [&](size_t index) {
+        //Reading current edge info
+        currVertex = this->verNeighbours[edgesData[index + 1]];
+        currNeighbour =  edgesData[index];
+        currWeight =  edgesData[index + 2];
+
+        //Checking whether it is the first neighbour
+        if(currVertex == nullptr)
+        {
+            this->verNeighbours[edgesData[index + 1]] = new ALElement(currNeighbour, currWeight);
+            return;
+        }
+
+        //Iterating through existing neighbours
+        while(currVertex->nextElement != nullptr)
+        {
+            currVertex = currVertex->nextElement;
+        }
+
+        //Creating new vertex's neighbour
+        currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+    };
+
+
+    for(size_t i = 0; i < edgesNumber*3; i+= 3)
+    {
         //Reading current edge info
         currVertex = this->verNeighbours[edgesData[i]];
         currNeighbour =  edgesData[i + 1];
         currWeight =  edgesData[i + 2];
 
         //Checking whether it is the first neighbour
-        if(currVertex == nullptr){
+        if(currVertex == nullptr)
+        {
             this->verNeighbours[edgesData[i]] = new ALElement(currNeighbour, currWeight);
+
+            if(ifMST)
+            {
+                addMSTEdge(i);
+            }
+
             continue;
         }
 
         //Iterating through existing neighbours
-        while(currVertex->nextElement != nullptr){
+        while(currVertex->nextElement != nullptr)
+        {
             currVertex = currVertex->nextElement;
         }
 
         //Creating new vertex's neighbour
         currVertex->nextElement = new ALElement(currNeighbour, currWeight);
+
+        if(ifMST)
+        {
+            addMSTEdge(i);
+        }
     }
 }
 
