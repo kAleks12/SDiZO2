@@ -3,8 +3,8 @@
 //
 
 #include <iostream>
-#include "IncidencyMatrix.h"
-#include "../../utilities/FileOps/FileOps.h"
+#include "IncidencyMatrix.hpp"
+#include "../../utilities/FileOps/FileOps.hpp"
 
 IncidencyMatrix::IncidencyMatrix()
 {

@@ -6,8 +6,8 @@
 
 #include <iostream>
 #include <utility>
-#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
-#include "../containers/AdjacencyList/AdjacencyList.h"
+#include "../containers/IncidencyMatrix/IncidencyMatrix.hpp"
+#include "../containers/AdjacencyList/AdjacencyList.hpp"
 
 ///////////////////////////////
 //    FILE STORES VARIOUS    //

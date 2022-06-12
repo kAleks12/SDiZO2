@@ -4,10 +4,10 @@
 
 
 #include <sys/stat.h>
-#include "UI/UI.h"
-#include "utilities/FileOps/FileOps.h"
-#include "algorithms/Algorithms.h"
-#include "utilities/Testing/Testing.h"
+#include "UI/UI.hpp"
+#include "utilities/FileOps/FileOps.hpp"
+#include "algorithms/Algorithms.hpp"
+#include "utilities/Testing/Testing.hpp"
 
 int main() {
 /*

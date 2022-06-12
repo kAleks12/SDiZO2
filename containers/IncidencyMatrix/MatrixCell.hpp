@@ -5,7 +5,7 @@
 #pragma once
 
 #include <cstdlib>
-#include "../../utilities/Enums.h"
+#include "../../utilities/Enums.hpp"
 
 struct MatrixCell{
     //Struct variables

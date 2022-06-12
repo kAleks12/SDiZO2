@@ -6,7 +6,7 @@
 
 #include <cmath>
 #include "../DynamicArray/DynamicArray.hpp"
-#include "Edge.h"
+#include "Edge.hpp"
 
 class EdgeHeap {
     //Class variables

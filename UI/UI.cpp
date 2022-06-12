@@ -5,10 +5,10 @@
 #include <string>
 #include <iostream>
 #include <windows.h>
-#include "UI.h"
-#include "../utilities/FileOps/FileOps.h"
-#include "../algorithms/Algorithms.h"
-#include "../utilities/GraphGenerator/GraphGenerator.h"
+#include "UI.hpp"
+#include "../utilities/FileOps/FileOps.hpp"
+#include "../algorithms/Algorithms.hpp"
+#include "../utilities/GraphGenerator/GraphGenerator.hpp"
 
 IncidencyMatrix *UI::mGraph = nullptr;
 AdjacencyList *UI::lGraph = nullptr;

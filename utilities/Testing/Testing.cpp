@@ -5,8 +5,8 @@
 
 
 
-#include "Testing.h"
-#include "../GraphGenerator/GraphGenerator.h"
+#include "Testing.hpp"
+#include "../GraphGenerator/GraphGenerator.hpp"
 
 IncidencyMatrix *Testing::mGraph = nullptr;
 AdjacencyList *Testing::lGraph = nullptr;

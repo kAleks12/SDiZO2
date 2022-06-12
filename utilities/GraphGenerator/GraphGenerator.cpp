@@ -4,7 +4,7 @@
 
 #include <random>
 #include <iostream>
-#include "GraphGenerator.h"
+#include "GraphGenerator.hpp"
 
 size_t* GraphGenerator::data = nullptr;
 size_t GraphGenerator::edges = 0;

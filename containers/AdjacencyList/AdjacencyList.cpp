@@ -4,8 +4,8 @@
 
 #include <algorithm>
 #include <iostream>
-#include "AdjacencyList.h"
-#include "../../utilities/FileOps/FileOps.h"
+#include "AdjacencyList.hpp"
+#include "../../utilities/FileOps/FileOps.hpp"
 
 AdjacencyList::AdjacencyList()
 {

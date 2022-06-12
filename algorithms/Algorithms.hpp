@@ -5,11 +5,11 @@
 #pragma once
 
 
-#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
-#include "../containers/AdjacencyList/AdjacencyList.h"
+#include "../containers/IncidencyMatrix/IncidencyMatrix.hpp"
+#include "../containers/AdjacencyList/AdjacencyList.hpp"
 #include "../containers/DynamicArray/DynamicArray.hpp"
-#include "../utilities/PathElement.h"
-#include "../utilities/Results.h"
+#include "../utilities/PathElement.hpp"
+#include "../utilities/Results.hpp"
 
 class Algorithms{
 public:

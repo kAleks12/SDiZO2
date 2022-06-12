@@ -4,7 +4,7 @@
 
 #include <fstream>
 #include <iostream>
-#include "FileOps.h"
+#include "FileOps.hpp"
 #include <vector>
 
 int* FileOps::edges = nullptr;

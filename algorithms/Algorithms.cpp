@@ -2,8 +2,8 @@
 // Created by kacper on 19.05.2022.
 //
 
-#include "Algorithms.h"
-#include "../containers/EdgeHeap/EdgeHeap.h"
+#include "Algorithms.hpp"
+#include "../containers/EdgeHeap/EdgeHeap.hpp"
 
 ///////////////////////////////
 //    PRIM IMPLEMENTATIONS   //

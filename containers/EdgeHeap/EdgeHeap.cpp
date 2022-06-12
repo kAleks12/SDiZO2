@@ -4,7 +4,7 @@
 
 
 #include <fstream>
-#include "EdgeHeap.h"
+#include "EdgeHeap.hpp"
 
 Edge EdgeHeap::extractRoot() {
     //Inserting root to variable

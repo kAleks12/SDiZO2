@@ -5,8 +5,8 @@
 #pragma once
 
 #include <vector>
-#include "../containers/AdjacencyList/AdjacencyList.h"
-#include "../containers/IncidencyMatrix/IncidencyMatrix.h"
+#include "../containers/AdjacencyList/AdjacencyList.hpp"
+#include "../containers/IncidencyMatrix/IncidencyMatrix.hpp"
 
 class UI {
     //Class variables

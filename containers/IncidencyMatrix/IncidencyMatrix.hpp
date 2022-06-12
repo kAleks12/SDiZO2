@@ -5,7 +5,7 @@
 #pragma once
 
 #include <cstdlib>
-#include "MatrixCell.h"
+#include "MatrixCell.hpp"
 
 class IncidencyMatrix {
     //Class variables

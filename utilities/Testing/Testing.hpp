@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <list>
 #include "../TimeMeasurement.hpp"
-#include "../../algorithms/Algorithms.h"
+#include "../../algorithms/Algorithms.hpp"
 
 //Helping structure for individual results
 struct OpResult {

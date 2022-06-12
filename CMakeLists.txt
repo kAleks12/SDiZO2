@@ -12,32 +12,32 @@ add_executable(
         containers/DynamicArray/DynamicArray.hpp
         containers/DynamicArray/DynamicArray.tpp
 
-        containers/EdgeHeap/Edge.h
-        containers/AdjacencyList/ALElement.h
-        containers/IncidencyMatrix/MatrixCell.h
+        containers/EdgeHeap/Edge.hpp
+        containers/AdjacencyList/ALElement.hpp
+        containers/IncidencyMatrix/MatrixCell.hpp
 
-        containers/AdjacencyList/AdjacencyList.h
+        containers/AdjacencyList/AdjacencyList.hpp
         containers/AdjacencyList/AdjacencyList.cpp
         containers/IncidencyMatrix/IncidencyMatrix.cpp
-        containers/IncidencyMatrix/IncidencyMatrix.h
+        containers/IncidencyMatrix/IncidencyMatrix.hpp
         containers/EdgeHeap/EdgeHeap.cpp
-        containers/EdgeHeap/EdgeHeap.h
+        containers/EdgeHeap/EdgeHeap.hpp
 
         algorithms/Algorithms.cpp
-        algorithms/Algorithms.h
-        utilities/PathElement.h
-        utilities/Results.h
+        algorithms/Algorithms.hpp
+        utilities/PathElement.hpp
+        utilities/Results.hpp
 
-        utilities/Enums.h
-        utilities/FileOps/FileOps.h
+        utilities/Enums.hpp
+        utilities/FileOps/FileOps.hpp
         utilities/FileOps/FileOps.cpp
         utilities/GraphGenerator/GraphGenerator.cpp
-        utilities/GraphGenerator/GraphGenerator.h
+        utilities/GraphGenerator/GraphGenerator.hpp
         utilities/TimeMeasurement.hpp
 
         utilities/Testing/Testing.cpp
-        utilities/Testing/Testing.h
+        utilities/Testing/Testing.hpp
 
         UI/UI.cpp
-        UI/UI.h
+        UI/UI.hpp
 )
