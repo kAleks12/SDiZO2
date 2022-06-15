@@ -5,29 +5,30 @@
 MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
-    size_t nodes = graph->getNodesNumber();
-    size_t edges = graph->getEdgesNumber();
+    size_t numberOfNodes = graph->getNodesNumber();
+    size_t numberOfEdges = graph->getEdgesNumber();
     MatrixElement **matrix = graph->getMatrix();
 
-    size_t buffSize = (nodes - 1) * 3;
+    size_t buffSize = (numberOfNodes - 1) * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
     auto *edgeHeap = new MyHeap();
 
-    auto visitedNodes = new int[nodes];
-    for (size_t i = 0; i < nodes; i++) {
+    auto visitedNodes = new int[numberOfNodes];
+    for (size_t i = 0; i < numberOfNodes; i++) {
         visitedNodes[i] = 0;
     }
 
-    //Creating macro for adding node edges heap
+    //Creating macro for adding node numberOfEdges to heap
     auto addNodeEdges = [&](size_t nodeIndex) {
-        for (size_t i = 0; i < edges; i++) {
+        //iterating trough each row seeking for beginning of the edge
+        for (size_t i = 0; i < numberOfEdges; i++) {
             if (matrix[nodeIndex][i].type == CellType::empty) {
                 continue;
             }
-
-            for (size_t j = 0; j < nodes; j++) {
+            //iterating trough each column seeking for end of the edge
+            for (size_t j = 0; j < numberOfNodes; j++) {
                 if (matrix[j][i].type == CellType::empty) {
                     continue;
                 }
@@ -53,8 +54,9 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
     visitedNodes[currNodeIndex] = 1;
     addNodeEdges(currNodeIndex);
 
-    //Creating MST with adequate edges (to non-visited nodes)
-    for (size_t i = 0; i < edges; i++) {
+    //Creating MST with adequate numberOfEdges (to non-visited numberOfNodes)
+    for (size_t i = 0; i < numberOfEdges; i++) {
+        //checking whether chosen node was already visited
         Edge currEdge = edgeHeap->extractRoot();
 
         if (visitedNodes[currEdge.destination] != 0 && visitedNodes[currEdge.origin] != 0) {
@@ -77,13 +79,13 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
         addNodeEdges(currNodeIndex);
         buffIndex++;
 
-        if (buffIndex == nodes - 1) {
+        if (buffIndex == numberOfNodes - 1) {
             break;
         }
     }
 
     //Creating output matrix and cleaning allocated variables
-    auto oMatrix = new MatrixGraph(nodes - 1, nodes, resultBuff);
+    auto oMatrix = new MatrixGraph(numberOfNodes - 1, numberOfNodes, resultBuff);
 
     delete[] resultBuff;
     delete[] visitedNodes;
@@ -113,7 +115,7 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
     }
 
     //Creating macro for adding nodes edge to heap
-    auto addNodeEdges = [&](size_t nodesIndex) {
+    auto addNodeEdges = [&](size_t nodeIndex) {
         for (size_t i = 0; i < nodes; i++) {
             ListGraphElement *list = lists[i];
 
@@ -121,10 +123,10 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
                 continue;
             }
 
-            if (i == nodesIndex) {
+            if (i == nodeIndex) {
                 while (list != nullptr) {
                     if (visitedNodes[list->node] == 0) {
-                        auto currEdge = new Edge(nodesIndex, list->node, list->weight);
+                        auto currEdge = new Edge(nodeIndex, list->node, list->weight);
                         edgeHeap->add(*currEdge);
                     }
 
@@ -134,7 +136,7 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
 
 
             while (list != nullptr) {
-                if (list->node == nodesIndex && visitedNodes[i] == 0) {
+                if (list->node == nodeIndex && visitedNodes[i] == 0) {
                     auto currEdge = new Edge(i, list->node, list->weight);
                     edgeHeap->add(*currEdge);
                 }
@@ -152,35 +154,28 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
     for (size_t i = 0; i < nodes - 1;) {
         Edge currEdge = edgeHeap->extractRoot();
 
+        if (visitedNodes[currEdge.destination] != 0 && visitedNodes[currEdge.origin] != 0) {
+            continue;
+        }
+
         if (visitedNodes[currEdge.destination] == 0) {
             currNodeIndex = currEdge.destination;
-
-            resultBuff[3 * buffIndex] = currEdge.origin;
-            resultBuff[3 * buffIndex + 1] = currEdge.destination;
-            resultBuff[3 * buffIndex + 2] = currEdge.weight;
-
-            totalCost += currEdge.weight;
-            visitedNodes[currNodeIndex] = 1;
-
-            addNodeEdges(currNodeIndex);
-
-            buffIndex++;
-            i++;
-        } else if (visitedNodes[currEdge.origin] == 0) {
+        } else {
             currNodeIndex = currEdge.origin;
-
-            resultBuff[3 * buffIndex] = currEdge.origin;
-            resultBuff[3 * buffIndex + 1] = currEdge.destination;
-            resultBuff[3 * buffIndex + 2] = currEdge.weight;
-
-            totalCost += currEdge.weight;
-            visitedNodes[currNodeIndex] = 1;
-
-            addNodeEdges(currNodeIndex);
-
-            buffIndex++;
-            i++;
         }
+
+        resultBuff[3 * buffIndex] = currEdge.origin;
+        resultBuff[3 * buffIndex + 1] = currEdge.destination;
+        resultBuff[3 * buffIndex + 2] = currEdge.weight;
+
+        totalCost += currEdge.weight;
+        visitedNodes[currNodeIndex] = 1;
+
+        addNodeEdges(currNodeIndex);
+
+        buffIndex++;
+        i++;
+
     }
 
     //Creating output list and cleaning up
@@ -195,23 +190,23 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
 MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
-    size_t nodes = graph->getNodesNumber();
-    size_t edges = graph->getEdgesNumber();
+    size_t numberOfNodes = graph->getNodesNumber();
+    size_t numberOfEdges = graph->getEdgesNumber();
     MatrixElement **matrix = graph->getMatrix();
 
-    size_t buffSize = edges * 3;
+    size_t buffSize = numberOfEdges * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
     auto *edgeHeap = new MyHeap();
 
-    //Creating heap with edges
-    for (size_t column = 0; column < edges; column++) {
+    //Creating heap with all edges
+    for (size_t column = 0; column < numberOfEdges; column++) {
         int originNode = -1;
         int destNode = -1;
         int edgeWeight = -1;
 
-        for (size_t row = 0; row < nodes; row++) {
+        for (size_t row = 0; row < numberOfNodes; row++) {
             if (matrix[row][column].type == CellType::empty) {
                 continue;
             }
@@ -235,14 +230,14 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
     }
 
     //Creating variables for determining whether adding edge creates cycle
-    size_t node_id[nodes];
+    size_t node_id[numberOfNodes];
 
-    for (size_t i = 0; i < nodes; i++) {
+    for (size_t i = 0; i < numberOfNodes; i++) {
         node_id[i] = i;
     }
 
-    //Searching for proper edges
-    for (size_t j = 0; j < edges; j++) {
+    //Searching for proper edge - the one with the lowest cost and not creating cycle
+    for (size_t j = 0; j < numberOfEdges; j++) {
         auto currEdge = edgeHeap->extractRoot();
 
         if (node_id[currEdge.origin] != node_id[currEdge.destination]) {
@@ -254,7 +249,7 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
             int checkId = node_id[currEdge.destination];
             int newId = node_id[currEdge.origin];
 
-            for (size_t i = 0; i < nodes; i++) {
+            for (size_t i = 0; i < numberOfNodes; i++) {
                 if (node_id[i] == checkId) {
                     node_id[i] = newId;
                 }
@@ -262,14 +257,14 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
 
             buffIndex++;
 
-            if (buffIndex == nodes - 1) {
+            if (buffIndex == numberOfNodes - 1) {
                 break;
             }
         }
     }
 
     //Creating output matrix and cleaning up
-    auto oMatrix = new MatrixGraph(nodes - 1, nodes, resultBuff);
+    auto oMatrix = new MatrixGraph(numberOfNodes - 1, numberOfNodes, resultBuff);
     delete[] resultBuff;
     delete edgeHeap;
 
@@ -280,18 +275,18 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
 ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
-    size_t nodes = graph->getNodesNumber();
-    size_t edges = graph->getEdgesNumber();
+    size_t numberOfNodes = graph->getNodesNumber();
+    size_t numberOfEdges = graph->getEdgesNumber();
     ListGraphElement **lists = graph->getList();
 
-    size_t buffSize = edges * 3;
+    size_t buffSize = numberOfEdges * 3;
     auto *resultBuff = new size_t[buffSize];
     size_t buffIndex = 0;
 
     auto edgeHeap = new MyHeap();
 
-    //Creating heap with all edges
-    for (size_t i = 0; i < nodes; i++) {
+    //Creating heap with all numberOfEdges
+    for (size_t i = 0; i < numberOfNodes; i++) {
         ListGraphElement *list = lists[i];
 
         while (list != nullptr) {
@@ -302,16 +297,15 @@ ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
         }
     }
 
-
     //Creating variables for determining whether adding edge creates cycle
-    size_t node_id[nodes];
+    size_t node_id[numberOfNodes];
 
-    for (size_t i = 0; i < nodes; i++) {
+    for (size_t i = 0; i < numberOfNodes; i++) {
         node_id[i] = i;
     }
 
-    //Searching for proper edges
-    for (size_t j = 0; j < edges; j++) {
+    //Searching for proper numberOfEdges
+    for (size_t j = 0; j < numberOfEdges; j++) {
         auto currEdge = edgeHeap->extractRoot();
 
         if (node_id[currEdge.origin] != node_id[currEdge.destination]) {
@@ -323,7 +317,7 @@ ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
             int checkId = node_id[currEdge.destination];
             int newId = node_id[currEdge.origin];
 
-            for (size_t i = 0; i < nodes; i++) {
+            for (size_t i = 0; i < numberOfNodes; i++) {
                 if (node_id[i] == checkId) {
                     node_id[i] = newId;
                 }
@@ -331,14 +325,14 @@ ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
 
             buffIndex++;
 
-            if (buffIndex == nodes - 1) {
+            if (buffIndex == numberOfNodes - 1) {
                 break;
             }
         }
     }
 
     //Creating output list and cleaning up
-    auto oList = new ListGraph(nodes - 1, nodes, resultBuff);
+    auto oList = new ListGraph(numberOfNodes - 1, numberOfNodes, resultBuff);
     delete[] resultBuff;
     delete edgeHeap;
 

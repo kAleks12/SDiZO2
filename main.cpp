@@ -2,8 +2,11 @@
 #include "UI/Interface.h"
 #include "utilities/FileOps/FileManagement.h"
 #include "algorithms/Algorithms.h"
-#include "utilities/Testing/Testing.h"
+#include "utilities/Testing/Simulation.h"
 
 int main() {
-    Interface::startMenu();
+    //Interface::startMenu();
+    Simulation simulation;
+    simulation.calculateAlgorithmsMatrix();
+    simulation.calculateAlgorithmsList();
 }

@@ -5,24 +5,24 @@
 #include "../TimeMeasurement.h"
 #include "../../algorithms/Algorithms.h"
 
-struct OpResult {
+struct OperationResultData {
     double time;
     size_t density;
 };
 
 
-class Testing {
+class Simulation {
     public:
         static MatrixGraph* mGraph;
         static ListGraph* lGraph;
 
         size_t sampleSize = 20;
-        int maxElement = 100;
+        int maxElementValue = 100;
         TimeMeasurement watch;
-        std::list<OpResult> primResults;
-        std::list<OpResult> kruskalResults;
-        std::list<OpResult> dijResults;
-        std::list<OpResult> bfResults;
+        std::list<OperationResultData> primResults;
+        std::list<OperationResultData> kruskalResults;
+        std::list<OperationResultData> dijResults;
+        std::list<OperationResultData> bfResults;
 
         static double calcAvg(const std::list<double> &);
         void addSeriesAvg(double avg, size_t density, AlgorithmType alg);

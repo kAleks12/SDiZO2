@@ -36,8 +36,8 @@ add_executable(
         utilities/GraphGenerator/GraphGenerator.h
         utilities/TimeMeasurement.h
 
-        utilities/Testing/Testing.cpp
-        utilities/Testing/Testing.h
+        utilities/Testing/Simulation.cpp
+        utilities/Testing/Simulation.h
 
         UI/Interface.cpp
         UI/Interface.h

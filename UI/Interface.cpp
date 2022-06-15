@@ -39,7 +39,7 @@ void Interface::startMenu() {
         }
 
         std::cout << "Invalid input!";
-        Sleep(1000);
+        Sleep(2000);
         system("cls");
     }
 }
@@ -94,7 +94,7 @@ void Interface::MSTSubMenu() {
         }
 
         std::cout << "Invalid input!";
-        Sleep(1000);
+        Sleep(2000);
         system("cls");
     }
 }
@@ -155,7 +155,7 @@ void Interface::SPSubMenu() {
         }
 
         std::cout << "Invalid input!";
-        Sleep(1000);
+        Sleep(2000);
         system("cls");
     }
 }
@@ -205,7 +205,7 @@ void Interface::randomGraph() {
             nodesNumber = std::stoi(input);
             break;
         }
-        catch (std::exception& e) {
+        catch (std::exception &e) {
             std::cout << "NaN";
             Sleep(2000);
         }
@@ -223,7 +223,7 @@ void Interface::randomGraph() {
                 break;
             }
         }
-        catch (std::exception& e) {
+        catch (std::exception &e) {
             std::cout << "NaN";
             Sleep(2000);
         }
@@ -304,10 +304,10 @@ void Interface::doDijkstra(size_t start, size_t finish) {
         std::cout << "\n\n";
         system("Pause");
 
-    }catch(std::out_of_range& e){
+    } catch (std::out_of_range &e) {
 
-        std::cout << "At least one of nodes was out ouf bound!";
-        Sleep(3000);
+        std::cout << "One of nodes is out ouf bound!";
+        Sleep(2000);
         return;
     }
 }
@@ -329,13 +329,12 @@ void Interface::doBelmanFord(size_t start, size_t finish) {
         std::cout << "\n\n";
         system("Pause");
 
-    }catch(std::out_of_range& e){
+    } catch (std::out_of_range &e) {
         std::cout << "One of nodes is out ouf bound!";
-        Sleep(3000);
+        Sleep(2000);
         return;
     }
 }
-
 
 //Interface menu for selecting start and finish nodes for SP algorithms
 std::vector<size_t> Interface::getShortestPathMode() {

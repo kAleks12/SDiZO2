@@ -1,11 +1,11 @@
-#include "Testing.h"
+#include "Simulation.h"
 #include "../GraphGenerator/GraphGenerator.h"
 
-MatrixGraph *Testing::mGraph = nullptr;
-ListGraph *Testing::lGraph = nullptr;
+MatrixGraph *Simulation::mGraph = nullptr;
+ListGraph *Simulation::lGraph = nullptr;
 
 //Function that calculates average time for provided list with intervals
-double Testing::calcAvg(const std::list<double> &dataStr) {
+double Simulation::calcAvg(const std::list<double> &dataStr) {
     double avg = 0;
 
     //Calculating average from provided vector's elements
@@ -18,8 +18,8 @@ double Testing::calcAvg(const std::list<double> &dataStr) {
 }
 
 //Function that creates single series result and adds it to adequate list
-void Testing::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
-    OpResult result;
+void Simulation::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
+    OperationResultData result;
 
     //Creating result object for specific structure and operation
     result.time = avg;
@@ -47,7 +47,7 @@ void Testing::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
 
 
 //Functions that tests all algorithms for matrix representation
-void Testing::calculateAlgorithmsMatrix() {
+void Simulation::calculateAlgorithmsMatrix() {
 
     //Creating operational variables
     std::list<double> pIntervals;
@@ -57,8 +57,8 @@ void Testing::calculateAlgorithmsMatrix() {
     size_t start;
     size_t finish;
 
-    //Testing for 5 different vertices numbers
-    for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60)
+    //Simulation for 5 different vertices numbers
+    for (int nodesCount = 10; nodesCount <= 210; nodesCount += 50)
     {
         //...and 4 densities
         for (int density = 25; density <= 100; density += 25)
@@ -74,13 +74,13 @@ void Testing::calculateAlgorithmsMatrix() {
                 }
 
                 //Generating new graph represented by matrix
-                GraphGenerator::generate(density, verticesConf, this->maxElement);
-                mGraph = new MatrixGraph(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                GraphGenerator::generate(density, nodesCount, this->maxElementValue);
+                mGraph = new MatrixGraph(GraphGenerator::edges, nodesCount, GraphGenerator::data);
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
-                    start = rand() % verticesConf;
-                    finish = rand() % verticesConf;
+                    start = rand() % nodesCount;
+                    finish = rand() % nodesCount;
 
                     if (start != finish) {
                         break;
@@ -119,7 +119,7 @@ void Testing::calculateAlgorithmsMatrix() {
                 bIntervals.push_back(watch.getTime());
                 delete result2;
             }
-            std::cout << "Done density -  " << density << "\n";
+            std::cout << "for -  " << density << "\n";
 
             //Creating series results for current density
             addSeriesAvg(calcAvg(pIntervals), density, AlgorithmType::prim);
@@ -134,13 +134,13 @@ void Testing::calculateAlgorithmsMatrix() {
             bIntervals.clear();
         }
 
-        //Saving results of all algorithms for current vertices number
-        saveResult("Prim", verticesConf, "matrix", AlgorithmType::prim);
-        saveResult("Kruskal", verticesConf, "matrix", AlgorithmType::kruskal);
-        saveResult("Dijkstra", verticesConf, "matrix", AlgorithmType::dijkstra);
-        saveResult("Bellman-Ford", verticesConf, "matrix", AlgorithmType::bf);
+        //Saving results of all algorithms for current nodes number
+        saveResult("Prim", nodesCount, "matrix", AlgorithmType::prim);
+        saveResult("Kruskal", nodesCount, "matrix", AlgorithmType::kruskal);
+        saveResult("Dijkstra", nodesCount, "matrix", AlgorithmType::dijkstra);
+        saveResult("Bellman-Ford", nodesCount, "matrix", AlgorithmType::bf);
 
-        std::cout << "Done vertices config -  " << verticesConf << "\n\n";
+        std::cout << "Done vertices config -  " << nodesCount << "\n\n";
 
         //Clearing results for next vertices number
         primResults.clear();
@@ -148,11 +148,10 @@ void Testing::calculateAlgorithmsMatrix() {
         dijResults.clear();
         bfResults.clear();
     }
-
 }
 
 //Functions that tests all algorithms for list representation
-void Testing::calculateAlgorithmsList() {
+void Simulation::calculateAlgorithmsList() {
     //Creating operational variables
     std::list<double> pIntervals;
     std::list<double> kIntervals;
@@ -161,8 +160,8 @@ void Testing::calculateAlgorithmsList() {
     size_t start;
     size_t finish;
 
-    //Testing for 5 different vertices numbers
-    for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60)
+    //Simulation for 5 different vertices numbers
+    for (int nodesCount = 10; nodesCount <= 210; nodesCount += 50)
     {
         //...and 4 densities
         for (int density = 25; density <= 100; density += 25)
@@ -178,13 +177,13 @@ void Testing::calculateAlgorithmsList() {
                 }
 
                 //Generating new graph represented by list
-                GraphGenerator::generate(density, verticesConf, this->maxElement);
-                lGraph = new ListGraph(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                GraphGenerator::generate(density, nodesCount, this->maxElementValue);
+                lGraph = new ListGraph(GraphGenerator::edges, nodesCount, GraphGenerator::data);
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
-                    start = rand() % verticesConf;
-                    finish = rand() % verticesConf;
+                    start = rand() % nodesCount;
+                    finish = rand() % nodesCount;
 
                     if (start != finish) {
                         break;
@@ -239,12 +238,12 @@ void Testing::calculateAlgorithmsList() {
         }
 
         //Saving results of all algorithms for current vertices number
-        saveResult("Prim", verticesConf, "matrix", AlgorithmType::prim);
-        saveResult("Kruskal", verticesConf, "matrix", AlgorithmType::kruskal);
-        saveResult("Dijkstra", verticesConf, "matrix", AlgorithmType::dijkstra);
-        saveResult("Bellman-Ford", verticesConf, "matrix", AlgorithmType::bf);
+        saveResult("Prim", nodesCount, "list", AlgorithmType::prim);
+        saveResult("Kruskal", nodesCount, "list", AlgorithmType::kruskal);
+        saveResult("Dijkstra", nodesCount, "list", AlgorithmType::dijkstra);
+        saveResult("Bellman-Ford", nodesCount, "list", AlgorithmType::bf);
 
-        std::cout << "Done vertices config -  " << verticesConf << "\n\n";
+        std::cout << "Done vertices config -  " << nodesCount << "\n\n";
 
         //Clearing results for next vertices number
         primResults.clear();
@@ -255,7 +254,7 @@ void Testing::calculateAlgorithmsList() {
 }
 
 //Functions that saves measurements for a single algorithm to .txt file
-void Testing::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmType alg) {
+void Simulation::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmType alg) {
     //Creating write file
     std::ofstream saveFile(algorithm + "//" + representation + "//test - " + std::to_string(verticesNum) + ".txt");
 
@@ -280,8 +279,8 @@ void Testing::saveResult(const std::string &algorithm, size_t verticesNum, const
             break;
     }
 
-    //Printing opResult objects for each tested operation to the file
-    for (const OpResult &result: results) {
+    //Printing operation result data objects for each tested operation to the file
+    for (const OperationResultData &result: results) {
         saveFile << result.density << ";" << result.time << "\n";
     }
 
