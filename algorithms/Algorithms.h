@@ -10,17 +10,17 @@
 class Algorithms{
 public:
     //MST ALGORITHMS
-    static MatrixMSTResult* primMST(MatrixGraph* nodeIndex);
-    static ListMSTResult* primMST(ListGraph* nodeIndex);
+    static MatrixResult* primMST(MatrixGraph* nodeIndex);
+    static ListResult* primMST(ListGraph* nodeIndex);
 
-    static MatrixMSTResult* kruskalMST(MatrixGraph* graph);
-    static ListMSTResult* kruskalMST(ListGraph* graph);
+    static MatrixResult* kruskalMST(MatrixGraph* graph);
+    static ListResult* kruskalMST(ListGraph* graph);
 
     //SHORTEST PATH ALGORITHMS
-    static SPResult* dijkstraPath(MatrixGraph* graph, const size_t &start, const size_t &finish);
-    static SPResult* dijkstraPath(ListGraph* graph, const size_t &start, const size_t &finish);
+    static PathResult* dijkstra(MatrixGraph* graph, const size_t &startNode, const size_t &endNode);
+    static PathResult* dijkstra(ListGraph* graph, const size_t &start, const size_t &finish);
 
-    static SPResult* bfPath(MatrixGraph* graph, const size_t &start, const size_t &finish);
-    static SPResult* bfPath(ListGraph* graph, const size_t &start, const size_t &finish);
+    static PathResult* bellmanFord(MatrixGraph* graph, const size_t &start, const size_t &finish);
+    static PathResult* bellmanFord(ListGraph* graph, const size_t &start, const size_t &finish);
 };
 

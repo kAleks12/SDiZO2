@@ -25,11 +25,11 @@ class Simulation {
         std::list<OperationResultData> bfResults;
 
         static double calcAvg(const std::list<double> &);
-        void addSeriesAvg(double avg, size_t density, AlgorithmType alg);
+        void addSeriesAvg(double avg, size_t density, AlgorithmName alg);
 
         void calculateAlgorithmsMatrix();
         void calculateAlgorithmsList();
 
-        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmType alg);
+        void saveResult(const std::string &algorithm, size_t verticesNum, const std::string& representation, AlgorithmName alg);
 };
 

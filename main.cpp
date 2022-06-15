@@ -5,8 +5,8 @@
 #include "utilities/Testing/Simulation.h"
 
 int main() {
-    //Interface::startMenu();
-    Simulation simulation;
-    simulation.calculateAlgorithmsMatrix();
-    simulation.calculateAlgorithmsList();
+    Interface::startMenu();
+    //Simulation simulation;
+    //simulation.calculateAlgorithmsMatrix();
+    //simulation.calculateAlgorithmsList();
 }

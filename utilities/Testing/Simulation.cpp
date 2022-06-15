@@ -18,7 +18,7 @@ double Simulation::calcAvg(const std::list<double> &dataStr) {
 }
 
 //Function that creates single series result and adds it to adequate list
-void Simulation::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
+void Simulation::addSeriesAvg(double avg, size_t density, AlgorithmName alg) {
     OperationResultData result;
 
     //Creating result object for specific structure and operation
@@ -27,19 +27,19 @@ void Simulation::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
 
     //Adding created object to vector with all operations' results
     switch (alg) {
-        case AlgorithmType::prim:
+        case AlgorithmName::prim:
             primResults.push_back(result);
             break;
 
-        case AlgorithmType::kruskal:
+        case AlgorithmName::kruskal:
             kruskalResults.push_back(result);
             break;
 
-        case AlgorithmType::dijkstra:
+        case AlgorithmName::dijkstra:
             dijResults.push_back(result);
             break;
 
-        case AlgorithmType::bf:
+        case AlgorithmName::bf:
             bfResults.push_back(result);
             break;
     }
@@ -106,7 +106,7 @@ void Simulation::calculateAlgorithmsMatrix() {
                 //Measuring dijkstra algorithm
                 watch.startCounting();
 
-                auto result2 = Algorithms::dijkstraPath(mGraph, start, finish);
+                auto result2 = Algorithms::dijkstra(mGraph, start, finish);
                 dIntervals.push_back(watch.getTime());
                 delete result2;
 
@@ -115,17 +115,17 @@ void Simulation::calculateAlgorithmsMatrix() {
                 watch.startCounting();
 
 
-                result2 = Algorithms::bfPath(mGraph, start, finish);
+                result2 = Algorithms::bellmanFord(mGraph, start, finish);
                 bIntervals.push_back(watch.getTime());
                 delete result2;
             }
             std::cout << "for -  " << density << "\n";
 
             //Creating series results for current density
-            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmType::prim);
-            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmType::kruskal);
-            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmType::dijkstra);
-            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmType::bf);
+            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmName::prim);
+            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmName::kruskal);
+            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmName::dijkstra);
+            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmName::bf);
 
             //Clearing intervals for next density
             pIntervals.clear();
@@ -135,10 +135,10 @@ void Simulation::calculateAlgorithmsMatrix() {
         }
 
         //Saving results of all algorithms for current nodes number
-        saveResult("Prim", nodesCount, "matrix", AlgorithmType::prim);
-        saveResult("Kruskal", nodesCount, "matrix", AlgorithmType::kruskal);
-        saveResult("Dijkstra", nodesCount, "matrix", AlgorithmType::dijkstra);
-        saveResult("Bellman-Ford", nodesCount, "matrix", AlgorithmType::bf);
+        saveResult("Prim", nodesCount, "matrix", AlgorithmName::prim);
+        saveResult("Kruskal", nodesCount, "matrix", AlgorithmName::kruskal);
+        saveResult("Dijkstra", nodesCount, "matrix", AlgorithmName::dijkstra);
+        saveResult("Bellman-Ford", nodesCount, "matrix", AlgorithmName::bf);
 
         std::cout << "Done vertices config -  " << nodesCount << "\n\n";
 
@@ -209,7 +209,7 @@ void Simulation::calculateAlgorithmsList() {
                 //Measuring dijkstra algorithm
                 watch.startCounting();
 
-                auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
+                auto result2 = Algorithms::dijkstra(lGraph, start, finish);
                 dIntervals.push_back(watch.getTime());
                 delete result2;
 
@@ -218,17 +218,17 @@ void Simulation::calculateAlgorithmsList() {
                 watch.startCounting();
 
 
-                result2 = Algorithms::bfPath(lGraph, start, finish);
+                result2 = Algorithms::bellmanFord(lGraph, start, finish);
                 bIntervals.push_back(watch.getTime());
                 delete result2;
             }
             std::cout << "Done density -  " << density << "\n";
 
             //Creating series results for current density
-            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmType::prim);
-            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmType::kruskal);
-            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmType::dijkstra);
-            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmType::bf);
+            addSeriesAvg(calcAvg(pIntervals), density, AlgorithmName::prim);
+            addSeriesAvg(calcAvg(kIntervals), density, AlgorithmName::kruskal);
+            addSeriesAvg(calcAvg(dIntervals), density, AlgorithmName::dijkstra);
+            addSeriesAvg(calcAvg(bIntervals), density, AlgorithmName::bf);
 
             //Clearing intervals for next density
             pIntervals.clear();
@@ -238,10 +238,10 @@ void Simulation::calculateAlgorithmsList() {
         }
 
         //Saving results of all algorithms for current vertices number
-        saveResult("Prim", nodesCount, "list", AlgorithmType::prim);
-        saveResult("Kruskal", nodesCount, "list", AlgorithmType::kruskal);
-        saveResult("Dijkstra", nodesCount, "list", AlgorithmType::dijkstra);
-        saveResult("Bellman-Ford", nodesCount, "list", AlgorithmType::bf);
+        saveResult("Prim", nodesCount, "list", AlgorithmName::prim);
+        saveResult("Kruskal", nodesCount, "list", AlgorithmName::kruskal);
+        saveResult("Dijkstra", nodesCount, "list", AlgorithmName::dijkstra);
+        saveResult("Bellman-Ford", nodesCount, "list", AlgorithmName::bf);
 
         std::cout << "Done vertices config -  " << nodesCount << "\n\n";
 
@@ -254,7 +254,7 @@ void Simulation::calculateAlgorithmsList() {
 }
 
 //Functions that saves measurements for a single algorithm to .txt file
-void Simulation::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmType alg) {
+void Simulation::saveResult(const std::string &algorithm, size_t verticesNum, const std::string &representation, AlgorithmName alg) {
     //Creating write file
     std::ofstream saveFile(algorithm + "//" + representation + "//test - " + std::to_string(verticesNum) + ".txt");
 
@@ -262,19 +262,19 @@ void Simulation::saveResult(const std::string &algorithm, size_t verticesNum, co
     auto results = primResults;
 
     switch (alg) {
-        case AlgorithmType::prim:
+        case AlgorithmName::prim:
             results = primResults;
             break;
 
-        case AlgorithmType::kruskal:
+        case AlgorithmName::kruskal:
             results = kruskalResults;
             break;
 
-        case AlgorithmType::dijkstra:
+        case AlgorithmName::dijkstra:
             results = dijResults;
             break;
 
-        case AlgorithmType::bf:
+        case AlgorithmName::bf:
             results = bfResults;
             break;
     }

@@ -290,8 +290,8 @@ void Interface::doKruskal() {
 //Execute dijkstra algorithm for current graph and display results
 void Interface::doDijkstra(size_t start, size_t finish) {
     try {
-        auto result = Algorithms::dijkstraPath(mGraph, start, finish);
-        auto result2 = Algorithms::dijkstraPath(lGraph, start, finish);
+        auto result = Algorithms::dijkstra(mGraph, start, finish);
+        auto result2 = Algorithms::dijkstra(lGraph, start, finish);
 
         std::cout << "Dijkstra [matrix] path - (" << start << "," << finish << "):\n\n";
         result->display();
@@ -315,8 +315,8 @@ void Interface::doDijkstra(size_t start, size_t finish) {
 //Execute bellman-ford algorithm for current graph and display results
 void Interface::doBelmanFord(size_t start, size_t finish) {
     try {
-        auto result = Algorithms::bfPath(mGraph, start, finish);
-        auto result2 = Algorithms::bfPath(lGraph, start, finish);
+        auto result = Algorithms::bellmanFord(mGraph, start, finish);
+        auto result2 = Algorithms::bellmanFord(lGraph, start, finish);
 
         std::cout << "Bellman-Ford [matrix] path - (" << start << "," << finish << "):\n\n";
         result->display();

@@ -2,14 +2,13 @@
 #include <iostream>
 #include "GraphGenerator.h"
 
-size_t* GraphGenerator::data = nullptr;
+size_t *GraphGenerator::data = nullptr;
 size_t GraphGenerator::edges = 0;
-
 
 
 void GraphGenerator::generate(size_t density, size_t nodeNumber, size_t maxValue) {
     //Deleting old graph
-    delete [] data;
+    delete[] data;
 
     size_t minEdgeNum = nodeNumber;
     size_t edgeNumber = (density * nodeNumber * (nodeNumber - 1)) / 200;
@@ -17,7 +16,7 @@ void GraphGenerator::generate(size_t density, size_t nodeNumber, size_t maxValue
     //Checking whether number of edges calculated for entered
     // density and nodes number is not lesser than a minimal
     // number of edges for a connected graph
-    if(edgeNumber < minEdgeNum){
+    if (edgeNumber < minEdgeNum) {
         edgeNumber = minEdgeNum;
     }
 
@@ -42,8 +41,7 @@ void GraphGenerator::generate(size_t density, size_t nodeNumber, size_t maxValue
 
     //Creating initial ring
     for (size_t i = 0; i < minEdgeNum; i++) {
-        if(i == minEdgeNum-1)
-        {
+        if (i == minEdgeNum - 1) {
             data[3 * i] = i;
             data[3 * i + 1] = 0;
             data[3 * i + 2] = costs(gen);
@@ -64,7 +62,7 @@ void GraphGenerator::generate(size_t density, size_t nodeNumber, size_t maxValue
 
     //Creating additional random edges
     for (size_t i = minEdgeNum; i < edgeNumber; i++) {
-        originNode= nodes(gen);
+        originNode = nodes(gen);
         destinationNode = nodes(gen);
 
         while (originNode == destinationNode || isConnected[originNode][destinationNode]) {

@@ -2,7 +2,7 @@
 #include "../containers/EdgeHeap/MyHeap.h"
 
 //for matrix implementation
-MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
+MatrixResult *Algorithms::primMST(MatrixGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
     size_t numberOfNodes = graph->getNodesNumber();
@@ -24,12 +24,12 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
     auto addNodeEdges = [&](size_t nodeIndex) {
         //iterating trough each row seeking for beginning of the edge
         for (size_t i = 0; i < numberOfEdges; i++) {
-            if (matrix[nodeIndex][i].type == CellType::empty) {
+            if (matrix[nodeIndex][i].type == TypeOfCell::empty) {
                 continue;
             }
             //iterating trough each column seeking for end of the edge
             for (size_t j = 0; j < numberOfNodes; j++) {
-                if (matrix[j][i].type == CellType::empty) {
+                if (matrix[j][i].type == TypeOfCell::empty) {
                     continue;
                 }
 
@@ -37,7 +37,7 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
                     continue;
                 }
 
-                if (matrix[nodeIndex][i].type == CellType::origin) {
+                if (matrix[nodeIndex][i].type == TypeOfCell::origin) {
                     auto edge = new Edge(nodeIndex, j, matrix[j][i].weight);
                     edgeHeap->add(*edge);
                     break;
@@ -79,6 +79,7 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
         addNodeEdges(currNodeIndex);
         buffIndex++;
 
+        //checking whether found enough edges
         if (buffIndex == numberOfNodes - 1) {
             break;
         }
@@ -92,11 +93,11 @@ MatrixMSTResult *Algorithms::primMST(MatrixGraph *graph) {
     delete edgeHeap;
 
 
-    return new MatrixMSTResult(oMatrix, totalCost);
+    return new MatrixResult(oMatrix, totalCost);
 }
 
 //for list implementation
-ListMSTResult *Algorithms::primMST(ListGraph *graph) {
+ListResult *Algorithms::primMST(ListGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
     size_t nodes = graph->getNodesNumber();
@@ -158,6 +159,7 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
             continue;
         }
 
+        //checking which end was not visited yet
         if (visitedNodes[currEdge.destination] == 0) {
             currNodeIndex = currEdge.destination;
         } else {
@@ -183,11 +185,11 @@ ListMSTResult *Algorithms::primMST(ListGraph *graph) {
     delete[] resultBuff;
     delete edgeHeap;
 
-    return new ListMSTResult(oList, totalCost);
+    return new ListResult(oList, totalCost);
 }
 
 //for matrix implementation
-MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
+MatrixResult *Algorithms::kruskalMST(MatrixGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
     size_t numberOfNodes = graph->getNodesNumber();
@@ -207,17 +209,17 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
         int edgeWeight = -1;
 
         for (size_t row = 0; row < numberOfNodes; row++) {
-            if (matrix[row][column].type == CellType::empty) {
+            if (matrix[row][column].type == TypeOfCell::empty) {
                 continue;
             }
 
-            if (matrix[row][column].type == CellType::origin) {
+            if (matrix[row][column].type == TypeOfCell::origin) {
                 originNode = row;
                 edgeWeight = matrix[row][column].weight;
                 continue;
             }
 
-            if (matrix[row][column].type == CellType::destination) {
+            if (matrix[row][column].type == TypeOfCell::destination) {
                 destNode = row;
                 continue;
             }
@@ -249,6 +251,7 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
             int checkId = node_id[currEdge.destination];
             int newId = node_id[currEdge.origin];
 
+            //updating node_id
             for (size_t i = 0; i < numberOfNodes; i++) {
                 if (node_id[i] == checkId) {
                     node_id[i] = newId;
@@ -257,6 +260,7 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
 
             buffIndex++;
 
+            //checking whether enough edges were found
             if (buffIndex == numberOfNodes - 1) {
                 break;
             }
@@ -268,11 +272,11 @@ MatrixMSTResult *Algorithms::kruskalMST(MatrixGraph *graph) {
     delete[] resultBuff;
     delete edgeHeap;
 
-    return new MatrixMSTResult(oMatrix, totalCost);
+    return new MatrixResult(oMatrix, totalCost);
 }
 
 //for list implementation
-ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
+ListResult *Algorithms::kruskalMST(ListGraph *graph) {
     //preparing variables
     size_t totalCost = 0;
     size_t numberOfNodes = graph->getNodesNumber();
@@ -336,14 +340,14 @@ ListMSTResult *Algorithms::kruskalMST(ListGraph *graph) {
     delete[] resultBuff;
     delete edgeHeap;
 
-    return new ListMSTResult(oList, totalCost);
+    return new ListResult(oList, totalCost);
 }
 
 //for matrix implementation
-SPResult *Algorithms::dijkstraPath(MatrixGraph *graph, const size_t &start, const size_t &finish) {
+PathResult *Algorithms::dijkstra(MatrixGraph *graph, const size_t &startNode, const size_t &endNode) {
 
-    size_t nodes = graph->getNodesNumber();
-    size_t edges = graph->getEdgesNumber();
+    size_t nodesNumber = graph->getNodesNumber();
+    size_t edgesNumber = graph->getEdgesNumber();
     MatrixElement **matrix = graph->getMatrix();
 
     //preparing variables
@@ -351,42 +355,42 @@ SPResult *Algorithms::dijkstraPath(MatrixGraph *graph, const size_t &start, cons
     MyArray<int> visitedNodes;
     MyArray<int> previousNodes;
     MyArray<int> reachingCosts;
-    MyArray<int> cost;
+    MyArray<int> currentStepCost;
     MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
-    //Filing array of edges costs
-    for (size_t column = 0; column < edges; column++) {
-        for (size_t row = 0; row < nodes; row++) {
-            if (matrix[row][column].type == CellType::empty) {
+    //Filing array of edgesNumber costs
+    for (size_t column = 0; column < edgesNumber; column++) {
+        for (size_t row = 0; row < nodesNumber; row++) {
+            if (matrix[row][column].type == TypeOfCell::empty) {
                 continue;
             }
 
-            if (matrix[row][column].type == CellType::origin || matrix[row][column].type == CellType::destination) {
+            if (matrix[row][column].type == TypeOfCell::origin || matrix[row][column].type == TypeOfCell::destination) {
                 edgesCosts.addBack(matrix[row][column].weight);
                 break;
             }
         }
     }
 
-    //Filling other tmp arrays
-    for (int i = 0; i < nodes; i++) {
+    //Filling other useful arrays
+    for (int i = 0; i < nodesNumber; i++) {
         visitedNodes.addBack(-1);
         previousNodes.addBack(-1);
-        cost.addBack(-1);
+        currentStepCost.addBack(-1);
         reachingCosts.addBack(INT_MAX);
     }
 
-    reachingCosts[start] = 0;
-    size_t currentNode = start;
-    size_t nodesToCheck = nodes;
+    reachingCosts[startNode] = 0;
+    size_t currentNode = startNode;
+    size_t nodesToCheck = nodesNumber;
 
     //Creating macro which marks visited node in table and chooses next node
-    auto moveToNextNode = [&]() {
+    auto pickNextNode = [&]() {
         visitedNodes[currentNode] = 0;
         nodesToCheck--;
         size_t shortestPath = INT_MAX;
-        for (size_t i = 0; i < nodes; i++) {
+        for (size_t i = 0; i < nodesNumber; i++) {
             if (visitedNodes[i] == -1 && reachingCosts[i] < shortestPath) {
                 shortestPath = reachingCosts[i];
                 currentNode = i;
@@ -397,41 +401,41 @@ SPResult *Algorithms::dijkstraPath(MatrixGraph *graph, const size_t &start, cons
     //Checking all nodes
     while (nodesToCheck > 0) {
         //Checking whether any edge comes from current node
-        for (size_t edge = 0; edge < edges; edge++) {
-            if (matrix[currentNode][edge].type != CellType::origin) {
+        for (size_t edge = 0; edge < edgesNumber; edge++) {
+            if (matrix[currentNode][edge].type != TypeOfCell::origin) {
                 continue;
             }
 
-            for (size_t node = 0; node < nodes; node++) {
-                if (matrix[node][edge].type != CellType::destination) {
+            for (size_t node = 0; node < nodesNumber; node++) {
+                if (matrix[node][edge].type != TypeOfCell::destination) {
                     continue;
                 }
 
                 //After founding edge checking whether it is optimal at the moment
                 if (reachingCosts[currentNode] + edgesCosts[edge] < reachingCosts[node]) {
-                    //Updating minimal reach cost to destination node
+                    //Updating minimal reach currentStepCost to destination node
                     reachingCosts[node] = reachingCosts[currentNode] + edgesCosts[edge];
                     previousNodes[node] = currentNode;
-                    cost[node] = edgesCosts[edge];
+                    currentStepCost[node] = edgesCosts[edge];
                 }
 
                 break;
             }
         }
 
-        moveToNextNode();
+        pickNextNode();
     }
 
-    currentNode = finish;
+    currentNode = endNode;
 
-    //Creating result path from by jumping end node to start one with minimal reach costs
-    while (currentNode != start) {
-        totalCost += cost[currentNode];
-        pathArray.addFront(PElement(cost[currentNode], previousNodes[currentNode], currentNode));
+    //Creating result path from by jumping end node to startNode one with minimal reach costs
+    while (currentNode != startNode) {
+        totalCost += currentStepCost[currentNode];
+        pathArray.addFront(PElement(currentStepCost[currentNode], previousNodes[currentNode], currentNode));
         currentNode = previousNodes[currentNode];
 
         if (currentNode == -1) {
-            return new SPResult("", totalCost);
+            return new PathResult("", totalCost);
         }
     }
 
@@ -440,11 +444,11 @@ SPResult *Algorithms::dijkstraPath(MatrixGraph *graph, const size_t &start, cons
         path.append(pathArray[i].toString());
     }
 
-    return new SPResult(path, totalCost);
+    return new PathResult(path, totalCost);
 }
 
 //for list implementation
-SPResult *Algorithms::dijkstraPath(ListGraph *graph, const size_t &start, const size_t &finish) {
+PathResult *Algorithms::dijkstra(ListGraph *graph, const size_t &start, const size_t &finish) {
     size_t nodes = graph->getNodesNumber();
     ListGraphElement **list = graph->getList();
 
@@ -511,7 +515,7 @@ SPResult *Algorithms::dijkstraPath(ListGraph *graph, const size_t &start, const 
         currentNode = previousNodes[currentNode];
 
         if (currentNode == -1) {
-            return new SPResult("", totalCost);
+            return new PathResult("", totalCost);
         }
     }
 
@@ -519,13 +523,13 @@ SPResult *Algorithms::dijkstraPath(ListGraph *graph, const size_t &start, const 
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
-    return new SPResult(path, totalCost);
+    return new PathResult(path, totalCost);
 
 }
 
 
 //for matrix implementation
-SPResult *Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size_t &finish) {
+PathResult *Algorithms::bellmanFord(MatrixGraph *graph, const size_t &start, const size_t &finish) {
     size_t nodes = graph->getNodesNumber();
     size_t edges = graph->getEdgesNumber();
     MatrixElement **matrix = graph->getMatrix();
@@ -541,18 +545,18 @@ SPResult *Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size
     //Filing array of edges costs
     for (size_t column = 0; column < edges; column++) {
         for (size_t row = 0; row < nodes; row++) {
-            if (matrix[row][column].type == CellType::empty) {
+            if (matrix[row][column].type == TypeOfCell::empty) {
                 continue;
             }
 
-            if (matrix[row][column].type == CellType::origin || matrix[row][column].type == CellType::destination) {
+            if (matrix[row][column].type == TypeOfCell::origin || matrix[row][column].type == TypeOfCell::destination) {
                 edgesCosts.addBack(matrix[row][column].weight);
                 break;
             }
         }
     }
 
-    //Filling other tmp arrays
+    //Filling other useful arrays
     for (int i = 0; i < nodes; i++) {
         previousNode.addBack(-1);
         cost.addBack(-1);
@@ -570,12 +574,12 @@ SPResult *Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size
         for (int currentNode = 0; currentNode < nodes; currentNode++) {
             //Checking whether any edge comes from current node
             for (size_t edge = 0; edge < edges; edge++) {
-                if (matrix[currentNode][edge].type != CellType::origin) {
+                if (matrix[currentNode][edge].type != TypeOfCell::origin) {
                     continue;
                 }
 
                 for (size_t node = 0; node < nodes; node++) {
-                    if (matrix[node][edge].type != CellType::destination) {
+                    if (matrix[node][edge].type != TypeOfCell::destination) {
                         continue;
                     }
 
@@ -607,7 +611,7 @@ SPResult *Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size
         currNode = previousNode[currNode];
 
         if (currNode == -1) {
-            return new SPResult("", totalCost);
+            return new PathResult("", totalCost);
         }
     }
 
@@ -615,11 +619,11 @@ SPResult *Algorithms::bfPath(MatrixGraph *graph, const size_t &start, const size
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
-    return new SPResult(path, totalCost);
+    return new PathResult(path, totalCost);
 }
 
 //for list implementation
-SPResult *Algorithms::bfPath(ListGraph *graph, const size_t &start, const size_t &finish) {
+PathResult *Algorithms::bellmanFord(ListGraph *graph, const size_t &start, const size_t &finish) {
     size_t nodes = graph->getNodesNumber();
     ListGraphElement **list = graph->getList();
 
@@ -630,7 +634,7 @@ SPResult *Algorithms::bfPath(ListGraph *graph, const size_t &start, const size_t
     MyArray<PElement> pathArray;
     size_t totalCost = 0;
 
-    //Filling other tmp arrays
+    //Filling other useful arrays
     for (int i = 0; i < nodes; i++) {
         previousNode.addBack(-1);
         cost.addBack(-1);
@@ -679,7 +683,7 @@ SPResult *Algorithms::bfPath(ListGraph *graph, const size_t &start, const size_t
         currentNode = previousNode[currentNode];
 
         if (currentNode == -1) {
-            return new SPResult("", totalCost);
+            return new PathResult("", totalCost);
         }
     }
 
@@ -687,6 +691,6 @@ SPResult *Algorithms::bfPath(ListGraph *graph, const size_t &start, const size_t
     for (int i = 0; i < pathArray.getSize(); i++) {
         path.append(pathArray[i].toString());
     }
-    return new SPResult(path, totalCost);
+    return new PathResult(path, totalCost);
 
 }

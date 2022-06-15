@@ -6,14 +6,14 @@
 #include "../containers/AdjacencyList/ListGraph.h"
 
 //Structure for results of MST algorithms which use matrix representation
-struct MatrixMSTResult{
+struct MatrixResult{
     MatrixGraph* output;
     size_t cost;
 
-    MatrixMSTResult(MatrixGraph* matrix, size_t cost): output(matrix), cost(cost)
+    MatrixResult(MatrixGraph* matrix, size_t cost): output(matrix), cost(cost)
     {}
 
-    ~MatrixMSTResult(){
+    ~MatrixResult(){
         delete output;
     }
 
@@ -26,14 +26,14 @@ struct MatrixMSTResult{
 };
 
 //Structure for results of MST algorithms which use list representation
-struct ListMSTResult{
+struct ListResult{
     ListGraph* output;
     size_t cost;
 
-    ListMSTResult(ListGraph* list, size_t cost): output(list), cost(cost)
+    ListResult(ListGraph* list, size_t cost): output(list), cost(cost)
     {}
 
-    ~ListMSTResult(){
+    ~ListResult(){
         delete output;
     }
 
@@ -46,11 +46,11 @@ struct ListMSTResult{
 
 
 //Structure for results of SP algorithms
-struct SPResult{
+struct PathResult{
     std::string  path;
     size_t cost;
 
-    SPResult( std::string path, size_t cost): path(std::move(path)), cost(cost)
+    PathResult(std::string path, size_t cost): path(std::move(path)), cost(cost)
     {}
 
     void display() const

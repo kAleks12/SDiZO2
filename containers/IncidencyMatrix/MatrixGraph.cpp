@@ -27,7 +27,7 @@ MatrixGraph::MatrixGraph() {
         //Checking whether edge is a loop to the same node
         if (FileManagement::edges[i + 1] == FileManagement::edges[i]) {
             currNode = this->cells[FileManagement::edges[i]];
-            currNode[currColumn].type = CellType::loop;
+            currNode[currColumn].type = TypeOfCell::loop;
             currNode[currColumn].weight = currWeight;
 
             continue;
@@ -35,12 +35,12 @@ MatrixGraph::MatrixGraph() {
 
         //Modifying origin cell
         currNode = this->cells[FileManagement::edges[i]];
-        currNode[currColumn].type = CellType::origin;
+        currNode[currColumn].type = TypeOfCell::origin;
         currNode[currColumn].weight = currWeight;
 
         //Modifying destination cell
         currNode = (this->cells[FileManagement::edges[i + 1]]);
-        currNode[currColumn].type = CellType::destination;
+        currNode[currColumn].type = TypeOfCell::destination;
         currNode[currColumn].weight = currWeight;
     }
 
@@ -70,7 +70,7 @@ MatrixGraph::MatrixGraph(const size_t &edgesNumber, const size_t &nodesNumber, c
         //Checking whether edge is a loop to the same node
         if (edgeData[i + 1] == edgeData[i]) {
             currNode = this->cells[edgeData[i]];
-            currNode[currColumn].type = CellType::loop;
+            currNode[currColumn].type = TypeOfCell::loop;
             currNode[currColumn].weight = currWeight;
 
             continue;
@@ -79,13 +79,13 @@ MatrixGraph::MatrixGraph(const size_t &edgesNumber, const size_t &nodesNumber, c
         //Modifying origin cell
         size_t orv = edgeData[i];
         currNode = this->cells[edgeData[i]];
-        currNode[currColumn].type = CellType::origin;
+        currNode[currColumn].type = TypeOfCell::origin;
         currNode[currColumn].weight = currWeight;
 
         //Modifying destination cell
         size_t destV = edgeData[i + 1];
         currNode = (this->cells[edgeData[i + 1]]);
-        currNode[currColumn].type = CellType::destination;
+        currNode[currColumn].type = TypeOfCell::destination;
         currNode[currColumn].weight = currWeight;
     }
 
@@ -109,16 +109,16 @@ void MatrixGraph::print() {
         MatrixElement *currNode = this->cells[i];
 
         for (size_t j = 0; j < this->edgesNumber; j++) {
-            if (currNode[j].type == CellType::loop) {
+            if (currNode[j].type == TypeOfCell::loop) {
                 std::cout << " " << 2 << " ";
             }
-            if (currNode[j].type == CellType::origin) {
+            if (currNode[j].type == TypeOfCell::origin) {
                 std::cout << " " << 1 << " ";
             }
-            if (currNode[j].type == CellType::destination) {
+            if (currNode[j].type == TypeOfCell::destination) {
                 std::cout << -1 << " ";
             }
-            if (currNode[j].type == CellType::empty) {
+            if (currNode[j].type == TypeOfCell::empty) {
                 std::cout << " " << 0 << " ";
             }
 
