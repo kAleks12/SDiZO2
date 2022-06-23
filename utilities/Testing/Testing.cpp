@@ -249,10 +249,10 @@ void Testing::calculateAlgorithmsList() {
         }
 
         //Saving results of all algorithms for current vertices number
-        saveResult("Prim", verticesConf, "matrix", AlgorithmType::prim);
-        saveResult("Kruskal", verticesConf, "matrix", AlgorithmType::kruskal);
-        saveResult("Dijkstra", verticesConf, "matrix", AlgorithmType::dijkstra);
-        saveResult("Bellman-Ford", verticesConf, "matrix", AlgorithmType::bf);
+        saveResult("Prim", verticesConf, "list", AlgorithmType::prim);
+        saveResult("Kruskal", verticesConf, "list", AlgorithmType::kruskal);
+        saveResult("Dijkstra", verticesConf, "list", AlgorithmType::dijkstra);
+        saveResult("Bellman-Ford", verticesConf, "list", AlgorithmType::bf);
 
         std::cout << "Done vertices config -  " << verticesConf << "\n\n";
 
