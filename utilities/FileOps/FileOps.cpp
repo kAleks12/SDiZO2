@@ -28,7 +28,7 @@ void FileOps::readData(const std::string &fileName) {
     FileOps::edges = new int[edgesNum*3];
     std::string tmp;
 
-    //Filling the array with data from source file
+    //Filling the array with edgesT from source file
     for (int i = 0; i < FileOps::edgesNum * 3; i++) {
         srcFile >> tmp;
         edges[i] = std::stoi(tmp);

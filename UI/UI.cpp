@@ -165,7 +165,7 @@ void UI::SPSubMenu() {
 }
 
 
-//Interface menu for creating a graph from file data
+//Interface menu for creating a graph from file edgesT
 void UI::fileGraph() {
 
     delete UI::mGraph;
@@ -238,9 +238,9 @@ void UI::randomGraph() {
 
     GraphGenerator::generate(density, verNum, 15);
 
-    UI::mGraph = new IncidencyMatrix(GraphGenerator::edges, verNum, GraphGenerator::data);
-    UI::lGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data);
-    UI::lpGraph = new AdjacencyList(GraphGenerator::edges, verNum, GraphGenerator::data, true);
+    UI::mGraph = new IncidencyMatrix(GraphGenerator::edgesNum, verNum, GraphGenerator::edgesT);
+    UI::lGraph = new AdjacencyList(GraphGenerator::edgesNum, verNum, GraphGenerator::edgesT);
+    UI::lpGraph = new AdjacencyList(GraphGenerator::edgesNum, verNum, GraphGenerator::edgesT, true);
 
     std::cout << "\n\nCreated random graph\n";
     Sleep(2000);

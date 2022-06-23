@@ -23,7 +23,7 @@ public:
     size_t getVerticesNumber() const; //Return number of matrix's vertices
 
 protected:
-    size_t getEdgesNumber() const; //Return number of matrix's edges
+    size_t getEdgesNumber() const; //Return number of matrix's edgesNum
     MatrixCell ** getMatrix(); //Return 2d table of matrix cells
 
 friend class Algorithms;

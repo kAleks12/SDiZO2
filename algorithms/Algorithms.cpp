@@ -27,7 +27,7 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
         visitedVertices[i] = 0;
     }
 
-    //Creating 'macro' for adding specific vertex's edges to queue heap
+    //Creating 'macro' for adding specific vertex's edgesNum to queue heap
     auto addVertexEdges = [&](size_t vertexIndex) {
         for (size_t i = 0; i < edges; i++) {
             if (matrix[vertexIndex][i].type == CellType::empty) {
@@ -61,7 +61,7 @@ MatrixMSTResult* Algorithms::primMST(IncidencyMatrix *graph) {
     visitedVertices[currVertexIndex] = 1;
     addVertexEdges(currVertexIndex);
 
-    //Creating mst with right edges (to vertices that have not been visited yet)
+    //Creating mst with right edgesNum (to vertices that have not been visited yet)
     for (size_t i = 0; i < edges; i++) {
         Edge currEdge = eHeap->extractRoot();
 
@@ -122,7 +122,7 @@ ListMSTResult* Algorithms::primMST(AdjacencyList *graph) {
         visitedVertices[i] = 0;
     }
 
-    //Creating 'macro' for adding certain vertex's edges to queue heap
+    //Creating 'macro' for adding certain vertex's edgesNum to queue heap
     auto addVertexEdges = [&](size_t vertexIndex) {
         ALElement *list = lists[vertexIndex];
 
@@ -205,7 +205,7 @@ MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
 
     auto *eHeap = new EdgeHeap();
 
-    //Creating queue heap with all edges
+    //Creating queue heap with all edgesNum
     for (size_t column = 0; column < edges; column++) {
         int originV = -1;
         int destV = -1;
@@ -241,7 +241,7 @@ MatrixMSTResult* Algorithms::kruskalMST(IncidencyMatrix *graph) {
         vertex_id[i] = i;
     }
 
-    //Searching for right edges
+    //Searching for right edgesNum
     for (size_t j = 0; j < edges; j++) {
         auto currEdge = eHeap->extractRoot();
 
@@ -291,7 +291,7 @@ ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
 
     auto eHeap = new EdgeHeap();
 
-    //Creating queue heap with all edges
+    //Creating queue heap with all edgesNum
     for (size_t i = 0; i < vertices; i++) {
         ALElement *list = lists[i];
 
@@ -311,7 +311,7 @@ ListMSTResult* Algorithms::kruskalMST(AdjacencyList *graph) {
         vertex_id[i] = i;
     }
 
-    //Searching for right edges
+    //Searching for right edgesNum
     for (size_t j = 0; j < edges; j++) {
         auto currEdge = eHeap->extractRoot();
 
@@ -367,7 +367,7 @@ SPResult* Algorithms::dijkstraPath(IncidencyMatrix *graph, const size_t &start, 
     DynamicArray<PElement> pathArray;
     size_t totalCost = 0;
 
-    //Filing array of edges' costs
+    //Filing array of edgesNum' costs
     for (size_t column = 0; column < edges; column++) {
         for (size_t row = 0; row < vertices; row++) {
             if (matrix[row][column].type == CellType::empty) {
@@ -554,7 +554,7 @@ SPResult* Algorithms::bfPath(IncidencyMatrix *graph, const size_t &start, const 
     DynamicArray<PElement> pathArray;
     size_t totalCost = 0;
 
-    //Filing array of edges' costs
+    //Filing array of edgesNum' costs
     for (size_t column = 0; column < edges; column++) {
         for (size_t row = 0; row < vertices; row++) {
             if (matrix[row][column].type == CellType::empty) {

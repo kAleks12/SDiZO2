@@ -24,7 +24,7 @@ IncidencyMatrix::IncidencyMatrix()
     size_t currColumn = -1;
     MatrixCell* currVertex;
 
-    //Modifying matrix using edge data
+    //Modifying matrix using edge edgesT
     for(size_t i = 0; i < edgesNumber*3; i+=3)
     {
         currColumn ++;
@@ -69,7 +69,7 @@ IncidencyMatrix::IncidencyMatrix(const size_t & edgesNumber, const size_t & vert
     size_t currColumn = -1;
     MatrixCell* currVertex;
 
-    //Modifying matrix using edge data
+    //Modifying matrix using edge edgesT
     for(size_t i = 0; i < edgesNumber*3; i+=3)
     {
         currColumn ++;

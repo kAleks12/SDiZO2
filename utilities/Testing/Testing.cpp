@@ -74,8 +74,6 @@ void Testing::calculateAlgorithmsMatrix() {
             //...and 20 different graphs
             for (int i = 0; i < sampleSize; ++i)
             {
-                //Deleting old graph
-                delete mGraph;
 
                 if (density == 100) {
                     density--;
@@ -83,7 +81,8 @@ void Testing::calculateAlgorithmsMatrix() {
 
                 //Generating new graph represented by matrix
                 GraphGenerator::generate(density, verticesConf, this->maxElement);
-                mGraph = new IncidencyMatrix(GraphGenerator::edges, verticesConf, GraphGenerator::data);
+                mGraph = new IncidencyMatrix(GraphGenerator::edgesNum, verticesConf, GraphGenerator::edgesT);
+                GraphGenerator::clear();
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
@@ -126,7 +125,13 @@ void Testing::calculateAlgorithmsMatrix() {
                 result2 = Algorithms::bfPath(mGraph, start, finish);
                 bIntervals.push_back(watch.getTime());
                 delete result2;
+
+
+                //Deleting old graph
+                delete mGraph;
             }
+
+
             std::cout << "Done density -  " << density << "\n";
 
             //Creating series results for current density
@@ -156,7 +161,6 @@ void Testing::calculateAlgorithmsMatrix() {
         dijResults.clear();
         bfResults.clear();
     }
-
 }
 
 //Functions that tests all algorithms for list representation
@@ -178,18 +182,15 @@ void Testing::calculateAlgorithmsList() {
             //...and 20 different graphs
             for (int i = 0; i < sampleSize; ++i)
             {
-                //Deleting old graph
-                delete lGraph;
-                delete lpGraph;
-
                 if (density == 100) {
                     density--;
                 }
 
                 //Generating new graph represented by list
                 GraphGenerator::generate(density, verticesConf, this->maxElement);
-                lGraph = new AdjacencyList(GraphGenerator::edges, verticesConf, GraphGenerator::data);
-                lpGraph = new AdjacencyList(GraphGenerator::edges, verticesConf, GraphGenerator::data, true);
+                lGraph = new AdjacencyList(GraphGenerator::edgesNum, verticesConf, GraphGenerator::edgesT);
+                lpGraph = new AdjacencyList(GraphGenerator::edgesNum, verticesConf, GraphGenerator::edgesT, true);
+                GraphGenerator::clear();
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
@@ -232,7 +233,12 @@ void Testing::calculateAlgorithmsList() {
                 result2 = Algorithms::bfPath(lGraph, start, finish);
                 bIntervals.push_back(watch.getTime());
                 delete result2;
+
+                //Deleting old lists
+                delete lGraph;
+                delete lpGraph;
             }
+
             std::cout << "Done density -  " << density << "\n";
 
             //Creating series results for current density

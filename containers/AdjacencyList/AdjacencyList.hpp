@@ -25,7 +25,7 @@ public:
     size_t getVerticesNumber() const; //Return number of list's vertices
 
 protected:
-    size_t getEdgesNumber() const; //Return number of list's edges
+    size_t getEdgesNumber() const; //Return number of list's edgesNum
     ALElement ** getList(); //Return 2d table of list elements
 
     friend class Algorithms;

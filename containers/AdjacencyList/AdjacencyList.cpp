@@ -14,7 +14,7 @@ AdjacencyList::AdjacencyList(bool ifMST)
     this->verticesNumber = FileOps::verticesNum;
     this->verNeighbours = new ALElement* [verticesNumber];
 
-    //Initializing edges list
+    //Initializing edgesNum list
     for(size_t i = 0; i < verticesNumber; i++){
         verNeighbours[i] = nullptr;
     }
@@ -89,7 +89,7 @@ AdjacencyList::AdjacencyList(size_t edgesNumber, size_t verticesNumber, size_t *
     this->verticesNumber = verticesNumber;
     this->verNeighbours = new ALElement* [verticesNumber];
 
-    //Initializing edges list
+    //Initializing edgesNum list
     for(size_t i = 0; i < verticesNumber; i++){
         verNeighbours[i] = nullptr;
     }

@@ -16,19 +16,8 @@ int main() {
     mkdir("Prim//matrix");
     mkdir("Prim//list");
 
-    mkdir("Kruskal");
-    mkdir("Kruskal//matrix");
-    mkdir("Kruskal//list");
 
-    mkdir("Dijkstra");
-    mkdir("Dijkstra//matrix");
-    mkdir("Dijkstra//list");
-
-    mkdir("Bellman-Ford");
-    mkdir("Bellman-Ford//matrix");
-    mkdir("Bellman-Ford//list");
-
-    tests.calculateAlgorithmsMatrix();
+    //tests.calculateAlgorithmsMatrix();
     tests.calculateAlgorithmsList();
 
 
