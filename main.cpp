@@ -4,7 +4,6 @@
 
 
 #include <sys/stat.h>
-#include "UI/UI.hpp"
 #include "algorithms/Algorithms.hpp"
 #include "utilities/Testing/Testing.hpp"
 
@@ -17,9 +16,6 @@ int main() {
     mkdir("Prim//list");
 
 
-    //tests.calculateAlgorithmsMatrix();
+    tests.calculateAlgorithmsMatrix();
     tests.calculateAlgorithmsList();
-
-
-    //UI::startMenu();
 }

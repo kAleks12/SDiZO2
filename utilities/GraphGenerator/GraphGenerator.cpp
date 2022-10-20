@@ -6,9 +6,8 @@
 #include <iostream>
 #include "GraphGenerator.hpp"
 
-size_t* GraphGenerator::edgesT = nullptr;
+size_t *GraphGenerator::edgesT = nullptr;
 size_t GraphGenerator::edgesNum = 0;
-
 
 
 void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxValue) {
@@ -18,7 +17,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
     //Checking whether number of edgesNum calculated for entered
     // density and vertices number is not lesser than a minimal
     // number of edgesNum for a connected graph
-    if(edgeNumber < minEdgeNum){
+    if (edgeNumber < minEdgeNum) {
         edgeNumber = minEdgeNum;
     }
 
@@ -43,8 +42,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
 
     //Creating initial ring
     for (size_t i = 0; i < minEdgeNum; i++) {
-        if(i == minEdgeNum-1)
-        {
+        if (i == minEdgeNum - 1) {
             edgesT[3 * i] = i;
             edgesT[3 * i + 1] = 0;
             edgesT[3 * i + 2] = costs(gen);
@@ -65,7 +63,7 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
 
     //Creating additional random edgesNum
     for (size_t i = minEdgeNum; i < edgeNumber; i++) {
-        originV= vertices(gen);
+        originV = vertices(gen);
         destinationV = vertices(gen);
 
         while (originV == destinationV || isConnected[originV][destinationV]) {
@@ -91,5 +89,5 @@ void GraphGenerator::generate(size_t density, size_t vertexNumber, size_t maxVal
 }
 
 void GraphGenerator::clear() {
-    delete edgesT;
+    delete[] edgesT;
 }

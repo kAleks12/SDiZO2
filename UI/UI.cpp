@@ -7,7 +7,6 @@
 #include <windows.h>
 #include "UI.hpp"
 #include "../utilities/FileOps/FileOps.hpp"
-#include "../algorithms/Algorithms.hpp"
 #include "../utilities/GraphGenerator/GraphGenerator.hpp"
 
 IncidencyMatrix *UI::mGraph = nullptr;

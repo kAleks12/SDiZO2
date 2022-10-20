@@ -4,6 +4,7 @@
 
 
 
+#include <random>
 #include "Testing.hpp"
 #include "../GraphGenerator/GraphGenerator.hpp"
 #include "../FileOps/FileOps.hpp"
@@ -27,7 +28,7 @@ double Testing::calcAvg(const std::list<double> &dataStr) {
 
 //Function that creates single series result and adds it to adequate list
 void Testing::addSeriesAvg(double avg, size_t density, AlgorithmType alg) {
-    OpResult result;
+    OpResult result{};
 
     //Creating result object for specific structure and operation
     result.time = avg;
@@ -64,10 +65,13 @@ void Testing::calculateAlgorithmsMatrix() {
     std::list<double> bIntervals;
     size_t start;
     size_t finish;
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
     //Testing for 5 different vertices numbers
     for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60)
     {
+        std::uniform_int_distribution<size_t> possibleVertices(0, verticesConf - 1);
         //...and 4 densities
         for (int density = 25; density <= 100; density += 25)
         {
@@ -86,8 +90,9 @@ void Testing::calculateAlgorithmsMatrix() {
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
-                    start = rand() % verticesConf;
-                    finish = rand() % verticesConf;
+
+                    start = possibleVertices(gen);
+                    finish = possibleVertices(gen);
 
                     if (start != finish) {
                         break;
@@ -172,10 +177,13 @@ void Testing::calculateAlgorithmsList() {
     std::list<double> bIntervals;
     size_t start;
     size_t finish;
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
     //Testing for 5 different vertices numbers
     for (int verticesConf = 30; verticesConf <= 270; verticesConf += 60)
     {
+        std::uniform_int_distribution<size_t> possibleVertices(0, verticesConf - 1);
         //...and 4 densities
         for (int density = 25; density <= 100; density += 25)
         {
@@ -194,8 +202,8 @@ void Testing::calculateAlgorithmsList() {
 
                 //Drawing a pair of vertices for SP algorithms
                 while (true) {
-                    start = rand() % verticesConf;
-                    finish = rand() % verticesConf;
+                    start = possibleVertices(gen);
+                    finish = possibleVertices(gen);
 
                     if (start != finish) {
                         break;
